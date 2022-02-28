@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 09:57:12
- * @LastEditTime: 2022-02-28 12:49:12
+ * @LastEditTime: 2022-02-28 14:53:21
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/Promise系列.md
@@ -59,4 +59,7 @@ const step = () => {
 }
 
 step()
+
 ```
+3. 图片异步加载
+思路：通过Promise实现，img加载完成之后resolve(img)
