@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-02-28 18:54:57
+ * @LastEditTime: 2022-03-01 13:25:19
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -28,5 +28,17 @@ eval，但有安全问题；new Function()可以将字符串转化成一个匿�
 6. 如何实现一个模板引擎？
 模板引擎编译模板得到替换过变量和执行过js的字符串
 非变量和非js语句， 变量， js语句，涉及到上面三种情况的处理。核心是通过new Funciton来处理
+
+7. 说一说，如何遍历输出页面中的所有元素?
+```
+creatNodeIterator
+const body = document.getElementByTagName('body')[0]
+const it = document.creatNodeIterator(body)
+root = it.nextNode()
+while (root.next) {
+    console.log(root)
+    root = it.nextNode()
+}
+```
 
 
