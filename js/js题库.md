@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 09:51:39
- * @LastEditTime: 2022-03-08 10:40:24
+ * @LastEditTime: 2022-03-08 11:52:44
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js题库.md
@@ -30,3 +30,24 @@ class Class1 {
     }
 }
 ```
+4. js内置对象
+程序执行前由js定义的全局值属性（Infinity, NaN, undefined等）、函数（eval、ParseInt、ParseFloat）和构造函数(Date、Object), 还有提供数学计算的单体内置对象如Math对象
+
+5. undefined和undeclared的区别？
+5.1 undefined声明了但未定义（或者叫未赋值）；undeclared表示变量未声明
+5.2 未声明的变量，引用后会报错，ReferenceError: .. is not defined; typeof 未声明的变量或者已声明未定义的变量会返回undefined
+
+6. null和undefined的区别
+6.1 Null和Undefined都是基本数据类型，都有唯一值null和undefined
+6.2 undefined代表变量声明但未定义；null代表空对象，常用于初始化可能是对象的变量
+6.3 typeof null得到"object"
+6.4 二者双等号返回true，三等号返回false
+6.5 undefined在js不是保留字，但不要声明变量名为undefined(目前测试chrome控制台内不能定义undefined为变量名，会报错); void 0可以得到undefined值
+
+7. 如何安全的获取undefined值？
+表达式void ...没有返回值，返回结果是undefined, 通常用void 0来获取undefined 
+
+8. js原型、原型链？及特点？
+js原型：构造函数有个属性叫prototype, 该属性是个对象，包含构造函数创建的实例所共享的属性和方法；实例有个__proto__属性指向原型，浏览器都实现了这个属性，但不属于规范中规定的属性，不建议使用；ES5中Object.getPrototypeOf(..)可以获得实例的原型
+原型链：访问对象的属性时，若对象内部不存在这个属性，则在原型里找，原型里找不到的，继续在原型的原型里找，一直找到原型链的尽头Object.prototype为止
+特点：构造函数创建对象时，不会创建原型的副本，所以我们修改原型时，相关对象或者实例也会集成这些修改。
