@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-09 11:17:22
- * @LastEditTime: 2022-03-09 22:38:05
+ * @LastEditTime: 2022-03-12 16:59:11
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/this指向系列.md
@@ -103,3 +103,9 @@ obj.f1.call(obj1)()  // 1
 
 ```
 new的特例，new Date 等价于new Date() 
+
+7. 特例：事件绑定中的this问题
+在element上绑定事件，this指向window
+js绑定onclick事件，this指向该元素 document.getElementById('').onclick = function() {}
+addEventListener绑定事件，this指向该元素，IE中attachEvent(),this指向window
+jQuery中的bind, click, on事件绑定均指向该元素

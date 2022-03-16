@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-03-02 14:49:27
+ * @LastEditTime: 2022-03-16 10:39:16
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -42,5 +42,9 @@ while (root.next) {
 ```
 8. 跨域
 协议、域名、端口不同会出现跨域问题
+
+9. reduce当没有提供初始值时，prev会代表第一个元素，cur会代表第二个元素
+
+10. shift从数组头部移出一个值，并返回该值；unshift往数组头部增加一个或者多个值，返回更新后的数组长度
 
 
