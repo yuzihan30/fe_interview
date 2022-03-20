@@ -14,3 +14,4 @@ ssh-agent -s
 将id_rsa.pub中的公钥复制到远程仓库的个人设置-安全设置-SSH公钥
 
 test git 
+test git without vpn
