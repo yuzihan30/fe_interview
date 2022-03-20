@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-03-20 12:12:11
+ * @LastEditTime: 2022-03-20 16:29:00
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
@@ -12,3 +12,5 @@
 ssh-keygen -t rsa -C "xx@yy.com" (mac中测试这一步就能生成公钥)
 ssh-agent -s
 将id_rsa.pub中的公钥复制到远程仓库的个人设置-安全设置-SSH公钥
+
+test git 
