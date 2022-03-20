@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-19 21:36:25
- * @LastEditTime: 2022-03-20 15:36:17
+ * @LastEditTime: 2022-03-20 17:39:41
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/webpack/webpack.md
@@ -9,6 +9,22 @@
 webpack和vite比较
 1. webpack在应用比较大时，存在dev server冷启动时间长，HMR热更新慢的问题。原因是webpack dev server在启动时需要先build然后启动webserver，而vite在执行vite serve时直接启动web server,并不会编译所有文件
 2. vite特点：轻量、按需打包、HMR(热渲染依赖)
+
+########## webpack原理 #########
+1. 打包原理
+读取配置->创建Compiler(全局单例)->从entry开始，递归遍历生成依赖关系树->不同类型文件使用对应loader编译生成js文件（会生成AST语法树来表示模块的依赖关系）->插件监听webpack发布的hooks执行任务干预输出->生成IIFE执行函数
+每次构建过程compiler会生成新的compilation(内含每次构建的上下文信息)对象，来执行本次构建过程
+webpack5简化bundle为三个变量和一个函数，__webpack_require__将其他模块化方式进行替换，实现模块缓存，并抹平不同模块化方式的差异
+
+2. sourceMap
+将编译打包压缩后的代码映射回源代码的技术，jquery也支持sourceMap
+
+3. loader实现
+loader需要实现链式调用，loader函数中可以拿到webpack提供的this上下文，this指向叫loaderContext的loader-runner对象
+
+4. plugin实现
+loader负责文件转换，plugin负责功能扩展；webpack基于发布订阅，在运行的生命周期会广播很多事件，插件监听到后执行自己的任务；compiler暴露整个生命周期相关钩子compiler-hooks, compilation模块和依赖有关的粒度更小的事件钩子compilation hooks; webpack的事件机制Tapable, webpack中订阅事件，plugin里发布事件（需要有apply方法，才能访问compiler实例）
+
 
 ########## webpack优化 #########
 speed-measure-webpack-plugin用于测量loader和plugin耗时
