@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-03-19 18:53:35
+ * @LastEditTime: 2022-03-20 09:09:10
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -78,5 +78,9 @@ d: Object.prototype.toString.call(XX) 能准确判断准确所有类型
 export可以先定义再导出，也可以直接导出，导入时import {x, y} from module或者import * as obj from module
 export default只能直接导出且只能存在一个，导入时import x from module
 二者在一个文件里不要同时使用
+
+
+########## http协议 #########
+1. cookie属性：名、值、域名、路径、大小、httponly(为true, http请求头会有cookie信息，但不能通过document.cookie访问)、secure(设置是否只能通过https传递)、expires/Max-Age(不设置的话默认和session一起失效，浏览器关闭失效)
 
 
