@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-03-20 09:09:10
+ * @LastEditTime: 2022-03-21 22:38:06
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -70,6 +70,23 @@ b: [].constructor === Array  alert.constructor === Function null和undefined为�
 c: instanceof判断引用数据类型，判断构造函数的原型是否出现对象的原型链上，[] instanceof Array为true, 存在问题：iframe中的数组传到主页面会出现无法判断为Array的问题，所以用Array.isArray()
 d: Object.prototype.toString.call(XX) 能准确判断准确所有类型
 
+2. js对象的遍历
+Object.keys(), Object.values(), Object.entries()遍历自身可枚举属性，不包括symbol属性，搭配forEach或者for of用
+for in 遍历对象及原型链上的可枚举属性，不包括symbol属性
+Object.getOwnPropertyNames()遍历自身属性（枚举+非枚举）
+Object.getOwnPropertySymbols()遍历自身symbol属性（枚举+非枚举）
+
+
+########## 事件循环 #########
+1. 浏览器和node事件队列区别
+浏览器有一个宏任务队列和多个微任务队列，每个宏任务会对应一个微任务队列，执行当前宏任务会清空当前宏任务下的微任务队列
+node有6个宏任务和6个微任务队列，按优先级执行，一个宏任务队列的全部执行完成后，才会去清空改宏任务队列搭配的微任务队列；6个宏任务按优先级分阶段执行，完成一个循环，常用宏任务有Timers、Poll(Io事件)、Check(setImmediate), 微任务有process.nextTick,process.then
+
+Vue中的nextTick就是下轮宏任务开启之后要执行的操作，created中如果有dom操作需要放到nextTick执行；数据变化会推到本轮微任务队列里（比如Promise.then），nextTick才能获取本轮微任务导致的dom变化
+执行一个宏任务->执行当前宏任务下的所有微任务->DOM渲染->下一轮循环
+
+2. 为什么区别宏任务和微任务
+给一些任务插队执行的机会
 
 
 
@@ -82,5 +99,50 @@ export default只能直接导出且只能存在一个，导入时import x from m
 
 ########## http协议 #########
 1. cookie属性：名、值、域名、路径、大小、httponly(为true, http请求头会有cookie信息，但不能通过document.cookie访问)、secure(设置是否只能通过https传递)、expires/Max-Age(不设置的话默认和session一起失效，浏览器关闭失效)
+
+
+########## 跨域 #########
+带有src属性的标签都有跨域能力，比如script,img,link,video、audio、iframe
+jsonp只支持get请求，CORS支持所有的请求方式
+```
+// jsonp的使用示例
+<script>
+const callback = (data) => {
+    console.log(data)
+}
+</script>
+<script src="https://xxx.com?page=1&callback=callback" />
+// 手写实现jsonp(json with padding, 就是入参是json的回调函数)
+// 使用示例: myJsonp('https://xxx.com?page=1', { name: 'yu' })
+
+const myJsonp = (url = '', params = {}, callback = () => {}) => {
+    // 1. 初始化 数组和字符串都有includes方法
+    // 创建url和参数之间的拼接符，url中如果有'?'说明已经有url里包含一部分参数，
+    // 后面只需要'&'拼接符，否则需要'?'拼接符拼接后面参数
+    let queryChar = url.includes('?') ? '&' : '？'
+    let paraArr = []
+    for (let [key, value] of params.entries) {
+        paraArr.push(`${key}=${value}`)
+    }
+    // 设置回调函数名
+    let cbName = cb + Math.random().toString().replace('.', '')
+    paraArr.push(`callback=$cbName`)
+    let src = url + paraArr.join('&')
+
+    // 2. 创建scripNode
+    let scripNode = document.createNode('script')
+    scripNode.src = src
+
+    // 3. 绑定全局回调 jsonp传参回调函数需要是全局的，因为script就是在html文档最外层
+    window[cbName] = (data) => {
+        callback(data)
+        document.body.removeChild(scripNode)
+    }
+
+    // 4. 添加scriptNode
+    document.body.appendChild(scripNode)
+}
+
+```
 
 
