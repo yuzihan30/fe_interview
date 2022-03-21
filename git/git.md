@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-03-20 16:31:06
+ * @LastEditTime: 2022-03-21 09:52:42
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
@@ -16,4 +16,6 @@ ssh-agent -s
 test git 
 test git without vpn
 经验证测试，切换IP会导致SSH公钥失效
+
+隔天未切IP测试SSH是否失效
 
