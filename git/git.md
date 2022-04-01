@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-03-21 09:52:42
+ * @LastEditTime: 2022-03-30 19:36:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
@@ -19,3 +19,12 @@ test git without vpn
 
 隔天未切IP测试SSH是否失效
 
+2. revert是用一次新的提交回滚之前的提交，reset是直接删除之前的提交
+
+3. git merge 和git rebase的关系
+git merge B 和git rebase B都是将B分支合并到当前分支
+不要在公共分支使用rebase，rebase会改变提交的基点，会给团队成员带来混乱
+将公共分支合并到个人分支可以多用git rebase， 个人分支git pull --rebase公共分支，解决完冲突后，再merge 到主分支
+
+
+4. git使用练习的站点：https://learngitbranching.js.org/?locale=zh_CN

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-03-21 22:38:06
+ * @LastEditTime: 2022-03-30 11:33:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -76,6 +76,11 @@ for in 遍历对象及原型链上的可枚举属性，不包括symbol属性
 Object.getOwnPropertyNames()遍历自身属性（枚举+非枚举）
 Object.getOwnPropertySymbols()遍历自身symbol属性（枚举+非枚举）
 
+########## js运算符 #########
+1. ??空值合并操作符，当左侧为null或者undefined，返回右侧值，否则返回左侧值
+|| 当左侧为假时返回右侧，0、''也是假
+?.可选链，就是obj $$ obj.a的语法糖
+
 
 ########## 事件循环 #########
 1. 浏览器和node事件队列区别
@@ -93,7 +98,7 @@ Vue中的nextTick就是下轮宏任务开启之后要执行的操作，created�
 ########## 模块化相关 #########
 1. export 和 export default的去别：
 export可以先定义再导出，也可以直接导出，导入时import {x, y} from module或者import * as obj from module
-export default只能直接导出且只能存在一个，导入时import x from module
+export default只能直接导出且只能存在一个，导入时import x(这个名字可以和默认导出的不同) from module
 二者在一个文件里不要同时使用
 
 
