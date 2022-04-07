@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-03-31 22:04:34
+ * @LastEditTime: 2022-04-04 16:20:17
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -42,9 +42,10 @@ jsx内的注释写法：{ /* 多行注释 */ // 单行注释 }
 
 8. 事件处理：onClick={() => {}}, 用箭头函数的写法，普通函数会有this的问题
 组件类内定义一个函数handleClick, 然后onClick={this.handleClick2}
-handleClick2() {
+handleClick2() { 
     console.log(this) // 本来按钮绑定的事件，谁调用我我就绑定谁，但react有自己的事件代理机制会绑定undefined, 所以需要手动绑定一下onClick={this.handleClick2.bind(this)}
 }
+或者 handleClick2 = (event) => { 这里也能拿到正确的this, 而且如果只需要默认的事件对象参数时也可以用 }, onClick={this.handleClick2} 默认传event参数
 函数定义可以使用ES7的写法，直接 handleClick3 = () => {}, ES7可以在类内直接定义属性，变量前不要带let、const，  onClick={this.handleClick3}传参不方便
 或者 handleClick4 = () => {} onClick={() => {this.handleClick4()} }， 类似的写法都要加this，指向类组件实例， handleClick4内this正常指向类组件实例，谁调用指向谁，this调用
 onClick={() => {this.handleClick4()} }简化成onClick={() => this.handleClick4(可以传参数) }以后主推这种写法， 或者onClick={this.handleClick2.bind(this，这里传参)}对应handleClick2(参数){}
@@ -98,3 +99,103 @@ newList.splice(index, 1) 同样道理，改完之后页面不会自动更新的�
 }></span>
 应用场景，接收后台返回的html片段
 
+9. 选项卡设置页面底部的样式：position: fixed; left: 0; bottom: 0
+which() {
+    switch (this.state.current) {
+        case 0: 
+            return <Film></Film>
+        default:
+            return null
+    }
+
+}
+
+{ this.state.current === 0 && <Film></Film> }
+或者
+{ this.which() // 表达式：支持函数表达式 }
+<ul>
+{
+    this.state.list.map((item. index) => 
+        <li className="this.state.current === index ? 'active' : ''" onClick={() => {
+            this.handleClick(index)
+        }}>{item.text}</li>
+    )
+}
+</ul>
+
+10. 数据请求，每次更新状态时，render函数就会执行一次，所以数据请求不能放到这里
+这时暂时放到构造器里，后面会放到生命周期里
+constructor() {
+    super()
+    // 数据请求, 卖座接口的响应头跨域已经限制已经为*, 但还是有些限制，需要请求头加X-Client-Info、X-Host
+    // axios.get('').then(res => {}).catch(err => {console.log(err)})
+    // axios完整版可以加请求头
+    axios({
+        url: '',
+        headers: {
+            '': ''
+        }
+
+    }).then(res => {console.log(res.data // 原始后台数据放在res.data里面的)
+        this.setState({  // 对引用数据类型的值赋值是深拷贝还是钱拷贝，暂时可以按深拷贝理解
+            cinemaList: res.data.data.cinemas // 第一个data是axios的要求，第二个data是真正的后端数据
+            backCinemaList: res.data.data.cinemas
+        })
+
+        // axios本来就是个异步的, 所以setState会同步
+        new BetterScroll(".wrapper")
+    })
+}
+
+11. 搜索过滤， handleInput(event) {
+    console.log(event.target.value)
+    let newList = this.state.backCinemaList.filter(item => item.name.toUpperCase().includes(event.target.value.toUpperCase() || item.address.toUpperCase().includes(event.target.value.toUpperCase()))
+    this.setState({
+        cinemaList: newList,
+
+    })
+}
+this.state = {
+    cinemaList: [],
+    backCinemaList: [] // 注意备份一个源数据，这样每次过滤万后依然有源数据可用
+    // 这种方案有点浪费内存，后续有更好的方法来处理，还有input的值后续也可以通过受控组件的状态来处理
+}
+
+12. setState的同步异步的问题
+handleAdd1 = () => {
+    this.setState({
+        count: this.state.count + 1
+    })
+    console.log(this.state.count) // 1, 1说明setState异步更新状态， 异步更新真是DOM
+    // 处在同步逻辑中（合并逻辑的标志位会置为true），会异步更新状态，且异步更新真实DOM
+    this.setState({
+        count: this.state.count + 1
+    })
+    console.log(this.state.count) // 1
+    this.setState({
+        count: this.state.count + 1
+    })
+    console.log(this.state.count) // 1
+} // 点击发现页面1变成2， 合并处理，在下一个宏任务时更新
+但把上面几个setState包裹放在setTimeout(() => {}, 0), 2就是处在异步逻辑中(合并逻辑的标志位会置为false,调用一次就立即执行一次)，会同步更新状态，且同步更新真实DOM，界面会显示4
+
+    this.setState({
+        count: this.state.count + 1
+    }, () => {
+        // 3第二个回调知道状态已经更新完了,DOM也更新完了
+    })
+
+13. betterscroll让列表更平滑滚动， 之前用于移动端，现在也可以用PC端; 使用条件，外面有个有限高度的盒子设置overflow:hidden，里面有个ul或者div盒子可以无限高
+style="{{ height: '200px' }}"
+this.setState({
+    list: list
+}, () => { // 放到这里BetterScroll才能接管到更新后的DOM， 而不能放到外面
+    new BetterScroll('.wrapper')
+})
+或者
+setTimeout(() => {
+    this.setState({
+        list: list
+    })
+    new BetterScroll('.wrapper')
+}, 0)
