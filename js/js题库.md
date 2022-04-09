@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 09:51:39
- * @LastEditTime: 2022-03-08 11:52:44
+ * @LastEditTime: 2022-04-08 16:10:25
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js题库.md
@@ -51,3 +51,13 @@ class Class1 {
 js原型：构造函数有个属性叫prototype, 该属性是个对象，包含构造函数创建的实例所共享的属性和方法；实例有个__proto__属性指向原型，浏览器都实现了这个属性，但不属于规范中规定的属性，不建议使用；ES5中Object.getPrototypeOf(..)可以获得实例的原型
 原型链：访问对象的属性时，若对象内部不存在这个属性，则在原型里找，原型里找不到的，继续在原型的原型里找，一直找到原型链的尽头Object.prototype为止
 特点：构造函数创建对象时，不会创建原型的副本，所以我们修改原型时，相关对象或者实例也会集成这些修改。
+
+9. toFixed从小数点开始四舍五入取整，toPrecision从第一个不为零的数开始四舍五入，Math.round四舍五入到整数
+1.278.toFixed(2)
+'1.28'
+Math.round(1.278)
+1
+Math.round(1.578)
+2
+1.278.toPrecision(2)
+'1.3'

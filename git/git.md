@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-03-30 19:36:14
+ * @LastEditTime: 2022-04-08 10:31:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
@@ -28,3 +28,13 @@ git merge B 和git rebase B都是将B分支合并到当前分支
 
 
 4. git使用练习的站点：https://learngitbranching.js.org/?locale=zh_CN
+
+5. git commit -a 针对修改和删除文件，可以省略git add，但新文件还是需要git add, 不然就是untracked状态
+
+6. 我刚才提交了什么，git show/git log -n1 -p, -p显示更新之间的差异，-n显示最近第几条提交, git show默认显示Head的提交信息，加上hash具体显示某条提交的提交信息
+
+7. git commit -a -m 这个-a就是git add 的作用
+
+8. 提交信息写错了，没push前，git commit --amend会打开vim编辑提交信息，或者git commit --amend -m; push之后的话，需要force push，但不推荐这样做
+
+9. 从提交里移出一个文件：git checkout HEAD^ myfile, git add -A, git commit --amend
