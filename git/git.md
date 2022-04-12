@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-04-08 10:31:14
+ * @LastEditTime: 2022-04-09 11:39:31
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
@@ -38,3 +38,8 @@ git merge B 和git rebase B都是将B分支合并到当前分支
 8. 提交信息写错了，没push前，git commit --amend会打开vim编辑提交信息，或者git commit --amend -m; push之后的话，需要force push，但不推荐这样做
 
 9. 从提交里移出一个文件：git checkout HEAD^ myfile, git add -A, git commit --amend
+
+10. 删除最后一次提交：
+需要删除已push的提交（适用于个人开发分支，不适合公共开发分支）：git reset HEAD^ --hard, git push -f [remote][branch]; 对于公共分支，为了避免影响他人，使用git revert ID
+未push: git reset --soft HEAD@{1}
+
