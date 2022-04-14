@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-04-04 16:20:17
+ * @LastEditTime: 2022-04-14 22:46:24
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -199,3 +199,60 @@ setTimeout(() => {
     })
     new BetterScroll('.wrapper')
 }, 0)
+
+14. props属性提高组件的复用性，而state只能控制组件内的状态
+父组件， <Navibar leftshow={true} /> 也可以传state的数据给子组件
+子组件：const { leftshow } = this.props, { leftshow && <button>返回</button> }
+属性验证：
+import xxPropTypes from 'prop-types' 
+// 类属性
+Navbar.propTypes = {
+    leftshow: xxPropTypes.bool
+}
+// 类属性默认值
+Navbar.defaultProps = {
+    leftshow: true
+}
+// 类属性的另一种写法推荐：写成类内的静态方法
+static propTypes = {
+    leftshow: xxPropTypes.bool
+}
+static defaultProps = {
+    leftshow: true
+}
+
+15. 属性注意事项
+obj = {
+    title: 'xx',
+    leftshow: true
+}
+<Navbar title={obj.title} leftshow={obj.leftshow}  />
+<Navbar {...obj}  />
+props函数式组件，函数式组件天生支持props，不像state，16.8之后才支持
+import React from 'react'
+export default function Sidebar(props) {
+    let { bg } = props
+    return (
+        <div style={{
+            background: bg, 
+            width="200px"
+            }} 或者 style={obj1}>
+            <ul>
+            </ul>
+        </div>
+    )
+}
+import Sidebar from ''
+<Sidebar bg="yellow"></Sidebar>
+
+16. 属性和状态的异同，及应用场景
+同：都是纯js对象，都能触发render更新
+异：属性从父组件获取和修改， 状态不能；属性不在组件内部修改，而状态要；属性能设置子组件初始值，而状态不可以，属性能修改子组件的值而状态不可以
+都能在内部设置默认值，但设置方式不同
+属性是父给的，状态是自己控制的
+孩子没法直接改父组件的属性，可以请求父组件改
+状态多了管理会复杂，多写无状态组件，让组态放到父组件，子组件通过属性听从父组件的调配，有状态的父组件控制无状态的孩子组件；这种子组件就是广义上的受控组件
+
+17. 狭义的受控组件和非受控组件， 表单中的受控组件和非受控组件
+<input value="xx">这在react中相当于一个组件，并给属性value传了个写死的值，用defaultValue="xx"，意思是第一次是xx值，后续可以改，只是赋予一个初始值，后续没法控制更新了；ref拿到dom值，修改dom值就是非受控方案，并没有通过react的state来获取状态；这种方案的缺点是如果当前组件里有子组件，需要传当前组件的状态，直接传this.username.current.value无法做到响应式更新
+
