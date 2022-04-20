@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 09:57:12
- * @LastEditTime: 2022-04-20 23:23:33
+ * @LastEditTime: 2022-04-20 23:33:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/Promise系列.md
@@ -75,6 +75,7 @@ const PromiseAll = (iterator) => {
     let resolveRes = []  // 记录成功返回的结果
     // 2. 返回new Promise， 并遍历处理promiseArr数组
     return new Promise((resolve, reject) => {
+        // 可以思考一下为什么用for循环而不用forEach?
         for (let i in promiseArr) {
             promiseArr[i].then(res => {
                 resolveNum++
@@ -83,7 +84,8 @@ const PromiseAll = (iterator) => {
                     resolve(resolveRes)
                 }
             }).catch(err => {
-                reject(err)
+                // 只要有一个promise的状态为failed, PromiseAll的状态就为failed, 可以思考一下reject能不能中断for循环？
+                reject(err)  
             })
         }
     })
