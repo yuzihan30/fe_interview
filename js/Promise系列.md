@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 09:57:12
- * @LastEditTime: 2022-02-28 14:53:21
+ * @LastEditTime: 2022-04-20 23:23:33
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/Promise系列.md
@@ -63,3 +63,30 @@ step()
 ```
 3. 图片异步加载
 思路：通过Promise实现，img加载完成之后resolve(img)
+
+4. 手写Promise.all
+```
+const PromiseAll = (iterator) => {
+    // 1. 初始化及特殊处理
+    // 将迭代器转为数组方便遍历
+    const promiseArr = Array.from(iterator)
+    const len = promiseArr.length
+    let resolveNum = 0  // 记录成功返回结果值的promise数量
+    let resolveRes = []  // 记录成功返回的结果
+    // 2. 返回new Promise， 并遍历处理promiseArr数组
+    return new Promise((resolve, reject) => {
+        for (let i in promiseArr) {
+            promiseArr[i].then(res => {
+                resolveNum++
+                resolveRes.push(res)
+                if (resolveNum === len) {
+                    resolve(resolveRes)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        }
+    })
+
+}
+```
