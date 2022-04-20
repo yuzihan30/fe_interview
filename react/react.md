@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-04-14 22:46:24
+ * @LastEditTime: 2022-04-15 09:02:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -255,4 +255,40 @@ import Sidebar from ''
 
 17. 狭义的受控组件和非受控组件， 表单中的受控组件和非受控组件
 <input value="xx">这在react中相当于一个组件，并给属性value传了个写死的值，用defaultValue="xx"，意思是第一次是xx值，后续可以改，只是赋予一个初始值，后续没法控制更新了；ref拿到dom值，修改dom值就是非受控方案，并没有通过react的state来获取状态；这种方案的缺点是如果当前组件里有子组件，需要传当前组件的状态，直接传this.username.current.value无法做到响应式更新
+
+react中input和原生的input的区别，react中input中value是受控，defaultValue非受控，而且onChange和onInput是同效的，原生js则不然
+在react中把input看成一个组价
+onChange={ (evt) => {
+    this.setState({
+        // 状态改了，render才能重新渲染一遍
+        username: evt.target.value
+    })
+} }
+
+18. cinema优化，受控cinema
+constructor() {
+    super()
+    this.state = {
+        cinemaList: [],
+        mytext: ""
+    }
+}
+// input做成受控的, 受控之后值就能给别的组件用，且能渲染
+<input value={this.state.mytext} onchange={ (evt) => {
+    // 让输入框的值与状态同步
+    this.setState({
+        mytext: evt.target.value
+    })
+} } />
+// 受控组件只要状态改变，所有用到state的相关视图都会发生改变，react中提倡受控组件的写法
+{
+    this.getCinemaList().map(item => 
+    <dl key={item.cinemaId}>
+        <dt>{item.name}</dt>
+        <dd>{item.address}</dd>
+    </dl>)
+}
+getCinemaList() {
+    return this.state.cinemaList.filter(item => item.name.toUpperCase().includes(this.state.mytext.toUpperCase() || item.address.toUpperCase().includes(this.state.mytext.toUpperCase()))
+}
 
