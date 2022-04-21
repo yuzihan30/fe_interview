@@ -1,11 +1,12 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 13:45:36
- * @LastEditTime: 2022-04-21 18:22:24
+ * @LastEditTime: 2022-04-21 19:55:38
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/canvas.md
 -->
+canvas应用场景：动画、游戏画面、数据可视化（echarts）、图片编辑以及实时视频处理，绘制的图形不会出现在DOM结构中，适合小画布、大数据量的场景
 画直线、虚线、统计图、圆
 <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开</canvas>
 const canvas = document.querySelector('#cont') // 获取画布容器
