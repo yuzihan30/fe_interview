@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 13:45:36
- * @LastEditTime: 2022-04-21 19:55:38
+ * @LastEditTime: 2022-04-22 15:57:17
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/canvas.md
@@ -37,3 +37,5 @@ ctx.stroke()
 ctx.beginPath() // 如果不加这个，之前的画线未关闭，中间会出现两条直径线相连
 ctx.arc(500, 250, 250, 0, Math.PI, true)
 ctx.stroke()
+
+5. 碰撞检测，涉及到动画，需要清除画布ctx.clearRect(0,0,w,h)

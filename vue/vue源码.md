@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-09 16:55:19
- * @LastEditTime: 2022-04-22 14:01:45
+ * @LastEditTime: 2022-04-23 15:47:36
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue源码.md
@@ -23,3 +23,7 @@ Object.keys()返回自身可枚举属性（不含符号属性）
 simpleNormalizeChildren([1,2,3, [4, 5, [6, 7]], [8,9]])
 // (8) [1, 2, 3, 4, 5, Array(2), 8, 9]
 
+4. ast和vnode区别
+template > ast > render function > 执行 render function > VNode
+AST是compiler中把模板编译成有规律的数据结构，方便转换成render函数所存在的；而VNode是优化DOM操作的，减少频繁DOM操作的，提升DOM性能的。
+Vnode的数据结构要比ast复杂的多
