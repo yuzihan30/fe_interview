@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 13:45:36
- * @LastEditTime: 2022-04-23 16:22:36
+ * @LastEditTime: 2022-04-24 21:48:32
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/canvas.md
@@ -41,3 +41,16 @@ ctx.stroke()
 5. 碰撞检测，涉及到动画，需要清除画布ctx.clearRect(0,0,w,h)
 
 6. 绘制文字：fillText('', x, y, maxWidth)绘制实心文字，strokeText()绘制空心文字
+
+7. ctx.setLineDash([w1, w2]) w1代表虚线的线宽，w2代表虚线的间隔宽
+
+8. 画图片三种方式：ctx.drawImage(img, x, y); ctx.drawImage(img, x, y, w, h);
+ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h), sx, sy, sw, sh代表裁剪的位置及宽高
+let img = new Image()
+img.src = ''// 相对路径或者绝对路径
+onload图片加载成功后触发
+onerror图片加载失败后触发
+img.onload = function() {
+    // 可以拿到图片宽高 img.width, img.height
+}
+滤镜、修图、切图剪图canvas都能做，美图秀秀在线版底层都是canvas来做的
