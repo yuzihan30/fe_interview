@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-04-15 09:02:14
+ * @LastEditTime: 2022-04-25 22:12:49
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -291,4 +291,18 @@ constructor() {
 getCinemaList() {
     return this.state.cinemaList.filter(item => item.name.toUpperCase().includes(this.state.mytext.toUpperCase() || item.address.toUpperCase().includes(this.state.mytext.toUpperCase()))
 }
+19. 增加check功能，
+handleChecked = (index) => {
+    let newList = [...this.state.list] // 只是对最外层的拷贝，其实内层的对象还是指向原对象
+    newList.isChecked = !newList.isChecked
+    this.setState({
+        list: newList
+    })
+}
+{ 布尔变量 }在模板中是显示不出来的
+style={{ textDecoration: item.checked? "line-through": '' }} // 文本带删除线的样式
+
+10. 受控组件：表单元素的控制交给React，表单元素的值完全由state控制。比如我们可以称由state控制的input表单元素为受控组件，可以扩展到自定义组件，如果组件的状态由传入的props来控制，而没有自己的内部状态state也叫受控组件
+非受控组件：表单元素的状态不受React组件状态的影响，表单元素的值存储于DOM元素中，组件要获取DOM元素的值可以通过ref的方式，扩展到自定义组件，如果组件的状态完全又内部的state来控制，就是非受控组件（即不受外部控制的组件）
+也可以既是受控组件又是非受控组件，比如可以根据props是否传有值来判断是否启用自身的state对应值
 
