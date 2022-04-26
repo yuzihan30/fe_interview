@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 09:11:19
- * @LastEditTime: 2022-04-23 18:34:05
+ * @LastEditTime: 2022-04-26 16:24:12
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue.md
@@ -15,3 +15,5 @@ v-if切换时会伴随组件的创建销毁，惰性加载，为true才真正渲
 v-show 只在初始化时加载渲染一次，只是display:none和block的切换
 
 3. app.vue项目的根组件，main.js项目的入口文件（就是项目在加载时会首先加载main.js文件）
+
+4. 单文件组件：.vue文件，包含模板、js和样式的文件组件
