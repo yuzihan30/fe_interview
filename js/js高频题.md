@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-04-08 18:03:19
+ * @LastEditTime: 2022-04-26 10:45:49
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -62,7 +62,14 @@ while (root.next) {
 ########## js数据类型相关 ########
 1. js数据类型的判断
 原始类型：string, number, boolean, undefined, null, symbol, bigint
+vue源码工具方法判断isPrimitive原始数据类型只包括string, number, boolean,symbol
 引用类型：Object (Array, Function, RegExp, Date)
+判断是否是对象isObject(obj), obj !== null && typeof obj === 'object'
+vue源码中isPlainObject就是自己构造的对象，而不是函数、date、正则等
+undefined == null 返回 true, undefined === null返回false, 应用：if (a == null)能兼顾两种情况的判断
+undefined ==或者=== undefined返回true
+null ==或者=== null都返回true
+js中判断两个对象是否相等，属性名值相同认为对象是相等的，不能只用==、===, ==、===比较的是地址，需要用==、===,结合遍历a对象，是否a对象的每个属性都在b对象中且值相等，遍历b对象，是否b对象的每个属性都在a对象中且值相等, 如果属性时引用类型需要递归判断
 a: typeof BigInt('111')、typeof 111n 都会返回bigint
 typeof Func会返回function, 后面是其它引用类型都返回object
 typeof 原始类型除null返回object外都返回对应类型
