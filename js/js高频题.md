@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-04-26 15:03:47
+ * @LastEditTime: 2022-04-27 19:36:33
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -69,6 +69,7 @@ vue源码中isPlainObject就是自己构造的对象，而不是函数、date、
 undefined == null 返回 true, undefined === null返回false, 应用：if (a == null)能兼顾两种情况的判断
 undefined ==或者=== undefined返回true
 null ==或者=== null都返回true
+NaN ==或者=== NaN都返回false  NaN是js中唯一自己和自己不相等的数据
 注意区分对象相同和相等的概念
 js中判断两个对象是否相等，属性名值相同认为对象是相等的，不能只用==、===, ==、===比较的是地址，需要用==、===(说明两个是相同对象),结合遍历a对象，是否a对象的每个属性都在b对象中且值相等，遍历b对象，是否b对象的每个属性都在a对象中且值相等, 如果属性时引用类型需要递归判断。建议参考vue源码，方法更简洁合理，但vue的源码是为了服务vue的，并未考虑正则表达式相等的情况
 a: typeof BigInt('111')、typeof 111n 都会返回bigint
@@ -100,6 +101,8 @@ e: apply、call调用模式
 || 当左侧为假时返回右侧，0、''也是假
 ?.可选链，就是obj $$ obj.a的语法糖
 
+2. 逗号运算符，每个表示式都会执行，逗号运算符的结果是最后一个表达式的值
+
 
 ########## 事件循环 #########
 1. 浏览器和node事件队列区别
@@ -124,6 +127,19 @@ export default只能直接导出且只能存在一个，导入时import x(这个
 ########## http协议 #########
 1. cookie属性：名、值、域名、路径、大小、httponly(为true, http请求头会有cookie信息，但不能通过document.cookie访问)、secure(设置是否只能通过https传递)、expires/Max-Age(不设置的话默认和session一起失效，浏览器关闭失效)
 
+2. http请求：
+http1定义了get\post\head
+http1.1新增了options、put、delete、trace、connect
+get请求指定的页面信息，并返回实体主题；get请求应该只是检索数据，并且不对数据产生其他影响；GET请求可以缓存，浏览器历史记录可以查找GET请求；GET请求有长度限制，仅用于请求数据；处理敏感数据不能用get请求
+HEAD类似于get请求，只不过返回的响应中没有具体内容，用于获取报头；可以在不必传输整个响应内容的情况下，就可以获取包含在响应消息头中的元信息。
+POST用于提交数据，例如提交表单或者上传文件，数据被包含在请求体中，POST请求可能会导致新的资源建立或者已有资源修改；POST请求不会被缓存，对数据长度没有限制，无法从浏览器历史记录中查到POST请求
+PUT用发送的数据取代指定文档的内容；发送数据到服务器以创建或者更新资源，将包含的元素放在所提供的URI下，如果URI指示的是当前资源，则会被改变，如果URI未指示当前资源，则服务器可以使用该URI创建资源
+DELETE请求服务器删除URI指定的资源
+CONNECT是1.1中预留给将连接改为管道方式的代理服务器
+OPTIONS允许客户端查看服务器的性能；返回服务器针对特定资源所支持的HTTP请求方法，也可以利用向web服务器发送‘*’的请求来测试服务器的功能性
+TRACE用于回显服务器的请求，主要用于测试或者诊断；用于沿着目标资源的路径执行环回测试
+1）方法名称是区分大小写的，当某个请求所针对的资源不支持对应的请求方法的时候，服务器应当返回状态码405（Mothod Not Allowed）；当服务器不认识或者不支持对应的请求方法时，应返回状态码501（Not Implemented）。
+2）HTTP服务器至少应该实现GET和HEAD/POST方法，其他方法都是可选的，此外除上述方法，特定的HTTP服务器支持扩展自定义的方法。
 
 ########## 跨域 #########
 带有src属性的标签都有跨域能力，比如script,img,link,video、audio、iframe

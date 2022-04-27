@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-09 16:55:19
- * @LastEditTime: 2022-04-26 16:34:19
+ * @LastEditTime: 2022-04-26 19:07:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue源码.md
@@ -29,3 +29,19 @@ AST是compiler中把模板编译成有规律的数据结构，方便转换成ren
 Vnode的数据结构要比ast复杂的多
 
 5. _xx私有数据可读可写，$xx私有数据只读
+
+6. 数组去重
+const arr = [1,1,2,2,3,3]
+let newArr = []
+arr.forEach(v => newArr.indexOf(v) === -1 && newArr.push(v))
+或者，效率更高的方式
+let _set = {}
+let newArr = []
+arr.forEach(v => _set[v] = true) // arr.forEach(v => _set[v] || (_set[v] = true) ) _set[v] = true的外面加括号，因赋值运算优先级低一些
+Object.keys(arr)
+
+或者arr.forEach(v => _set[v] || (_set[v] = true, newArr.push(v))
+
+
+
+
