@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-09 16:55:19
- * @LastEditTime: 2022-04-26 19:07:14
+ * @LastEditTime: 2022-04-29 09:01:24
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue源码.md
@@ -41,6 +41,20 @@ arr.forEach(v => _set[v] = true) // arr.forEach(v => _set[v] || (_set[v] = true)
 Object.keys(arr)
 
 或者arr.forEach(v => _set[v] || (_set[v] = true, newArr.push(v))
+
+7. with(this) {
+    return _c(
+        'div',
+        { attrs: {"id": "app"} },
+        [ _v(_s(name)) ]
+    )
+}
+with支持改变词法作用域中属性指向，name直接使用就不用this.name了
+示例：
+let obj = {name: 'xx', age: 18}
+with(obj) {
+    console.log(name)
+}
 
 
 
