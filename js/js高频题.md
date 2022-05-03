@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-04-27 22:55:02
+ * @LastEditTime: 2022-05-03 21:09:46
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -129,6 +129,9 @@ amd: RequireJS实现;RequireJS 想成为浏览器端的模块加载器，同时�
 cmd: SeaJS实现，专注于web浏览器端，通过web扩展的方式可以支持node服务器端；SeaJS自主封装;明显没有bug;SeaJS通过插件对调试支持程度好；就近依赖
 umd是commonjs和amd的结合，支持node和浏览器端
 
+3. <script type="module"> 
+允许在script标签内执行import和export操作，或者src里引入包含import导入的js文件
+
 
 ########## http协议 #########
 1. cookie属性：名、值、域名、路径、大小、httponly(为true, http请求头会有cookie信息，但不能通过document.cookie访问)、secure(设置是否只能通过https传递)、expires/Max-Age(不设置的话默认和session一起失效，浏览器关闭失效)
@@ -220,4 +223,11 @@ node端：process.memoryUsage() node的内存可以扩展，但扩展的不是V8
 6. 全局变量和局部变量的区别：局部变量当程序执行结束，没有引用的时候就会消失；全局变量始终存活直到程序运行结束,也就是进程结束；多个大数组定义成局部变量就可以解决内存溢出的问题
 局部变量所在函数执行完后，先被标记，当内存不够时就会被整理
 程序执行的时候会看到卡顿的状态，就是GC的整理清除流程
+
+
+########## 新概念 #########
+1. pnpm新的依赖管理工具，比npm、yarn快两倍
+
+2. Monorepo单体代码仓库
+
 
