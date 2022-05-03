@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-04-25 20:53:11
+ * @LastEditTime: 2022-05-03 10:27:16
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -40,3 +40,5 @@ tsconfig.json配置文件可以配置监控所有文件，即使里面没有内�
     "extends": "./configs/base", // 继承的外部文件xx.json，类似于import的外部文件
     "files": [], 类似于include, 只是files直接设置哪些文件，include是哪些目录下的文件，files用着比较麻烦一般用在项目比较小，只有很少的ts文件
 }
+
+9. ts编辑只做一些简单的转换，promise等新语法的转换需要用到babel, @babel/preset-env兼容不同浏览器，core-js提供运行js的虚拟环境， loader加载器的执行顺序是从后往前执行（ts-loader放后面先把ts转为js，babel-loader把新js转为旧的js）,chrome新浏览器对ES6的兼容性比较好， IE11支持不太好比如不支持const、箭头函数等
