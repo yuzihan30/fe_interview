@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-03 21:09:46
+ * @LastEditTime: 2022-05-05 10:14:44
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -156,7 +156,7 @@ TRACE用于回显服务器的请求，主要用于测试或者诊断；用于沿
 2）HTTP服务器至少应该实现GET和HEAD/POST方法，其他方法都是可选的，此外除上述方法，特定的HTTP服务器支持扩展自定义的方法。
 
 ########## 跨域 #########
-带有src属性的标签都有跨域能力，比如script,img,link,video、audio、iframe
+1. 带有src属性的标签都有跨域能力，比如script,img,link,video、audio、iframe
 jsonp只支持get请求，CORS支持所有的请求方式
 ```
 // jsonp的使用示例
@@ -198,6 +198,7 @@ const myJsonp = (url = '', params = {}, callback = () => {}) => {
 }
 
 ```
+2. CORS流程，JSONP只支持get请求，推荐使用CORS方式跨域，流程：浏览器发头带origin源的请求->服务器看origin字段的请求头后，就在响应中添加Access-Control-Allow-Origin标头，指定请求来源（或者*允许任何来源）->浏览器收到带Access-Control-Allow-Origin标头的响应后，会允许与客户端站点共享响应数据
 ########## 浏览器的垃圾回收机制 #########
 1. 浏览器内存，64位的话1.4G, 新生代64M(From 和 To分别为32M), 32位的都减半
 新生代使用copy的方式，使From和To互换，用空间换时间
