@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-05 17:41:24
+ * @LastEditTime: 2022-05-07 16:23:20
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -227,6 +227,9 @@ node端：process.memoryUsage() node的内存可以扩展，但扩展的不是V8
 局部变量所在函数执行完后，先被标记，当内存不够时就会被整理
 程序执行的时候会看到卡顿的状态，就是GC的整理清除流程
 
+########## 浏览器相关 #########
+1. let start = performance.now(); let end = performance.now()
+可用于计算某段代码的执行时间
 
 ########## 新概念 #########
 1. pnpm新的依赖管理工具，比npm、yarn快两倍
