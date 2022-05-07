@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-05 10:14:44
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-05 17:41:24
+ * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
 -->
@@ -95,6 +95,8 @@ c: 方法调用模式
 d: 构造函数调用模式
 e: apply、call调用模式
 
+########## 函数 ########
+1. js中new函数加不加括号没有区别，浏览器会自动解析不加括号的情况
 
 ########## js运算符 #########
 1. ??空值合并操作符，当左侧为null或者undefined，返回右侧值，否则返回左侧值

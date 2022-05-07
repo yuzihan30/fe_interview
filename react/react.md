@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-04-25 22:12:49
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-05 20:39:58
+ * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
 -->
@@ -306,3 +306,4 @@ style={{ textDecoration: item.checked? "line-through": '' }} // 文本带删除�
 非受控组件：表单元素的状态不受React组件状态的影响，表单元素的值存储于DOM元素中，组件要获取DOM元素的值可以通过ref的方式，扩展到自定义组件，如果组件的状态完全又内部的state来控制，就是非受控组件（即不受外部控制的组件）
 也可以既是受控组件又是非受控组件，比如可以根据props是否传有值来判断是否启用自身的state对应值
 
+11. React.PureComponent与React.Component很相似，两者的区别在于React.Component并未实现shouldComponentUpdate()，而React.PureComponent中以浅层对比prop和state的方式来实现了该函数， React.PureComponent可以提高性能
