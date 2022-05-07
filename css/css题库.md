@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 14:13:46
- * @LastEditTime: 2022-04-30 22:52:58
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-07 14:22:20
+ * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/css/css题库.md
 -->
@@ -59,5 +59,13 @@ position: absolute, left: 0, width: calc(100% -200px) 现代浏览器才支持
 绝对定位拉伸下：即使父容器的高度值是auto,只要容器绝对定位拉伸形成，百分比高度值也是支持的；移动端九宫格，.page { position: absolute, left: 0, top: 0, right: 0, bottom: 0 }
 .list { float: left, height: 33%, width: 33%, position: relative }
 当宽高和拉伸同时存在时，宽高优先级高， position: absolute, left: 0, right: 0, width: 50%这是宽度是50%，但如果再加上margin: auto 就会居中
+
+13. 设置透明度的方式：
+opacity设置值0-1，超过范围就近截取，值越大越不透明，图片、颜色或者其他元素都可以使用；opacity具有继承性，既作用于元素本身，也会使元素内的所有子元素具有透明度。IE8前不支持
+filter: Alpha(opacity=0-100)， 滤镜可以兼容IE8前版本
+rgba()只作用于元素的颜色或其背景色（设置了rgb(）透明度元素的子元素不会继承其透明效果）
+B站弹幕，语义分割+蒙版（-webkit-mask:url()）, 不过mask现在很多浏览器不支持
+
+
 
 

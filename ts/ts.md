@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-05-03 10:27:16
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-07 10:02:25
+ * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
 -->
@@ -42,3 +42,8 @@ tsconfig.json配置文件可以配置监控所有文件，即使里面没有内�
 }
 
 9. ts编辑只做一些简单的转换，promise等新语法的转换需要用到babel, @babel/preset-env兼容不同浏览器，core-js提供运行js的虚拟环境， loader加载器的执行顺序是从后往前执行（ts-loader放后面先把ts转为js，babel-loader把新js转为旧的js）,chrome新浏览器对ES6的兼容性比较好， IE11支持不太好比如不支持const、箭头函数等
+
+10. 实例属性前加readonly会变成只读，属性前加static会变成静态属性，可以一起用，但顺序只能是static readonly
+实例方法，sayHello() {}, 前面也可以加static, 静态方法用的不多
+创建不同的实例需要name:string; age:number, constructor(name:string, age:number) { this.name = name; this.age = age }
+需要重点记住一个区别，constructor中this指向实例，而实例方法中的this指向方法的调用者（这个调用者可能是实例，也可能是绑定时间的按钮）constructor(name:string, age:number) { this.name = name; this.age = age; this.btn.onclick = this.sing }
