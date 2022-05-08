@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-05-08 15:58:17
+ * @LastEditTime: 2022-05-08 20:30:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -86,3 +86,32 @@ const obj: myInterface = {
 所以，可以用别名的形式声明类型，也可以接口的形式声明
 接口可以在定义类的时候限制类的结构（不考虑实际值），类似于抽象类（但可以有实质方法和实质属性），但不考虑实际值；接口中所有的方法都是抽象方法
 类实现接口就是让类满足接口的要求，接口其实就是定义了一个规范，你只要实现了我这个接口，就是满足了规范，也可以说是对类的限制
+
+4. 属性的封装, 常用于避免属性被修改错的场景，主要使属性的访问更安全，简单的情况可以不使用
+上面的属性的定义方式可以任意修改，存在安全隐患
+可以再属性前加属性修饰符来解决
+public修饰的属性可以在任意位置访问或者修改，是默认的
+private是私有属性，设置了就等于关闭了这个属性的访问方式，只能在类内部访问（修改），一般名称前面加下划线标识， 此时如果用对象访问，编辑器会提示有问题，但编译能通过（要想编译不让其通过，需要配置tsconfig.json中"noEmitOnError": true, 确保有错误时不去编译）
+可以类内部添加方法的方式使得私有属性可以被外部访问
+private _name: string;
+// 如果不设置getName，也不能访问了
+getName() {
+    return this._name
+}
+// 如果不设置setName的话，name就变成只读的了
+setName(value: string) {
+    this._name = value
+}
+有了set、get属性控制权就完全掌握自己手里，比如设置值超出范围就不让设置了
+setAge(value)
+setter\getter方法又叫属性的存取器
+TS中新的形式：
+get name() {}
+console.log(per.name) // 这样实际上调用get name()方法
+set name(value: string) { this._name = value }
+per.name = '' // 这样实际上调用set name()方法
+
+5. protected属性，受保护的属性，只能在当前类和子类中使用，也不能在实例中直接访问
+
+6. 可以将属性直接写在构造函数的入参里, 这样属性声明还有属性初始化（this.name = name）都不用写了
+constructor(public name: number, public age: string) {}

@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-04-09 11:39:31
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-08 20:11:17
+ * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
 -->
@@ -43,3 +43,16 @@ git merge B 和git rebase B都是将B分支合并到当前分支
 需要删除已push的提交（适用于个人开发分支，不适合公共开发分支）：git reset HEAD^ --hard, git push -f [remote][branch]; 对于公共分支，为了避免影响他人，使用git revert ID
 未push: git reset --soft HEAD@{1}
 
+
+########## Monorepos ########
+Monorepo是指将所有代码放到一个代码仓库中的项目管理策略
+Monorepos 的优点
+依赖管理：共享依赖，所有的代码都在一个仓库。版本管理非常方便。
+代码复用：所有的代码都在一个仓库，很容易抽离出各个项目共用的业务组件或工具，并通过 TypeScript 在代码内引用。
+一致性：所有代码在一个仓库，代码质量标准和统一风格会更容易。
+透明度：所有人都能看到全部代码，跨团队协作和贡献更容易。
+Monorepos 的缺点
+性能：代码越来越多，Git、IDE 之类的工具会越来越卡。
+权限：管理文件权限会更具挑战，Git 目录并没有内置的权限管理系统，整个项目是没办法区分某些部门开放哪个项目，某些部门关闭的。
+学习成本：对新人来说，项目变大了，学习成本自然会更高。
+Monorepo 绝对不是银弹，Monorepo 策略也不完美，但某些方面来说确实解决了一些项目的维护和开发体验。
