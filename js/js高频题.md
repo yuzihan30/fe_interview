@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-07 16:23:20
+ * @LastEditTime: 2022-05-09 23:05:54
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -95,8 +95,17 @@ c: 方法调用模式
 d: 构造函数调用模式
 e: apply、call调用模式
 
+4. 判断对象是否有某个属性
+obj.hasOwnProperty() 自身属性  对应getOwnPropertyNames()
+in 自身或者原型链上的属性 对应 for in
+
 ########## 函数 ########
 1. js中new函数加不加括号没有区别，浏览器会自动解析不加括号的情况
+2. 自执行函数
+function(){}()  // 错误， ()前需要是函数表达式而不能是
+!function(){}()  // !可以将函数声明变成函数表达式，其他+,-都可以，逗号也可以
+(function(){})(), // 正确 
+(function(){}()), // 正确
 
 ########## js运算符 #########
 1. ??空值合并操作符，当左侧为null或者undefined，返回右侧值，否则返回左侧值
@@ -157,6 +166,17 @@ TRACE用于回显服务器的请求，主要用于测试或者诊断；用于沿
 1）方法名称是区分大小写的，当某个请求所针对的资源不支持对应的请求方法的时候，服务器应当返回状态码405（Mothod Not Allowed）；当服务器不认识或者不支持对应的请求方法时，应返回状态码501（Not Implemented）。
 2）HTTP服务器至少应该实现GET和HEAD/POST方法，其他方法都是可选的，此外除上述方法，特定的HTTP服务器支持扩展自定义的方法。
 
+3. http2
+新的二进制格式（Binary Format），HTTP1.x的解析是基于文本。基于文本协议的格式解析存在天然缺陷，文本的表现形式有多样性，要做到健壮性考虑的场景必然很多，二进制则不同，只认0和1的组合。基于这种考虑HTTP2.0的协议解析决定采用二进制格式，实现方便且健壮。
+
+多路复用（MultiPlexing），即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的 id将request再归属到各自不同的服务端请求里面。
+HTTP/2 通过让所有数据流共用同一个连接，可以更有效地使用 TCP 连接，让高带宽也能真正的服务于 HTTP 的性能提升。
+
+header压缩，如上文中所言，对前面提到过HTTP1.x的header带有大量信息，而且每次都要重复发送，HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields表，既避免了重复header的传输，又减小了需要传输的大小。
+
+服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能。
+服务端推送能把客户端所需要的资源伴随着index.html一起发送到客户端，省去了客户端重复请求的步骤。正因为没有发起请求，建立连接等操作，所以静态资源通过服务端推送的方式可以极大地提升速度
+
 ########## 跨域 #########
 1. 带有src属性的标签都有跨域能力，比如script,img,link,video、audio、iframe
 jsonp只支持get请求，CORS支持所有的请求方式
@@ -201,6 +221,7 @@ const myJsonp = (url = '', params = {}, callback = () => {}) => {
 
 ```
 2. CORS流程，JSONP只支持get请求，推荐使用CORS方式跨域，流程：浏览器发头带origin源的请求->服务器看origin字段的请求头后，就在响应中添加Access-Control-Allow-Origin标头，指定请求来源（或者*允许任何来源）->浏览器收到带Access-Control-Allow-Origin标头的响应后，会允许与客户端站点共享响应数据
+
 ########## 浏览器的垃圾回收机制 #########
 1. 浏览器内存，64位的话1.4G, 新生代64M(From 和 To分别为32M), 32位的都减半
 新生代使用copy的方式，使From和To互换，用空间换时间
@@ -227,9 +248,157 @@ node端：process.memoryUsage() node的内存可以扩展，但扩展的不是V8
 局部变量所在函数执行完后，先被标记，当内存不够时就会被整理
 程序执行的时候会看到卡顿的状态，就是GC的整理清除流程
 
-########## 浏览器相关 #########
+########## 文档对象模型DOM #########
+1. dataset自定义属性，html元素上面的自定义属性data开头中划线分割，data-date-of-birth, jsDOM读写的时候驼峰el.dataset.dateOfBirth
+
+########## 浏览器相关BOM #########
 1. let start = performance.now(); let end = performance.now()
 可用于计算某段代码的执行时间
+
+2. html词法解析器：html解析过程的输入是一串代码，这些代码通过标记化阶段，然后是树构建阶段，输出一个document对象
+标记化
+词法分析过程，将输入内容解析成多个标记
+包括起始标记，结束标记，属性名称，属性值
+标记生成器识别标记，传递给树构造器，然后接受下一个字符以识别下一个标记,如此反复直到输入的结束。标记化算法的输出结果是html标记
+
+3. 浏览器内存泄露情况
+全局变量：顶层代码window环境下，变量使用后，无需再次使用，然而变量未释放空间；
+控制台打印：console.log()也是占用内存空间的；
+分离的Dom节点：已删除的dom节点，然而其引用未释放, 我们看到节点innerBox删除后，其引用还存在，应该在删除后将innerBox=null，释放内存；
+闭包的不正确使用：将闭包使用后，应正确将其引用释放，赋值为null；
+定时器未能及时关闭；
+绑定的事件组件卸载后未移除
+
+4. 前端页面卡顿优化
+页面前端代码的性能瓶颈大多集中在DOM操作上
+首先，DOM操作为什么会影响性能。在浏览器中，DOM的实现和ECMAScript的实现是分离的。例如，在IE中，ECMAScript的实现在jscript.dll中，而DOM的实现在mshtml.dll中；在chrome中使用webkit的WebCore处理DOM和渲染，但ECMAScript是在V8引擎中实现的，其他浏览器的情况类似，所以通过Javascript调用dom接口，是相当于两个模块的交互。相比较在同一模块中的调用，这种跨模块的调用其性能损耗是很高的，但DOM操作对性能影响最大是因为它导致了浏览器的重绘和重排
+方法一：合并多此dom操作为单次dom操作
+通过class类名来元素的大量样式更改，代码维护性较好。
+通过innerHTML接口来修改DOM元素的内容时，以字符串方式拼接好代码后，一次性赋值给
+DOM元素的innerHTML接口。
+方法二： 把DOM元素离线或隐藏后修改
+把元素从页面流中脱离或隐藏，这样处理后，只会在DOM元素脱离或添加时，或者是隐藏或显示时才会造成页面的重绘会重排，对脱离了页面布局的DOM元素操作就不会导致页面的性能问题。
+这种方式适合需要大批量修改dom元素的情况。具体方式由三种：
+(1) 使用文档片段
+文档片段是一个轻量级的document对象，并不会和特定的页面关联，通过在文档片段上进行DOM操作，可以降低DOM操作对页面性能的影响，这种方式是创建一个文档片段，并在此片段上
+进行必要的DOM操作，操作完成后将它附加在页面中，对页面的影响只存在于最后把文档片段附加到页面的这一步操作上。
+var fragment=document.createDocumentFragment();
+//一些基于fragment的大量dom操作
+document.getElementById('myElement').appendChild(fragment);
+(2)隐藏元素
+通过隐藏元素，达到在页面上移除元素的效果，经过大量的DOM操作后恢复元素原来的display样式，只有隐藏和显示元素时会引起页面重绘或重排操作。
+var myElement=document.getElementById('myElement')；
+myElement.style.display='none';
+//dom操作
+myElement.style.display='block';
+(3)克隆DOM元素到内存中
+把页面上的DOM元素克隆一份到内存中，然后在内存中操作克隆的元素，操作完成后使用此克隆元素替换页面中原来的DOM元素，只有替换元素时会影响性能,在内存中操作克隆元素不会引起页面上的性能损耗。
+var old=document.getElementById('myElement');
+var clone=old.cloneNode(true);
+//dom操作
+old.parentNode.replaceChild(clone,old);
+3.设置具有动画效果的DOM元素的position属性为fixed或absolute
+把页面中具有动画效果的元素设置为绝对定位，使得元素脱离页面布局流，从未避免了页面频繁的重排，只涉及动画元素自身的重排。这种做法可以提高动画效果的展示性能。(在动画开始时将其设置为绝对定位，等动画结束后恢复原始的定位设置)。
+4.谨慎获得dom元素的布局信息，变量本地化。
+把获取到的元素的布局信息值缓存在局部变量中。在有大量的DOM操作时，避免获取dom元素的布局信息，如果需要布局信息，最好在DOM操作之前就取好存放。
+5.使用事件托管方式绑定事件
+在DOM元素上绑定事件或影响页面的性能，一方面，绑定事件本身会占用处理时间，另一方面，浏览器保存事件绑定也会占用内存。使用事件托管方式，即利用事件冒泡机制，只在父元素上绑定事件处理，用于处理所有子元素的事件，在事件处理函数中根据传入的参数判断事件源元素，针对不同的元素做不同的处理。这种方式有很大的灵活性，可以方便的添加或删除子元素，不需要考虑因元素移除或添加需要修改事件绑定。
+
+########## 前端优化 #########
+1. 图片加载过多问题
+加载的图片太多或者太大导致页面加载完成慢的问题；图片太多导致向服务器请求的次数太多,图片太大导致每次请求的时间过长,导致用户长时间等待。
+
+一.大量图片加载优化方案
+1.将图片服务和应用服务分离(从架构师的角度思考)
+对于服务器来说,图片始终是最消耗系统资源的,如果将图片服务和应用服务放在同一服务器的话,应用服务器很容易会因为图片的高I/O负载而崩溃,所以当网站存在大量的图片读写操作时,建议使用图片服务器。浏览器在同一时间对同一域名下的资源的并发请求数目是有限制的,一般在2-6之间,超过限制数目的请求就会被阻塞.
+2.图片压缩方案
+我们可以借助一些第三方软件来进行压缩,压缩后分辨率不变,肉眼看不失真；
+我们项目中对使用的图片基本都会进行压缩再上传。
+3.图片懒加载
+图片懒加载,简单来说就是在页面渲染过程中,图片不会一次性全部加载,会在需要的时候加载,比如当滚动条滚动到某一个位置时触发事件加载图片。
+为优化回流，可以先设置占位符
+实现方案一
+document.documentElement.clientHeight//获取屏幕可视区域的高度
+document.documentElement.scrollTop//获取浏览器窗口顶部与文档顶部之间的距离，也就是滚动条滚动的距离
+element.offsetTop//获取元素相对于文档顶部的高度
+如果：clientHeight+scroolTop>offsetTop，则图片进入了可视区内，则被请求。
+代码实现：
+<script>
+    var imgs = document.querySelectorAll('img');
+
+    //offsetTop是元素与offsetParent的距离，循环获取直到页面顶部
+    function getTop(e) {
+        var T = e.offsetTop;
+        while(e = e.offsetParent) {
+            T += e.offsetTop;
+        }
+        return T;
+    }
+
+    function lazyLoad(imgs) {
+        var H = document.documentElement.clientHeight;//获取可视区域高度
+        var S = document.documentElement.scrollTop || document.body.scrollTop;
+        for (var i = 0; i < imgs.length; i++) {
+            if (H + S > getTop(imgs[i])) {
+                imgs[i].src = imgs[i].getAttribute('data-src');
+            }
+        }
+    }
+
+    window.onload = window.onscroll = function () { //onscroll()在滚动条滚动的时候触发
+        lazyLoad(imgs);
+    }
+</script>
+实现方案二
+getBoundingClientRect()//获取元素的大小及位置
+我们滚动条向下滚动的时候，bound.top值会变得越来越小，也就是图片到可视区顶部的距离也越来越小，所以当bound.top == clientHeight时，说明土片马上就要进入可视区了，只要我们在滚动，图片就会进入可视区，那么就需要请求资源了。也就是说，在bound.top<=clientHeight时，图片是在可视区域内的。
+代码实现：
+var imgs = document.querySelectorAll('img');
+
+        //用来判断bound.top<=clientHeight的函数，返回一个bool值
+        function isIn(el) {
+            var bound = el.getBoundingClientRect();
+            var clientHeight = window.innerHeight;
+            return bound.top <= clientHeight;
+        } 
+        //检查图片是否在可视区内，如果不在，则加载
+        function check() {
+            Array.from(imgs).forEach(function(el){
+                if(isIn(el)){
+                    loadImg(el);
+                }
+            })
+        }
+        function loadImg(el) {
+            if(!el.src){
+                var source = el.dataset.src;
+                el.src = source;
+            }
+        }
+        window.onload = window.onscroll = function () { //onscroll()在滚动条滚动的时候触发
+            check();
+        }
+4.小图片比较多时
+可以用雪碧图、字体图标、base64等，这样可以有效减少连接数
+
+5.http2解决连接数限制
+http2一个站点只有一个连接。每个请求为一个流，每个请求被分为多个二进制帧，不同流中的帧可以交错的发送，实现多路复用。这就解决了连接数限制的问题
+
+2. 图片过大优化方案
+如果是相册之类的可以预加载，在展示当前图片的时候，就加载它的前一个和后一个图片
+加载的时候可以先加载一个压缩率非常高的缩略图，以提高用户体验,点击再或加载到之后再查看清晰图
+使用渐进式jpeg，会提高用户体验
+如果展示区域小于图片的真实大小，可以在服务端先压缩到合适的尺寸
+通过link标签preload预加载<link rel="preload" href="./img/all.jpg" as="image" />添加上后，浏览器会在渲染前先加载完图片，这样图片在显示时会整张地显示
+图片拆分,现在大图片是5MB，可以拆成了9个400多KB的小图片
+图片onload前用其他样式代替, img在渲染完成后会触发onload事件，那么我们可以先设置图片为隐藏，放一个图片或者loading进行过渡，然后在图片触发onload事件之后，进行切换
+背景颜色,给图片的包裹元素提前设置一个与这个图片整体色调相符的背景颜色
+另外有些cdn也可以通过query参数获得模糊的图片，这样我们就可以实现模糊到清晰的渐进加载
+转base64，适用于小图片
+
+
+
+
 
 ########## 新概念 #########
 1. pnpm新的依赖管理工具，比npm、yarn快两倍
