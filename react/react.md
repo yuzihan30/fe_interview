@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-05-10 19:05:07
+ * @LastEditTime: 2022-05-10 22:40:13
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -310,6 +310,7 @@ style={{ textDecoration: item.checked? "line-through": '' }} // 文本带删除�
 11. React.PureComponent与React.Component很相似，两者的区别在于React.Component并未实现shouldComponentUpdate()，而React.PureComponent中以浅层对比prop和state的方式来实现了该函数， React.PureComponent可以提高性能
 
 ########## 组件通信 #########
+组件通信解决组件之间的协作问题
 1. 父传子是为了子组件能复用
 为什么进行子传父，子传父怎么用？
 子传父，就是子给父发个信号，让父自己去更新自己的状态，antdesign的抽屉组件就是一个子传父的示例
@@ -398,3 +399,37 @@ this.state.current.state.value = ""这种方法直接改孩子的状态是最忌
 this.state.current.setState可以这样，但不推荐
 推荐this.state.current.clear() 在定义的clear内setState来操作状态
 类似的设置值也是在内部定义一个set方法
+
+6. 非父子组件间通信
+（1）状态提升（中间人模式），适合亲兄弟之间，层次太多就不合适了
+将多个组件需要共享的状态提升到最近的父组件，父组件改变之后再分发给子组件，其实就是父子通信的组合，一个子去改这个状态，另一个子去访问这个状态
+（2）发布订阅模式
+（3）context状态树传参
+示例：FilmItem, FilmDetail亲兄弟之间的通信
+constructor() {
+    super()
+    this.state = {
+        filmList: []
+    }
+    // 因为静态资源在同账号同域名下http://localhost:3000也可以省略
+    axios.get('http://localhost:3000/test.json').then(res => {
+        //console.log(res.data)  // axios多包装了一层所以res.data才能真正拿到后端返回的数据
+        console.log(res.data.data.films) // 前一个.data是因为axios, 后一个.data是因为后端返回的数据层次
+        this.setState({
+            filmList: res.data.data.films
+        })
+    })
+    render() {
+        return (
+            <div>
+                this.state.filmList.map(item => {
+                    <FilmItem key="item.filmId" {...item}></FilmItem>
+                })
+            </div>
+        )
+    }
+}
+// FilmItem子组件
+let { name, poster } = this.props
+// 在属性上应用表达式或者变量必须用大括号这种形式
+// 组件内css文件可以直接import方式引入
