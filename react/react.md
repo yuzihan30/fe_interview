@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-05-09 16:54:09
+ * @LastEditTime: 2022-05-10 19:05:07
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -334,3 +334,67 @@ state的初始化时，只会在类组件第一次创建的时候调用，下一
 3. 改成受控组件，多写无状态的组件，这也是对父子通信好的应用
 像list列表数据仍可以保留自己用
 哪些数据设计成无state,哪些设计成props可以做个区分
+受控组件可以进一步改造成16.8之前的函数式组件，注意函数式组件中方法要加function
+
+4. 表单域组件，使用受控组件这种方式会比较麻烦
+label和input封装一起的组件就叫表单域组件，antdesign里面可以看到，即field组件
+下面父子通信的方式写个表单域组件
+import React, { Component } from 'react'
+
+class Field extends Component {
+    render() {
+        return <div style={{background: yellow}}>
+            // 表达式需要用大括号括住
+            <label>{this.props.label}</label>
+            <input type={this.props.type} onChange={ (evt) => {
+                this.props.onChangeEvent(evt.target.value)
+            }} value={this.props.username}/>
+        </div>
+    }
+}
+
+state = {
+    username: localStorage.getItem('username'),
+    password: ''
+}
+<Filed label="用户名" type="text" onChangeEvent={(value) => { 
+    this.setState({
+        username: value
+    })} value={this.state.username} />
+<Filed label="密码" type="text" onChangeEvent={(value) => { 
+    this.setState({
+        password: value
+    })
+ }} />
+// 相当于两个实例，内部的数据是隔离的
+
+5. ref方案改写表单域组件
+class Field extends Component {
+    state = {
+        value: '',
+    }
+    render() {
+        return <div style={{background: yellow}}>
+            // 表达式需要用大括号括住
+            <label>{this.props.label}</label>
+            <input type={this.props.type} onChange={ (evt) => {
+                this.setState({
+                    value: evt.target.value
+                })
+            }} value={this.props.username}/>
+        </div>
+    }
+}
+username = React.createRef()
+<Filed label="用户名" type="text" onChangeEvent={(value) => { 
+    this.setState({
+        username: value
+    })} value={this.state.username} ref={this.username} />  // ref="username", ref这种写法严格模式下会有问题所以会
+ref加到标签身上是原生dom节点，拿到组件生上就是组件对象，但都是.current才能拿到
+父组件就可以通过this.state.current.state拿到Field域的值
+那剩下的设置初始值和清空怎么做呢
+this.state.current.state.value = ""这种方法直接改孩子的状态是最忌讳的而且不好用
+改变子组件状态有两种方式，要么父组件重新渲染一下，要么子组件里setState重新执行一遍
+this.state.current.setState可以这样，但不推荐
+推荐this.state.current.clear() 在定义的clear内setState来操作状态
+类似的设置值也是在内部定义一个set方法
