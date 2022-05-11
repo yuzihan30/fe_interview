@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 10:48:15
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-11 10:53:18
+ * @LastEditTime: 2022-05-11 11:37:49
  * @FilePath: /fe_interview/前端可视化/cesium.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -36,3 +36,5 @@ Cesium用于地理数据可视化。支持海量数据的高效渲染，支持�
 ②无法独立运行，依赖于浏览器
 ③浏览器基于HTTP协议，Cesium正确运行必须有HTTP Server
 ④HTTP Server的实现不限于开发语言和服务器（可不学nodejs）
+
+4. 可以通过复制下载地址粘贴到迅雷上下载，比较快
