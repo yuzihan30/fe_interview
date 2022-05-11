@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-05-10 22:40:13
+ * @LastEditTime: 2022-05-11 08:15:14
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -405,7 +405,7 @@ this.state.current.setState可以这样，但不推荐
 将多个组件需要共享的状态提升到最近的父组件，父组件改变之后再分发给子组件，其实就是父子通信的组合，一个子去改这个状态，另一个子去访问这个状态
 （2）发布订阅模式
 （3）context状态树传参
-示例：FilmItem, FilmDetail亲兄弟之间的通信
+状态提升示例：FilmItem, FilmDetail亲兄弟之间的通信
 constructor() {
     super()
     this.state = {
@@ -430,6 +430,78 @@ constructor() {
     }
 }
 // FilmItem子组件
-let { name, poster } = this.props
+let { name, poster, synopsis } = this.props
+synopsis拿到之后子传父的方式传给父，父拿到之后调用setState, 再传给FilmDetail
 // 在属性上应用表达式或者变量必须用大括号这种形式
 // 组件内css文件可以直接import方式引入
+
+8. 发布订阅
+发布中心、发布者、订阅者
+订阅者把自己的回调函数送到发布中心保存，发布者调用发布的方法找出所有订阅的函数依次进行调用
+// 调度中心
+var bus = {
+    list:[],
+    // 订阅
+    subscribe(callback) {
+        this.list.push(callback)
+    },
+    // 发布，遍历list所有的元素，将回调函数执行
+    publish(text) {
+        this.list.forEach(callback => {
+            callback && callback(text) // 防止call为null等
+        })
+    }
+}
+bus.subscribe((value) => {
+    console.log('1111', value)
+})
+bus.subscribe(() => {
+    console.log('2222')
+})
+// 一般是点个按钮才发布
+setTimeout(() => {
+    bus.publish(可以加参数)
+}, 0)
+Redux就是基于纯函数写的发布订阅，用于状态管理和非父子通信
+发布订阅示例：FilmItem发布者, FilmDetail订阅者
+constructor() {
+    super()
+    this.state = {
+        filmList: []
+    }
+    // 因为静态资源在同账号同域名下http://localhost:3000也可以省略
+    axios.get('http://localhost:3000/test.json').then(res => {
+        //console.log(res.data)  // axios多包装了一层所以res.data才能真正拿到后端返回的数据
+        console.log(res.data.data.films) // 前一个.data是因为axios, 后一个.data是因为后端返回的数据层次
+        this.setState({
+            filmList: res.data.data.films
+        })
+    })
+    render() {
+        return (
+            <div>
+                this.state.filmList.map(item => {
+                    <FilmItem key="item.filmId" {...item}></FilmItem>
+                })
+            </div>
+        )
+    }
+}
+FilmDetail一上来就要订阅, 孩子的孩子也可以订阅
+constructor() {
+    super()
+    this.state = {
+        info: ""
+    }
+    bus.subscribe((info) => {
+        this.setState({
+            info: info
+        })
+    })
+}
+FilmItem中发布
+onClick={ () => {
+    bus.publish(synopsis)
+}
+
+}
