@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-05-12 16:13:51
+ * @LastEditTime: 2022-05-12 19:07:26
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -146,3 +146,7 @@ class MyClass<T> {
     }
 }
 const mc = new MyClass<string>('sss')
+
+
+
+
