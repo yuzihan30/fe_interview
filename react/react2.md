@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-12 20:48:17
+ * @LastEditTime: 2022-05-12 22:31:32
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -123,3 +123,30 @@ react版本的几个节点
 16.2（之前都是老的生命周期，这个版本之后diff算法做了一些更改，提出了fiber技术，willMount如果再用的话会报黄色警告，若不让报警告，要么不用，要么改为加个前缀UNSAFE_）， 16.8（），17
 Fiber纤维就是比线程还要小的，16.2之前创建状态之后会创建新的虚拟DOM树，会对比老的虚拟DOM树，这个对比过程是同步的，数据量如果比较小的话还好，如果比较多比如100多个组件，会出现浏览器假死，在忙着对比两个虚拟DOM,这两个对象超级超级大；Fiber把创建DOM和组件渲染拆分成无数个小的分片任务来进行，先执行优先级；低优先级任务就是willMount中找哪些节点要挂到页面中，高优先级就是render渲染啊，didMount挂载完了，就是找出哪些需要更新到DOM的过程这个是可以被打断的，而更新DOM的过程是不能被打断的，打断的任务只能下次重新再来一遍，那willMount里面的东西就存在可能触发多次的问题
 16.8引入hooks之后函数式组件开始有生命周期
+
+3. 初始化案例
+BetterScroll使用步骤：
+import BetterScroll from 'better-scroll'
+componentDidMount() {
+    new BetterScroll("#wrapper")
+}
+<div id="wrapper" style={{ height: "200px", overflow: "hidden" }><ul></ul></div>
+
+4. 运行中阶段
+componentWillUpdate， 是通过自己的state更新，还是从父组件传来props更新，都会引发这个组件将要更新；和willMount一样也是没有到DOM更新的状态，它的执行频率是很高的，willMount一辈子执行只有一次，WillUpdate则是setState就要走一次，render、didUpdate也是
+render() {
+    // DOM正在更新
+}
+componentWillUpdate() { // 和willMount同样道理，处在React调度机制的第一个阶段，寻找需要更新哪些DOM, 被打断重新执行，有隐患
+    // DOM还未更新，用到的机会比较少，后面用到一次配合新生命周期去说
+    // 这里也不能setState,会引入死循环
+}
+UNSAFE_componentWillUpdate 
+componentDidUpdate(preProps, preState) {
+    // DOM已经更新， 更新后获取DOM节点
+    // 引出better-scroll新方案，didMount中请求数据之后setState会走更新， didUpdate里面DOM就更新完了,在didUpdate里面
+    // 但这里有个缺点，会执行多次，每次更新，它都会执行，频繁执行多次，危险且耗性能，会引发不可预期的问题
+    // 比如new BetterScroll("#wrapper")，这时可以做个判断，避免频繁调用
+    // if(state.list.length === 0) { new BetterScroll("#wrapper") } 但又发现这里拿不到老状态，state.list.length === 0这个条件判断可能就一直无法成立，那就通过入参preProps和preState的方式拿到老的状态，进一步修改if(preState.list.length === 0) { new BetterScroll("#wrapper") }
+}
+
