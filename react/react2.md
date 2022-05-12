@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-12 19:15:25
+ * @LastEditTime: 2022-05-12 20:48:17
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -96,6 +96,8 @@ componentWillUnmount: 在删除组件之前进行清理操作，比如计时器�
 组件创建的时候启动一个定时器，销毁之前未清理的话，销毁之后还会存在
 之前的函数式组件只有props，没有state也没有组件的生命周期，后面借助于hooks的副作用函数可以实现
 目前只有类组件有生命周期，render函数可以看到，没有被主动调用，但会被react组件系统自动调用
+
+2. 初始化阶段
 state = {
     myname: ''
 }
@@ -114,3 +116,10 @@ componentDidMount() { // 已经挂载到DOM节点中， 已经渲染完了，可
 render() { // 正在渲染，作用就是渲染页面
     // 这里千万不能setState, 初始化会执行一次，每次更新还会执行，导致循环调用，栈溢出
 }
+
+2. 初始化阶段注意事项
+componentWillMount已经该名并且不推荐使用了，因为可能会有副作用函数，副作用函数可以移到componentDidMount来做，初始化状态移动到constructor来做
+react版本的几个节点
+16.2（之前都是老的生命周期，这个版本之后diff算法做了一些更改，提出了fiber技术，willMount如果再用的话会报黄色警告，若不让报警告，要么不用，要么改为加个前缀UNSAFE_）， 16.8（），17
+Fiber纤维就是比线程还要小的，16.2之前创建状态之后会创建新的虚拟DOM树，会对比老的虚拟DOM树，这个对比过程是同步的，数据量如果比较小的话还好，如果比较多比如100多个组件，会出现浏览器假死，在忙着对比两个虚拟DOM,这两个对象超级超级大；Fiber把创建DOM和组件渲染拆分成无数个小的分片任务来进行，先执行优先级；低优先级任务就是willMount中找哪些节点要挂到页面中，高优先级就是render渲染啊，didMount挂载完了，就是找出哪些需要更新到DOM的过程这个是可以被打断的，而更新DOM的过程是不能被打断的，打断的任务只能下次重新再来一遍，那willMount里面的东西就存在可能触发多次的问题
+16.8引入hooks之后函数式组件开始有生命周期
