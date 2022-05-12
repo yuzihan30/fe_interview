@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-12 22:31:32
+ * @LastEditTime: 2022-05-12 23:52:24
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -149,4 +149,21 @@ componentDidUpdate(preProps, preState) {
     // 比如new BetterScroll("#wrapper")，这时可以做个判断，避免频繁调用
     // if(state.list.length === 0) { new BetterScroll("#wrapper") } 但又发现这里拿不到老状态，state.list.length === 0这个条件判断可能就一直无法成立，那就通过入参preProps和preState的方式拿到老的状态，进一步修改if(preState.list.length === 0) { new BetterScroll("#wrapper") }
 }
+
+5. 运行阶段2 shouldComponentUpdate
+<div> onClick={ () => {
+    this.setState({
+        name: 'aaa'
+    })
+}}
+> </div>
+发现一直点击，render生命周期会一直触发下去，willUpdate和didUpdate也是，即使前后两次状态相同；对比了虚拟DOM，didUpdate等生命周期也走，发现没改变，白白浪费了时间，执行了无所必要的重复工作，最后DOM还没改变;即使不设置值，执行this.setState({})，也会一直重复执行那个过程,react虚拟DOM对比是很浪费性能的,所以就有了shouldComponentUpdate，如果不需要更新就不需要比较虚拟DOM了
+// 面试中问SCU就是它
+shouldComponentUpdate(nextProps, nextState) { // 能真正做到手动控制react的性能
+    // 这里还未更新所以state是老的状态，nextProps、nextState就是新的状态
+    if (老状态 !== 新状态) { return true // 那么就允许虚拟DOM创建，并diff }
+    // 如果要比较的东西比较多就JSON.stringify(this.state) !== JSON.stringify(nextState)
+    return false
+}
+
 
