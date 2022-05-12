@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-05-08 20:30:34
+ * @LastEditTime: 2022-05-12 16:13:51
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -115,3 +115,34 @@ per.name = '' // 这样实际上调用set name()方法
 
 6. 可以将属性直接写在构造函数的入参里, 这样属性声明还有属性初始化（this.name = name）都不用写了
 constructor(public name: number, public age: string) {}
+
+7. 泛型，用any的弊端是会关闭类型检查
+function fn(a: any): any { // 此时用any也不能体现入参和返回值类型是相同的
+    return a 
+}
+定义函数或者类时遇到类型不明确的时候就可以使用泛型
+根据调用的情况具体确定类型
+function fn<T>(a: <T>): T { return a } // 叫K也行，是什么类型现在还不知道，具体调用的时候才能确定; 参数后面能用T是因为前面定义了T
+fn(10)  // 可以直接调用具有泛型的函数，传值的时候相当于给T进行了赋值number，利用了TS中的类型推断，有时候推断不出来可以手动指定fn<string>('hello')
+泛型可以指定多个，function fn2<T, K>(a: T, b: K):T {
+    console.log(b)
+    return a
+}
+fn2<number, string>(123, 'hello') // 最好手动指定上，降低出错的可能性
+有时想限定一下泛型的范围，比如是实现了某个接口的类
+Interface Inter {
+    length: number;
+}
+function fn3<T extends Inter>(a: T): number { // extends包含实现和继承的情况
+    return a.length
+}
+也就是传参必须有length属性
+fn3('123'), fn3({length: 10})
+类里使用泛型
+class MyClass<T> {
+    name: T;
+    constructor(name: T) {
+        this.name = name
+    }
+}
+const mc = new MyClass<string>('sss')
