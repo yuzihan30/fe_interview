@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 20:16:36
- * @LastEditTime: 2022-03-10 10:32:29
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-12 07:59:51
+ * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/css/css3.md
 -->
@@ -26,3 +26,18 @@ n是从1开始的
 产生BFC的方式：html根元素和包含根元素的元素；float(!=none);position: absolute/fixed;display(flex、inline-block等);
 常见应用场景：盒子的外边距合并问题；清除浮动（浮动的子元素无法撑起父元素，外部元素设置为overflow:hidden或者display:flow-root无副作用）
 延伸：display: flow-root可以将元素变成具备BFC的块级元素
+
+4. css var 语法
+var(custom-property-name, value)
+custom-property-name	必需。自定义属性的名称，必需以 -- 开头。
+value	可选。备用值，在属性不存在的时候使用。
+:root {
+  --main-bg-color: coral;
+  --main-txt-color: blue;
+  --main-padding: 15px;
+}
+#div1 {
+  background-color: var(--main-bg-color);
+  color: var(--main-txt-color);
+  padding: var(--main-padding);
+}
