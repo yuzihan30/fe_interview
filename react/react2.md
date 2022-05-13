@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-13 16:29:18
+ * @LastEditTime: 2022-05-13 20:28:35
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -255,3 +255,34 @@ componentDidUpdate(prevProps, prevState) {
 取代老的componentWillReceiveProps时，一个是不能axios请求，因为是异步，return会先返回；也没法在return前进行setState更新，因为this都丢了
 用的时候getDerivedStateFromProps只是把nextProps转化为自己的状态；真正取数据还要配合didMount
 componentWillReceiveProps只要父状态有更新，任何子组件跟状态有无关系都会执行一次更新，这是大问题
+
+2. getSnapshotBeforeUpdate
+willMount、willReceive、willUpdate都是怕被打断，怕重复一次
+willUpdate更新前记录DOM状态，但和didUpdate相隔时间太长，可能导致记录的状态不可信
+换成使用getSnapshotBeforeUpdate后更安全，记录的状态更可信
+案例：
+比如邮箱列表正在查看，突然来了100条新邮件，期望在这100条插入dom之前记录一下滚动距离，更新之前只有willUpdate生命周期，里面记录一下滚动距离， didUpdate中让scrollTop = 此时容器高度 - willUpdate记录的容器高度，达到自动滚动的目的；相当于长度多了多少，滚动条就让它滚多少
+但可能存在一个问题，render\didUpdate里有ajax请求，或者手滚动滚了一下wilUpdate中记录的高度可能已经不对了，willUpdate和disUpdate之间离的比较远，这期间任何组件更新或者手动引起滚动条滚动，willUpdate记录的容器高度就不准确了
+willUpdate不安全，而且记录不准，现在用render和didUpdate之间的getSnapshotBeforeUpdate替换，这个里面记录的高度就非常准确；用了这个新的，willUpdate就不能用了
+getSnapshotBeforeUpdate() {
+    // 必须有返回值，比如记录的高度, 返回的值给后面的生命周期使用
+    return 100
+}
+componentDidUpdate(prevProps, prevState, value) {
+    // 怎么获取前面的100呢, value正是上面传来的返回值
+    // getSnapshotBeforeUpdate是完全为了记录老DOM而生的生命周期
+}
+2. getSnapshotBeforeUpdate-案例
+scrollHeight可以获得容器的滚动高度多少, 或者叫没有高度限制时，能够完全显示子元素时的高度
+scrollHeight 属性是一个只读属性，它返回该元素的像素高度，高度包含内边距（padding），不包含外边距（margin）、边框（border）
+scrollTop可读可写
+<div id="#box" ref={myref} style={{height: "200px", overflow: "scroll"}><ul></ul></div>
+box.scrollHeight
+myref = React.createRef()  // 在react中不建议用原生获取dom方式，而是用绑ref的方式
+componentDidUpdate(prevProps, prevState, value) {
+    return this.myref.current.scrollHeight // 绑到div上就是div节点，绑到组件上就是组件对象
+}
+componentDidUpdate(prevProps, prevState, value) {
+    this.myref.current.scrollHeight // 现在的高度
+    this.myref.current.scrollTop += this.myref.current.scrollHeight - value // 万一之前要有值呢，所以要用+=
+}
