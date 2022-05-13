@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-12 23:52:24
+ * @LastEditTime: 2022-05-13 09:54:16
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -152,18 +152,35 @@ componentDidUpdate(preProps, preState) {
 
 5. 运行阶段2 shouldComponentUpdate
 <div> onClick={ () => {
+    // this.state.name = "aaa" // 如果直接改，相当于上来就把老状态改成最新的值了，SCU里判断的时候都相等了，就直接return false,直接就不更新了
     this.setState({
         name: 'aaa'
     })
 }}
 > </div>
 发现一直点击，render生命周期会一直触发下去，willUpdate和didUpdate也是，即使前后两次状态相同；对比了虚拟DOM，didUpdate等生命周期也走，发现没改变，白白浪费了时间，执行了无所必要的重复工作，最后DOM还没改变;即使不设置值，执行this.setState({})，也会一直重复执行那个过程,react虚拟DOM对比是很浪费性能的,所以就有了shouldComponentUpdate，如果不需要更新就不需要比较虚拟DOM了
-// 面试中问SCU就是它
+// 面试中问SCU就是它， 性能优化函数
 shouldComponentUpdate(nextProps, nextState) { // 能真正做到手动控制react的性能
     // 这里还未更新所以state是老的状态，nextProps、nextState就是新的状态
     if (老状态 !== 新状态) { return true // 那么就允许虚拟DOM创建，并diff }
     // 如果要比较的东西比较多就JSON.stringify(this.state) !== JSON.stringify(nextState)
     return false
 }
+// 更重要的应用场景是在子组件中-案例2
+shouldComponentUpdate(nextProps, nextState) {
+    // 只需要更新上一次相同和这一个不同的两个盒子，也就是只更新上次选中和这次选中的，其他成百上千的盒子不用关心，这样每次父state更新，子Box只需要两个更新
+    if (this.props.current === this.props.index || nextProps.current === nextProps.index) { // 老的current等于老的index
+        return true
+    }
+    return false
+}
+style={{ boder: this.props.current === this.props.index ? "5px solid green":"1px solid gray" }}
+
+<input type="number" onChange={ (evt) => { // type="number"虽然标识是数字类型，但evt.target.value拿到还是字符串所以需要转换一下current: Number(evt.target.value) 
+    this.setState({ current: Number(evt.target.value) }) // 问题来了，每次setSate一次父都会render, 这样每个子Box也会render，而不是只关心变化的两个盒子，所以在子里面加SCU优化性能
+} }>
+this.state.list.map((item, index) => // 箭头函数里省略的return，可以暂时忽略<Box>换不换行的问题，不同于render中return, 这个省略的return 可能和Box在同一行
+<Box key={item} current={this.state.current} index={index} />)
+
 
 
