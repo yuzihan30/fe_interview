@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-13 14:53:48
+ * @LastEditTime: 2022-05-13 16:29:18
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -222,4 +222,36 @@ componentWillUnmount() {
     clearInterval(this.timer)
 }
 
+########## 新生命周期 #########
+1. getDerivedStateFromProps 初始化时代替willMount，父传子时代替receiveProps
+获取衍生的状态从属性上，意思就是把从父获得的属性转化为自己的状态
+第一次初始化和后续更新（自己状态更新或者父传子），相当于销毁不执行，其他都执行了
+怎么用及使用场景
+getDerivedStateFromProps而且是类方法，静态方法，需要在前面加static
+另外要求有状态，且内部返回值（不能是空）
+state = {
+    name: "aaa",
+    age: 16,
+    type: 1
+}
+// 之前用willMount初始化
+static getDerivedStateFromProps(nextProps, nextState) { // 类似于setState在一个事件循环中执行多次可以合并处理， 合并完了在didUpdate当中做一次请求就可以，相比willReceiveProp能解决频繁异步请求的问题
+    // console.log(this.state) // 会报错, 类上的静态方法拿不到实例
+    return { // state中同名的会覆盖掉，不同名的会保存下来
+        // name: "AAA" // 不能写死，写死后面就不能更新了
+        // 适合初始化和更新时执行同一逻辑的场景
+        name: nextState.name.substring(0, 1).toUpperCase() + nextState.name.substring(1),
+        type: nextProps.type
 
+    }
+}
+componentDidUpdate(prevProps, prevState) {
+    // 初次axios扔需要在didMount里写上
+    if (this.state.type === 老的update一样) { return }
+    // 如果在这axios并setState又会引发update死循环，所以在上面要加个判断
+    // 即使axios请求结果出来再更新就会先走上面的判断
+}
+老生命周期和新生命周期不能共存，会报错
+取代老的componentWillReceiveProps时，一个是不能axios请求，因为是异步，return会先返回；也没法在return前进行setState更新，因为this都丢了
+用的时候getDerivedStateFromProps只是把nextProps转化为自己的状态；真正取数据还要配合didMount
+componentWillReceiveProps只要父状态有更新，任何子组件跟状态有无关系都会执行一次更新，这是大问题
