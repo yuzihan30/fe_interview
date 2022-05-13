@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-13 09:54:16
+ * @LastEditTime: 2022-05-13 14:53:48
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -182,5 +182,44 @@ style={{ boder: this.props.current === this.props.index ? "5px solid green":"1px
 this.state.list.map((item, index) => // 箭头函数里省略的return，可以暂时忽略<Box>换不换行的问题，不同于render中return, 这个省略的return 可能和Box在同一行
 <Box key={item} current={this.state.current} index={index} />)
 
+6. 运行中3
+componentWillReceiveProps将要得到属性的时候，名字虽然这样起的，但其实不传props只改父组件的状态也会触发，在什么时候执行及应用场景
+需要先构建父子关系，componentWillReceiveProps放到子组件里
+父组件里state更新，即使没给子组件传props或者props没更新，都会触发componentWillReceiveProps， 因为父state更新->父render执行->子更新
+componentWillReceiveProps(nextProps) { // 因为是在更新阶段的，首次创建时不会被触发
+    // 这里this.props.text是老的属性, 入参nextProps可以拿到最新的，nextProps可以最早拿来父组件传来的属性，可以利用属性进行ajax或者逻辑处理
+    // 或者把父组件的属性转化成孩子自己的状态（不能直接改属性，就可以在这儿将其改成其内部的状态）
+}
+
+componentWillReceiveProps-案例
+电影切换正在热映和即将上映下面的列表页可以是一个组件（子组件根据传的不同type,请求不同的电影列表数据）
+电商分类下的列表页也可以是公用的一个组件
+初始化组件时didMount里根据不同props.type请求不同接口，更新则根据willReceiveProps(nextProps)中nextProps.props.type值的不同发不同请求
+willReceiveProps处于diff更新时找哪些需要更新的阶段，没有正在更新正在渲染阶段的优先级高，所以这个阶段容易被打断，打断之后就会引发重复执行的问题，UNSAFE_componentWillReceiveProps可以消除警告
+axios({url: "", headers:{}}).then()
+
+7. 销毁
+销毁组件的方式，之前用过三目运算符
+{ this.state.isCreated ? <Child> : '' } isCreated修改为false时，Child就不在render中渲染了，不是就移出了嘛
+还可以用&&的方式，这也是一种让一个节点快速创建和删除的方案
+{ this.state.isCreated && <Child> : '' }
+componentDidMount() {
+    // 组件销毁后绑定window窗口的事件还会被触发，而内部的其他事件则被销毁
+    window.onresize = () => {
+        console.log("resize")
+    }
+    // UI视图会用到这个状态才会定义这个状态
+    setIntervale(()=> { // 这个定时器如果销毁前不清除，销毁后还存在
+        console.log("111")
+    }, 1000)
+    // 可以测试一下定义为局部变量时let timer = setInterval会不会销毁
+    // 标准的做法挂到this上，不挂在state上，UI视图会用到这个状态才会定义这个状态
+    this.timer = setInterval // 销毁时清除
+}
+componentWillUnmount() {
+    // 这里把window事件清空
+    window.onresize = null
+    clearInterval(this.timer)
+}
 
 
