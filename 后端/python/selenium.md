@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-13 22:17:26
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-14 11:23:13
+ * @LastEditTime: 2022-05-14 11:52:36
  * @FilePath: /fe_interview/后端/python/selenium.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -40,3 +40,6 @@ wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
 input()可以避免运行完直接结束，当用户输入的时候才能继续后面的操作
 wb.get("https://baidu.com")get打开一个网址, 底层原理就是构建了一个http请求，有时候会发现这个比较耗时，因为包含一路的转发请求返回
 日志和弹出防病毒测试都可以参考网站学习
+pass 辅助断点调试，可以停在这里
+
+4. 选择元素
