@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 14:13:46
- * @LastEditTime: 2022-05-07 14:22:20
+ * @LastEditTime: 2022-05-15 22:43:01
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/css/css题库.md
@@ -65,6 +65,29 @@ opacity设置值0-1，超过范围就近截取，值越大越不透明，图片�
 filter: Alpha(opacity=0-100)， 滤镜可以兼容IE8前版本
 rgba()只作用于元素的颜色或其背景色（设置了rgb(）透明度元素的子元素不会继承其透明效果）
 B站弹幕，语义分割+蒙版（-webkit-mask:url()）, 不过mask现在很多浏览器不支持
+
+############## 图片相关 #################
+1. 什么时候用img，什么时候用background-image
+.img {
+    background-image: url('')
+}
+<img src="" />
+如果图片可能超出显示器尺寸的时候，使用背景图
+如果图片内部还需要编辑内容时，使用背景图
+其他时候优先选择img
+一般来说，作为修饰的不进行操作的图片选择使用background-image，而比较重要的与网页内容相关的就使用img标签。
+
+2. img和background引入图片的区别
+1）是否占位
+background-image是背景图片，是css的一个样式，不占位；
+<img />是dom元素，它是一个图片，是html的一个标签，占位；
+2）是否会被搜索引擎识别
+img会被搜索引擎识别，background不会。所以一些重要的图片内容建议使用img标签引用，一些修饰性的建议使用背景属性引用；
+3）加载顺序问题
+在网页加载的过程中，以css背景图存在的图片background-image会等到结构加载完成（网页的内容全部显示以后）才开始加载，而html中的标签img是网页结构（内容）的一部分会在加载结构的过程中加载；
+img标签作为html标签，使用src引入图片，别的资源会被中断加载；而CSS引用使用href引入，可以与别的资源并行加载。所以img标签会比background-image优先加载
+4）是否可操作
+使用img引用的图片是可以进行另存为，移动和改变src实现图片替换等操作。使用背景属性引用的图片不能进行这些操作。
 
 
 
