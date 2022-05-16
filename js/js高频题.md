@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-16 14:22:00
+ * @LastEditTime: 2022-05-16 19:31:55
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -501,7 +501,45 @@ http2一个站点只有一个连接。每个请求为一个流，每个请求被
 另外有些cdn也可以通过query参数获得模糊的图片，这样我们就可以实现模糊到清晰的渐进加载
 转base64，适用于小图片
 
+########## 异常 #########
+1. try catch缺点：只能捕获同步运行时的错误，不能捕获语法级别的错误和异步错误
+try {
+    let name = "aaa"
+    console.log(nam) 
+} catch(e) {
+    console.log('捕获到异常', e) // 捕获到异常, ReferenceError
+}
+try {
+    let name = "aaa // 不能捕获语法级别的错误, js解析器不会执行下面代码块的，catch不到，window.onerror也捕获不到；开发阶段编辑器一般会帮我们解决语法错误
+    console.log(nam) 
+} catch(e) {
+    console.log('捕获到异常', e) 
+}
+Uncaught SyntaxError:
+try {
+    setTimeout(() => { // 对于异步回调来说它是不属于try catch块的
+        throw new Error('async error')
+    } ,1000) 
+} catch(e) {
+    console.log('捕获到异常', e) 
+}
+Uncaught Error: 
 
+2. window.onerror 能力强一些，属于一种全局捕获的一种方式，同步异步都能捕获到，获取到的信息比较详细（异常信息，异常文件url, 行号，列号，异常堆栈信息；但对于跨域的js资源，window.onerror是拿不到详细信息的，需要往这个资源的头部添加一些额外的信息；需要放到js文件的最前面，放后面的话前面的异常就捕获不到；另外捕获不到网络异常的错误，比如网络静态资源加载的错误
+
+3. window.addEventListener('error') 信息没有window.onerror丰富，常用于捕获网络资源出错的情况，比如监控图片加载异常，js/css加载异常；window.addEventListener和window.onerror同时用的时候注意异常捕获的去重，因为他们都能捕获js异常的错误
+
+4. window.addEventListener('unhandledrejection') 捕获异步错误的一种方式，常用于捕获promise没有去catch的错误；为了捕获漏掉的promise异常，一般要加一个全局异步错误的捕获方式
+
+5. iframe异常， window.frame[0].onerror
+
+6. 崩溃和卡顿
+卡顿就是js不能及时的去执行这些代码，崩溃是网页已经崩了js不运行了
+用load或者beforeload事件，或者service worker来执行网页崩溃的监控
+
+7. 第三方库本身的那种异常捕获能力
+Vue.config.errorHandler 
+React ErrorBoundary
 
 
 
@@ -509,5 +547,6 @@ http2一个站点只有一个连接。每个请求为一个流，每个请求被
 1. pnpm新的依赖管理工具，比npm、yarn快两倍
 
 2. Monorepo单体代码仓库
+
 
 
