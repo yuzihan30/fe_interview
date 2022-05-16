@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-10 15:13:02
+ * @LastEditTime: 2022-05-16 14:22:00
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -98,6 +98,76 @@ e: apply、call调用模式
 4. 判断对象是否有某个属性
 obj.hasOwnProperty() 自身属性  对应getOwnPropertyNames()
 in 自身或者原型链上的属性 对应 for in
+
+########## 变量 ########
+1. function foo() { console.log(x) }
+function bar() { var x = 2; foo(); console.log(x) }
+var x = 1
+foo() // 1
+bar() // 1,2 和python中类似，foo打印的x,取决于foo在那定义，而不是在哪调用；函数的外层作用域取决于在哪定义而不是在哪调用
+foo() // 1
+2.   
+function f(a){
+    a = a+1;
+    alert(a)
+}
+var a =1;
+f(a);
+alert(a)
+依次输出 2,1
+解析：函数外的a是全局变量，函数f中的a是参数a，而不是全局定义里的a，JavaScript中作用域是函数级别的，在f中不管怎么改变参数a，都不会影响全局变量a。
+函数的形参和全局变量重名；既然参数也是局部变量，那函数内部对于a的操作都指向局部变量a影响不了全局变量a,
+3. 
+ function f(a){
+    a[0]=a[0]+1;
+    alert(a[0])
+}
+var a =[1,2];
+f(a);  // 引用数据类型传址
+alert(a[0])
+依次输出 2,2
+4. var 和函数的提前声明
+function fn(a) {
+  console.log(a);
+  var a = 2;
+  function a() {}
+  console.log(a);
+}
+fn(1);
+依次输出 function a(){console.log(a)},2
+解析：var和function是会提前声明的,但是function是优先于var声明的（如果同时存在的话），所以提前声明后输出的a是个function，然后代码往下执行a进行重新赋值了，故第二次输出是2。
+
+5. 
+function fn() {
+    console.log(a)
+    a = 5 
+}
+fn()
+VM1723:2 Uncaught ReferenceError: a is not defined // 说明不带var定义的变量没有变量提升
+
+6. 
+function fn() {
+    console.log(a)
+    let a = 5
+}
+fn()
+VM1850:2 Uncaught ReferenceError: Cannot access 'a' before initialization
+根据报错的提示，是不是可以理解为let定义的变量提升了，但并未初始化，这样也会报错；或者可以理解为let并没有变量提升
+7. 变量提升：当栈内存（作用域）形成，JS代码自上而下执行之前浏览器首先会把所有带“VAR / FUNCTION”
+关键字的进行前的 “声明”和“定义”这种预先处理机制称之为“变量提升”
+【变量提升阶段】
+1、带“VAR”的是只声明未定义
+2、带“FUNCTION”的声明和赋值都完成
+3、变量提升只发生在当前作用域（例如：开始加载页面的时候只对全局作用域下的进行提升 ，因为此时函数中储存的都是字符串而已）
+4、全局作用域下声明的函数或者变量是“全局变量”；同理，在私有作用域下声明的变量是“私有变量”。
+【带VAR 和FUNCTION 的才是声明】
+浏览器做过的事情不会重复第二遍，也就是，当代码执行遇到创建函数这部分代码后，直接的跳过即可（因为在提升阶段就已经完成函数的赋值操作了）
+带var和不带var的区别
+在全局作用域下声明一个变量，也相当于给window全局对象设置了一个属性，变量的值就是属性值（私有作用域中声明的私有变量和window没啥关系）
+在变量提升阶段，在全局作用域中声明了一个变量A，此时就已经把A当做属性赋值给window了只不过此时还没有给A赋值，默认值undefined， in检测某个属性是否属于这个对象。
+私有作用域带var和不带var也有区别
+1、带var的私有作用域变量提升阶段，都声明为私有变量，和外界没有任何关系。
+2、不带var不是私有变量，会向它的上级作用域查找，看是否为上级的变量，不是继续向上查找，一直找到window为止（我们把这种查找机制叫做：作用域链），也就是我们在私有作用域中操作的这个非私有变量，一直是别人的变量。
 
 ########## 函数 ########
 1. js中new函数加不加括号没有区别，浏览器会自动解析不加括号的情况
