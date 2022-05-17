@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-25 13:56:36
- * @LastEditTime: 2022-05-16 14:41:07
+ * @LastEditTime: 2022-05-17 09:56:23
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/后端/python.md
@@ -11,6 +11,12 @@
 3. python删除列表中值，pop()删除末尾值，del(arr[i])删除对应索引元素值，remove(11)删除列表中具体值，都会改变原列表
 4. python中空值None首字母要大写, True\Flase也是首字母大写
 5. python中列表转字符串 ''.join(迭代器), 注意与其他语言的不同， 前提是迭代器中元素需要是str类型
+############## 数据类型bytes #################
+1. 在python中，数据转成2进制后不是直接以010101的形式表示的，而是用一种叫bytes(字节)的类型来表示的。 例如 b'\xe8\x87\xaa\xe5
+bytes类型是指一堆字节的集合，在python中以b开头的字符串都是bytes类型。
+b'\xe5\xb0\x8f\xe7\x8c\xbf\xe5\x9c\x88'
+b开头的都代表是bytes类型，是以16进制来显示的，2个16进制代表一个字节。
+utf-8是3个字节代表一个中文，所以以上正好是9个字节
 ############## 列表 #################
 1. python中删除列表元素的方法
 1）remove: 删除单个元素，删除首个符合条件的元素，按值删除

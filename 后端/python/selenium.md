@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-13 22:17:26
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-14 11:52:36
+ * @LastEditTime: 2022-05-17 09:34:29
  * @FilePath: /fe_interview/后端/python/selenium.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -43,3 +43,28 @@ wb.get("https://baidu.com")get打开一个网址, 底层原理就是构建了一
 pass 辅助断点调试，可以停在这里
 
 4. 选择元素
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By // 版本4推荐写法
+
+# 创建 WebDriver 对象
+wd = webdriver.Chrome()
+# 调用WebDriver 对象的get方法 可以让浏览器打开指定网址
+wd.get('https://www.byhy.net/_files/stock1.html')
+# 根据id选择元素，返回的就是该元素对应的WebElement对象
+element = wd.find_element(By.ID, 'kw') // 版本4推荐写法
+# 通过该 WebElement对象，就可以对页面元素进行操作了
+# 比如输入字符串到 这个 输入框里
+element.send_keys('通讯\n')
+```
+如果根据 传入的ID，找不到这样的元素，find_element 方法就会抛出 selenium.common.exceptions.NoSuchElementException 异常， 那就试试捕获
+from selenium.common.exception import NoSuchElementException
+try:
+    element = wd.find_element(By.ID, 'kw') // 自动化最难的就是定位元素
+exception NoSuchElementException:
+    xxx
+程序执行完了，发现没停，是因为驱动在运行，可以任务管理器里讲驱动退出
+wd.quit() // 正常退出
+
+
+
