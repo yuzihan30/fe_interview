@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 09:51:39
- * @LastEditTime: 2022-04-09 16:57:45
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-17 12:20:21
+ * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js题库.md
 -->
@@ -61,3 +61,8 @@ Math.round(1.578)
 2
 1.278.toPrecision(2)
 '1.3'
+
+########## 字符串 #########
+1. js字符串转数组，'a,b,c'.split(',') ,python中一样
+js中数组转字符串，['a', 'b', 'c'].join(','), python中','.join(['a', 'b', 'c'])
+js是A转B，都是调用A的方法，而python中都是调用字符串的方法

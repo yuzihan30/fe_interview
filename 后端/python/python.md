@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-25 13:56:36
- * @LastEditTime: 2022-05-17 09:56:23
+ * @LastEditTime: 2022-05-17 21:33:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/后端/python.md
@@ -123,6 +123,22 @@ print(id(copied_list))
 4)列表生成式
 copied_list=[i for i in original_list]，效果同上
 
+4. 列表排序
+1）列表对象提供了sort()方法用于对原列表中的元素进行排序。排序以后，原列表中的元素顺序将发生改变。列表对象的sort()方法的语法格式如下：
+listname.sort(key=None,reverse=False)
+key：表示指定一个从每个列表元素中提取一个比较键。（列如，设置“key=str.lower”表示在排序时不区分字母的大小写）。reverse：可选参数，如果将其值指定为True，则表示降序排序；如果将其指定为False，则表示升序排列。默认为升序排列。使用sort()方法除了可以对数值进行排序，还可以多字符串进行排序。对字符串进行排序默认区分大小写，如果想不区分大小写，则需要指定其key参数。不能直接使用sort()方法对中文列表排序
+s.sort(reverse=True) 
+s.sort(key=str.lower)
+2）在Python中，提供了一个内置的sorted()函数，用于对列表进行排序。使用该函数进行排序后，原列表的元素顺序不变。sorted()函数的语法格式如下：
+sorted(iterable,key=None,reverse=False)
+相关的参数说明如下：
+iterable：表示要进行排序的列表。
+列表对象的sort()方法和sorted()函数的作用基本相同。不同的地方有以下两点：
+a、sort()方法只能处理列表类型数据的排序；sorted()函数则可以处理多种类型数据的排序。
+b、sort()方法会修改原来的列表的元素的排序；sorted()函数不会修改原来的数据，会建立一个原列表的副本，只是返回一个排序后的列表。
+3）使用列表的reverse()方法进行反向排序
+会改变原列表，相当于列表反转
+
 ############## 变量 #################
 1. 局部变量和全局变量
 1）局部变量
@@ -231,6 +247,9 @@ outer()
 输出结果：
 inner 函数中 x 的值为 20
 outer 函数中 x 的值为 20
+############## 函数 #################
+1. 函数在调用之前需要先定义
+函数内调用另一个函数不受此条规则限制，但函数外调用扔要在这俩函数之后调用
 
 ############## 类 #################
 1. 私有方法，方法名前下划线标识
