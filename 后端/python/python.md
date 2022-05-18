@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-25 13:56:36
- * @LastEditTime: 2022-05-17 21:33:34
+ * @LastEditTime: 2022-05-18 13:41:11
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/后端/python.md
@@ -255,4 +255,28 @@ outer 函数中 x 的值为 20
 1. 私有方法，方法名前下划线标识
 
 2. 类内定义方法，第一个参数为self，类内方法相互调用或者自己调动自己需要self.方法
+
+############## 常用方法 #################
+1. python交换两个变量的值方法
+1）大部分语言，例如c语言，交换两个变量的值需要使用中间变量。
+例如交换a,b
+伪代码：
+tmp = a
+a = b
+b = tmp
+python里面可以实现无临时变量的交换
+(a,b) = (b,a)
+对于它的交换原理我深感好奇，因为这意味着python解释器很有可能做了件更多的工作。
+如果说变量可以直接交换，那么列表的元素呢？
+lists[i], lists[j] =lists[j], lists[i]
+是否可以实现列表i,j元素的互换，如果可以实现，原理是什么？
+可以实现交换，至于原理，可以用id查看变量或元素的地址。因为python中的变量名类似于指针指向了某个地址，其交换也就是指向改变了。
+2）相加
+a = a + b
+b = a - b
+a = a - b
+3)异或法
+a = a ^ b
+b = a ^ b
+a = a ^ b 
 
