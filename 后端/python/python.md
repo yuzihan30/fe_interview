@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-25 13:56:36
- * @LastEditTime: 2022-05-18 13:41:11
+ * @LastEditTime: 2022-05-18 19:38:54
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/后端/python.md
@@ -11,6 +11,28 @@
 3. python删除列表中值，pop()删除末尾值，del(arr[i])删除对应索引元素值，remove(11)删除列表中具体值，都会改变原列表
 4. python中空值None首字母要大写, True\Flase也是首字母大写
 5. python中列表转字符串 ''.join(迭代器), 注意与其他语言的不同， 前提是迭代器中元素需要是str类型
+############## 空值 #################
+1. not [""] == False, not [] == True
+############## 字符串 #################
+1. python中没有直接的方法对字符串进行排序,原因是字符串类型是不允许直接修改元素的。 因此字符串排序的主要方法是将字符串转换成字符数组, 然后借用sorted函数进行排序, 最后用join方法重新拼装字符串。
+2. 'abc'.split()得到['abc']， 但不能'abc'.split(''), 不传参的话默认以空格区分
+注意和js区分:
+'abc'.split()
+['abc']
+'abc'.split('')
+(3) ['a', 'b', 'c']
+3. Python3 字典 values() 方法返回一个视图对象。
+dict.keys()、dict.values() 和 dict.items() 返回的都是视图对象（ view objects），提供了字典实体的动态视图，这就意味着字典改变，视图也会跟着变化。
+视图对象不是列表，不支持索引，可以使用 list() 来转换为列表。
+我们不能对视图对象进行任何的修改，因为字典的视图对象都是只读的。
+
+############## 字典 #################
+1. 键必须是唯一的，但值则不必。
+值可以取任何数据类型，但键必须是不可变的，如字符串，数字或元组
+
+2. 字典有一些内置函数和内置方法
+内置函数是将字典作为参数，比如len(dict)、str(dict)、type(dict), 内置方法是将字典作为调用者,比如dict.clear()、dict.copy()、in操作符判断键是否存在字典中（not in就是不在）
+
 ############## 数据类型bytes #################
 1. 在python中，数据转成2进制后不是直接以010101的形式表示的，而是用一种叫bytes(字节)的类型来表示的。 例如 b'\xe8\x87\xaa\xe5
 bytes类型是指一堆字节的集合，在python中以b开头的字符串都是bytes类型。
