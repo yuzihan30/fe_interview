@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-05-08 20:11:17
+ * @LastEditTime: 2022-05-19 09:30:54
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
@@ -42,7 +42,11 @@ git merge B 和git rebase B都是将B分支合并到当前分支
 10. 删除最后一次提交：
 需要删除已push的提交（适用于个人开发分支，不适合公共开发分支）：git reset HEAD^ --hard, git push -f [remote][branch]; 对于公共分支，为了避免影响他人，使用git revert ID
 未push: git reset --soft HEAD@{1}
+########## 合并分支 ########
+1. git rebase
+feature1: git rebase master 拉最新的main分支代码和并到开发分支feature1，之后feature1测试完毕后，更新到main，也需要在main分支执行：git rebase feature1
 
+git rebase --abort把最近的一次rebase撤销
 
 ########## Monorepos ########
 Monorepo是指将所有代码放到一个代码仓库中的项目管理策略
