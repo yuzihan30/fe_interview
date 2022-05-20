@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-11 08:18:45
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-20 15:53:06
+ * @LastEditTime: 2022-05-20 18:31:44
  * @FilePath: /fe_interview/react/react2.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -295,3 +295,66 @@ PureComponent相当于把SCU的优化自动化了
 
 ## 轮播组件案例
 基于swiper.js封装react轮播组件
+1. 同步方式
+import Swiper, { Navigation, Pagination } from 'swiper'
+import 'swiper/swiper-bundle.min.css'
+Swiper.use([Navigation, Pagination])
+
+state = {
+    list: ['111', '222', '333'] 
+}
+
+或者
+import Swiper from 'swiper/bundle' // 这样就会自动引入圆点导航
+
+2. 异步方式
+state = {
+    list: [] 
+}
+componentDidMount() {
+    setTimeout(() => {
+        this.setState({
+            list: ['aaa', 'bbb', 'ccc']
+        })
+    }, 1000)
+    // new Swiper()
+}
+componentDidUpdate() {
+    new Swiper('.swiper', {
+        pagination: '.swiper-pagination'
+    })
+}
+另一种方案，异步里面setState会同步更新
+componentDidMount() {
+    setTimeout(() => {
+        this.setState({
+            list: ['aaa', 'bbb', 'ccc']
+        })
+        new Swiper()
+    }, 1000)
+    // new Swiper()
+}
+
+3. 封装swiper组件
+提高复用性，swiper官网已经封装了swiper的react组件，这里我们自己尝试封装
+<KSwiper>
+    // <div className="swiper-slide">111</div> // 这样不好，外面传入的东西越少越好
+    <KSwiperItem></KSwiperItem>
+    <KSwiperItem></KSwiperItem>
+    <KSwiperItem></KSwiperItem>>
+<KSwiper/>
+KSwiper:
+<div className="swiper-wrapper">
+    { this.props.children }
+</div>
+KSwiperItem:
+<div className="swiper-slide">
+    { this.props.children }
+</div>
+怎么请求数据的问题也开放给使用者
+<KSwiper>
+    {
+        this.state.list.map(item => <KSwiperItem k={item}>{item}// 也可以放图片等</KSwiperItem>
+        )
+    }
+<KSwiper/>
