@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-14 16:59:40
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-14 17:07:35
+ * @LastEditTime: 2022-05-20 21:46:24
  * @FilePath: /fe_interview/工具/mac.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -16,3 +16,5 @@ mac下，有个locate命令，它自动建立和维护文件的索引，所以�
 mdfind 命令也很好用
 mdfind -name xxx
 不同命令对应不同应用场景，可以多试试，多测测
+
+2. mac M1芯片就是arm64架构
