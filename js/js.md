@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 09:51:39
- * @LastEditTime: 2022-05-18 11:41:46
+ * @LastEditTime: 2022-05-20 15:06:39
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js题库.md
@@ -74,3 +74,12 @@ Object.assign（）合并对象时，若存在键名相同，值不同，则以�
 1. js字符串转数组，'a,b,c'.split(',') ,python中一样
 js中数组转字符串，['a', 'b', 'c'].join(','), python中','.join(['a', 'b', 'c'])
 js是A转B，都是调用A的方法，而python中都是调用字符串的方法
+
+## 变量
+#### 1. 变量赋值
+给两个变量同时赋值，会先赋值左边第一个，再赋值第二个
+```javascript
+cache = import.meta.hot.data.cache = {
+    amount: import.meta.hot.data.cache ? import.meta.hot.data.cache.account : 0
+}
+```

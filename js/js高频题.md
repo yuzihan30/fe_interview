@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-16 19:31:55
+ * @LastEditTime: 2022-05-20 16:19:07
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -213,6 +213,9 @@ umd是commonjs和amd的结合，支持node和浏览器端
 3. <script type="module"> 
 允许在script标签内执行import和export操作，或者src里引入包含import导入的js文件
 
+4. import from 和import区别
+import from 是静态的，会被js引擎静态分析，先于模块内其他语句先执行，不能放到if判断或者函数里（会句法报错），所以要放在文件顶部。
+import()是动态的，js执行时才会导入； 而且是异步的，返回一个Promise, 可以和await结合使用；和commonjs的require()很像，只是require()是同步加载的
 
 ########## http协议 #########
 1. cookie属性：名、值、域名、路径、大小、httponly(为true, http请求头会有cookie信息，但不能通过document.cookie访问)、secure(设置是否只能通过https传递)、expires/Max-Age(不设置的话默认和session一起失效，浏览器关闭失效)
