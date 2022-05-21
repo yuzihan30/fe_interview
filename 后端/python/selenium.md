@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-13 22:17:26
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-17 09:34:29
+ * @LastEditTime: 2022-05-21 10:36:02
  * @FilePath: /fe_interview/后端/python/selenium.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -65,6 +65,101 @@ exception NoSuchElementException:
     xxx
 程序执行完了，发现没停，是因为驱动在运行，可以任务管理器里讲驱动退出
 wd.quit() // 正常退出
+
+## 5. 示例
+```python
+from selenium import webdriver
+
+# 字符串前加'r'表示非转义的原始字符串，这里不加应该也行，主要针对反斜杠那种转义字符
+# 执行这段代码会启动浏览器驱动及浏览器，用wd来操控浏览器，通常第一步就是打开网址
+wd = webdriver.Chrome(r'/Users/yuzihan/Downloads/chromedriver')
+
+# 设置隐藏等待时间, 每隔固定半秒间隔去找某个元素一次。超过10s找不到就抛异常
+wd.implicitly_wait(10)
+
+# 打开命令会发给浏览器驱动
+# wd.get('http://python3.vip')
+wd.get('http://www.baidu.com')
+
+element = wd.find_element_by_id('kw')
+
+# \n相当于敲回车键
+# element.send_keys('NFT\n')
+# element.send_keys('NFT')
+element.send_keys('python\n')
+
+# 找到元素，操作元素
+# search_btn = wd.find_element_by_id('su')
+# search_btn.click()
+
+# import time
+#
+# time.sleep(1)
+
+element = wd.find_element_by_id('1')
+# find_elements,找不到不会抛异常，而是返回空列表
+# element = wd.find_elements_by_id('1')
+# print(element.text)
+# print(element.get_attribute('srcid'))
+print(element.get_attribute('outerHTML'))
+
+# 对于输入框不能用.text获取内容，需要用get_attribute('value')
+# 获取元素文本内容，有时内容没有或者没有完全展示界面上，这个.text可能不行，
+# 就需要get_attribute('innerText'), get_attribute('textContent')
+# 获取整个元素对应的html, 'outerHTML'
+# 关闭本次打开的浏览器窗口和驱动
+wd.quit()
+
+# pass主要作用就是占位，让代码整体完整
+pass
+```
+## 等待元素出现
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+# 创建 WebDriver 对象
+wd = webdriver.Chrome()
+
+# 调用WebDriver 对象的get方法 可以让浏览器打开指定网址
+wd.get('https://www.byhy.net/_files/stock1.html')
+
+# 根据id选择元素，返回的就是该元素对应的WebElement对象
+element = wd.find_element(By.ID, 'kw')
+
+# 通过该 WebElement对象，就可以对页面元素进行操作了
+# 比如输入字符串到 这个 输入框里
+element.send_keys('通讯\n')
+
+element = wb.find_element(By.ID, 'go')
+element.click()
+
+// 查询返回结果需要时间，如果结果还没返回就执行查询操作就会报错, 解决方案可以让后面操作先等一等
+import time
+time.sleep(1)
+// 上面方案的缺点就是万一等的时间不够呢，另一种方案就是循环
+// element = wb.find_element(By.ID, '1')
+// print(element.text)
+while True:
+    try:
+        element = wb.find_element(By.ID, '1')
+        print(element.text)
+        break
+    except:
+        // 这里也不能太快，不然也很耗CPU
+        time.sleep(1)
+// 第二种方案繁琐了，selenium内置了一种方法叫隐式等待
+// 就是刚创建好浏览器对象的时候加上
+// wb = webdriver.Chrome()
+// wb.implicitly_wait(10)
+//那么后续所有的 find_element 或者 find_elements 之类的方法调用 都会采用上面的策略：
+//如果找不到元素， 每隔 半秒钟 再去界面上查看一次， 直到找到该元素， 或者 过了10秒 最大时长。
+
+wb.quit()
+
+```
+## 操控元素
+
 
 
 
