@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 20:01:34
- * @LastEditTime: 2022-05-23 18:21:55
+ * @LastEditTime: 2022-05-23 18:58:07
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/threejs.md
@@ -124,6 +124,31 @@ function init() {
     window.requestAnimationFrame(render)
 }
 window.onLoad = init
+```
 
+## 鼠标控制三维场景
+需要引入相机控制器
+// OrbitControls需要比较新的版本的threejs的支持
+<script src="../libs/js/controls/OrbitControls.js"></script>
+```javascript
+// 新版本材质需要用standard
+var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xCCCCCC }) 
 
+// 阴影如果出现马赛克，那是因为精度未设置
+// 加聚光灯的扩散范围
+spotLight.angle = Math.PI / 10
+// 设置衰减光锥的百分比
+spotlight.penumbra = 0.05
+spotLight.shadow.map.width = 1024
+spotLight.shadow.map.innerHeight = 1024
+// 再设置一下产生阴影的衰减情况
+
+// ...
+renderer.render(scene, camera)
+// 创建controls对象; 因为是相机控制器需要传入相机;还要传入渲染控件
+var controls = new THREE.OrbitControls(camera, renderer.domElement)
+// 监听控制器的鼠标事件，执行渲染内容,放大缩小也能做到
+controls.addEventListener('change', () => {
+    renderer.render(scene, camera)
+})
 ```
