@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-13 21:23:02
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-13 22:03:42
+ * @LastEditTime: 2022-05-23 16:51:26
  * @FilePath: /fe_interview/后端/python/fastAPI.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -31,3 +31,8 @@ def process_time(items: List[str]): //列表里元素是字符串类型, 还可�
 Pydantic是一个基于Python类型提示来定义数据验证、序列化和文档（使用JSON模式）库
 Starlette(小星星)是一种轻量级的ASGI框架/工具包，是构建高性能Asyncio服务的理想选择（支持websocket, GraphQL,后台任务,启动关闭事件,session,cookie,测试覆盖率），其实就是基于python3.6版本的异步web框架
 faskAPI就是基于Starlette，并充分利用Pydantic（基于python语言的type hint）, 再引入一些新的内容
+
+3. 如果你将带有「默认值」的参数放在没有「默认值」的参数之前，Python 将会报错
+
+4. 传递 * 作为函数的第一个参数。
+Python 不会对该 * 做任何事情，但是它将知道之后的所有参数都应作为关键字参数（键值对），也被称为 kwargs，来调用。即使它们没有默认值。？
