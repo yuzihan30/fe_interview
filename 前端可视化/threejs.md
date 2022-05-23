@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 20:01:34
- * @LastEditTime: 2022-05-23 17:39:47
+ * @LastEditTime: 2022-05-23 18:21:55
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/threejs.md
@@ -99,8 +99,31 @@ function init() {
     document.getElementById('webglOutput').appendChild(renderer.domElement)
     renderer.render(scene, camera)
 
-
-
+    // 定义一个渲染函数
+    // function render() {
+    //     renderer.render(scene, camera)
+    //     // 每次渲染需要修改,每次绕y轴旋转0.01弧度
+    //     cube.rotate(0.01)
+    //     // 电脑一次渲染60帧，大概一帧16ms
+    // }
+    // setInterval(render, 16)
+    // 定时器可能出现卡帧的情况，对性能要求不高的时候可以这样实现，优化一下
+    let T0 = new Date()
+    function render() {
+        let T1 = new Date()
+        let t = T1 - T0
+        T0 = T1
+        renderer.render(scene, camera)
+        // 每次渲染需要修改,每次绕y轴旋转0.01弧度
+        // 每1毫秒渲染0.001弧度
+        cube.rotate(0.001 * t)
+        // 电脑一次渲染60帧，大概一帧16ms
+        window.requestAnimationFrame(render)
+    }
+    // 它能很好的利用浏览器的性能进行渲染, 它不是一个立即调用的函数，它是向浏览器发起一个请求;下次有足够时间了请求浏览器渲染；渲染完了再去请求下次有空闲时间了继续执行
+    window.requestAnimationFrame(render)
 }
 window.onLoad = init
+
+
 ```
