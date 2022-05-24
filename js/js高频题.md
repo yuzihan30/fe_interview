@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-20 16:58:41
+ * @LastEditTime: 2022-05-24 15:11:01
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -199,7 +199,7 @@ Vue中的nextTick就是下轮宏任务开启之后要执行的操作，created�
 
 
 ########## 模块化相关 #########
-1. export 和 export default的去别：
+1. export 和 export default的区别：
 export可以先定义再导出，也可以直接导出，导入时import {x, y} from module或者import * as obj from module
 export default只能直接导出且只能存在一个，导入时import x(这个名字可以和默认导出的不同) from module
 二者在一个文件里不要同时使用
@@ -209,6 +209,52 @@ export default只能直接导出且只能存在一个，导入时import x(这个
 amd: RequireJS实现;RequireJS 想成为浏览器端的模块加载器，同时也想成为 Rhino / Node 等环境的模块加载器;尝试让第三方库修改自身来支持RequireJS；没有明显的bug；源码中预留接口的形式;依赖前置，加载完模块后执行回调，不阻塞后续代码的执行
 cmd: SeaJS实现，专注于web浏览器端，通过web扩展的方式可以支持node服务器端；SeaJS自主封装;明显没有bug;SeaJS通过插件对调试支持程度好；就近依赖
 umd是commonjs和amd的结合，支持node和浏览器端
+ES6 module: ES6 模块的设计思想是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西;ES6模块化在浏览器和node.js中都可以用;在node.js使用模块化，需要将 CommonJS 脚本的后缀名都改成.cjs，ES6 模块采用.mjs后缀文件名。或者修改package.son里面的文件，type字段为module或commonjs；CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。注意：CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值，ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块；ES6 模块的import命令是异步加载，有一个独立的模块依赖的解析阶段。
+```javascript
+// lib.js
+var counter = 3;
+function incCounter() {
+  counter++;
+}
+module.exports = {
+  counter: counter,
+  incCounter: incCounter,
+};
+
+// main.js
+var mod = require('./lib');
+
+console.log(mod.counter);  // 3
+mod.incCounter();
+console.log(mod.counter); // 3
+//lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。
+//这是因为mod.counter是一个原始类型的值，会被缓存。
+//除非写成一个函数，才能得到内部变动后的值。
+// lib.js
+var counter = 3;
+function incCounter() {
+  counter++;
+}
+module.exports = {
+  get counter() {
+    return counter
+  },
+  incCounter: incCounter,
+};
+
+///////////////////// ES6 /////////////////////
+// lib.js
+export let counter = 3;
+export function incCounter() {
+  counter++;
+}
+
+// main.js
+import { counter, incCounter } from './lib';
+console.log(counter); // 3
+incCounter();
+console.log(counter); // 4
+```
 
 3. <script type="module"> 
 允许在script标签内执行import和export操作，或者src里引入包含import导入的js文件
@@ -223,7 +269,88 @@ umd是commonjs和amd的结合，支持node和浏览器端
   ]
 }
 ```
+Node.js 要求 ES6 模块采用.mjs后缀文件名。如果不希望将后缀名改成.mjs，可以在项目的package.json文件中，指定type字段为module。{
+   "type": "module"
+}
+Node.js 要求 ES6 模块采用.cjs后缀文件名。
+如果不希望将后缀名改成.cjs，可以在项目的package.json文件中，指定type字段为commonjs。
+{
+   "type": "commonjs"
+}
 - react组件中css文件导入用的import区别于js的import
+
+5. commonjs
+（1）每个模块内部，module 变量代表当前模块。
+（2）module 变量是一个对象，它的 exports 属性（即 module.exports）是对外的接口。
+（3）加载某个模块，其实是加载该模块的 module.exports 属性。require() 方法用于加载模块。
+commonjs的运行时加载
+// CommonJS模块
+let { stat, exists, readfile } = require('fs');
+// 等同于
+let _fs = require('fs');
+let stat = _fs.stat;
+let exists = _fs.exists;
+let readfile = _fs.readfile;
+以上代码的实质是整体加载fs模块（即加载fs的所有方法），生成一个对象（_fs），然后再从这个对象上面读取 3 个方法。这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。
+
+6. ES6module的静态加载或者编译时加载
+import { stat, exists, readFile } from 'fs';
+这个代码的实质是从fs模块加载 3 个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。当然，这也导致了没法引用 ES6 模块本身，因为它不是对象。
+
+7. ES6用法
+export 暴露方式，3种：
+- 分别暴露
+// 分别暴露, m1.js, m1.js
+export let school = 'gc';
+
+export function teach() {
+    console.log("m1--我们可以教给你很多东西！");
+};
+- 统一暴露, m2.js
+let school = 'gc';
+function findJob() {
+    console.log("m2---我们可以帮助你找工作!!");
+};
+export {school, findJob};
+- 默认暴露, m3.js
+export default {
+    school: 'ATLUCA',
+    change: function(){
+        console.log("m3---我们可以改变你!!");
+    }
+}
+
+import 导入方式，3种
++ 通用的导入方式
+// 引入 m1.js 模块内容
+import * as _m1 from "js/m1.js";
+_m1.teach();
+// 引入 m2.js 模块内容
+import * as _m2 from "js/m2.js";
+_m2.findJob();
+console.log(_m2.school);
+// 引入 m3.js
+import * as _m3 from "js/m3.js";
+console.log(_m3);
+_m3.default.change();
++ 解构赋值形式
+// 引入 m1.js 模块内容
+import {school, teach} from "js/m1.js";
+console.log(school);
+// 引入 m2.js 模块内容
+// (1)如果导入的多个文件中，变量名字相同，即会产生命名冲突的问题，
+// (2)为了解决该问题， ES6为提供了重命名的方法。
+// (3)此处的school与m1.js的命名相同，所以此处的school改为gc
+import {school as gc, findJob} from "js/m2.js";
+console.log(findJob);
+// 引入 m3.js 模块内容
+import {default as _m3} from "js/m3.js";
+console.log(_m3);
++ 简便形式, 只针对于默认暴露
+import _m3 from "js/m3.js";
+console.log(_m3);
+
+
 
 ########## http协议 #########
 1. cookie属性：名、值、域名、路径、大小、httponly(为true, http请求头会有cookie信息，但不能通过document.cookie访问)、secure(设置是否只能通过https传递)、expires/Max-Age(不设置的话默认和session一起失效，浏览器关闭失效)

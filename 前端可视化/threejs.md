@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 20:01:34
- * @LastEditTime: 2022-05-24 09:51:16
+ * @LastEditTime: 2022-05-24 11:46:32
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/threejs.md
@@ -158,6 +158,10 @@ canvas {
     background-image: url(imgs/star.jpg);
     background-size: cover
 }
+.label {
+    color: #fff;
+    font-size: 16px;
+}
 ```javascript
 <script type="module">
 import * as THREE from '../libs/build/three.module.js'
@@ -226,6 +230,22 @@ function init() {
     earth.receiveShadow = true
     scene.add(earth)
 
+    // 创建标签
+    const earthDiv = document.createElement('div')
+    earthDiv.className = 'label'
+    earthDiv.textContent = 'Earth'
+    const earthLabel = new CSS2DObject(earthDiv)
+    earthLabel.position.set(0, EARTH_RADIUS + 0.5, 0)
+    earth.add(earthLabel)
+
+    // 创建标签
+    const moonDiv = document.createElement('div')
+    moonDiv.className = 'label'
+    moonDiv.textContent = 'Moon'
+    const moonLabel = new CSS2DObject(moonDiv)
+    moonLabel.position.set(0, MOON_RADIUS + 0.5, 0)
+    moon.add(moonLabel)
+
     // 创建渲染器
     let renderer = new THREE.WebGLRender({
         alpha: true // 设置透明，就能看到背景图了
@@ -236,6 +256,13 @@ function init() {
     // 渲染阴影
     renderer.shadowMap.enabled = true
     document.body.appendChild(renderer.domElement)
+
+    // 创建标签渲染器
+    labelRenderer = new CSS2DRenderer()
+    labelRenderer.setSize(window.innerWidth, width.innerHeight)
+    labelRenderer.domElement.style.position = 'absolute'
+    labelRenderer.domElement.style.top = '0px'
+    document.body.appendChild(labelRenderer.domElement)
 
     // 绑定控制器和摄像头
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -251,14 +278,9 @@ function animate() {
     // 绕某个轴，每毫秒旋转多少度
     earth.rotateOnAxis(axis, (elapsed - oldTime) * Math.PI / 10)
     renderer.render(scene, camera)
+    labelRenderer.render(scene, camera)
     oldTime = elapsed
     requestAnimationFrame(animate)
-
-    // 创建标签
-    const earthDiv = document.createElement('div')
-    earthDiv.className = 'label'
-    earthDiv.textContent = 'Earth'
-    
 }
 init()
 animate()
@@ -272,3 +294,5 @@ window.onresize = function() {
 }
 </script>
 ```
+
+## 导弹飞行3D效果和AI插件
