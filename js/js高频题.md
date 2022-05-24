@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-24 15:11:01
+ * @LastEditTime: 2022-05-24 16:10:54
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -350,6 +350,79 @@ console.log(_m3);
 import _m3 from "js/m3.js";
 console.log(_m3);
 
+8. ES module如果只想运行某个模块中的代码，不想得到其中导出的内容，可以直接运行，import 'xx.js'
+
+9. import / export 的限制
+注意，import / export语句只能在代码的最外层执行，不能在其他作用域内执行，下面的代码会报语法错误
+const a = 10
+if(true) {
+   export a;
+}
+同样下面的import语句也会报语法错误
+function importSum() {
+   import { sum } from './cal.js';
+}
+产生错误的原因是，ES6的import / export只能通过静态方式确定导入或者导出的内容，无法动态引入模块。
+但在ES2020中引入了import()函数，可以支持动态导入模块。
+
+10. ES6module重新导出
+重新导出导入的模块
+import { sum } from './math.js';
+export { sum };
+下面这个语法等同于上面
+export { sum } from './math.js';
+我们也可以使用别名进行重新导出
+export { sum as add } from './math.js';
+重新导出所有，我们可以使用*号
+export * from './cal.js';
+有的同学可能不知道这重新导出有什么作用，其实这作用还挺大的，比如我们写了20个组件，我们不想写20条import语句，只想写1条import语句，那么我们就可以建一个中间文件将这个20个组件引入，然后全部导出，然后我们在用的时候就一条import语句就好了，可以参考ant design的组件库的写法。
+
+// 参考：https://github.com/vueComponent/ant-design-vue/blob/next/components/index.ts
+
+import * as components from './components';
+import { default as version } from './version';
+export * from './components';
+
+11. 匿名导入
+有时，我们会开发一个不需要指定名称导入的模块，如果我们想给原生Array增加一个方法
+// array.js
+if (!Array.prototype.contain) {
+  Array.prototype.contain = function(e) {
+    // ...
+  }
+}
+接着，我们直接去import该模块，然后使用数组的contain方法
+import './array.js';
+[1,2,3].contain(2); // true
+
+12. 默认导出
+一个模块只能有一个默认导出，一般来说默认导出更容易被导入，因为我们不需要再去看导入的变量、函数或者类的名称就可以导入，一般来说一个模块若只有一个导出我们可以使用默认导出。
+下面的 sort.js模块默认导出一个函数
+// sort.js
+export default function(arr) {
+  // 给数组排序
+}
+使用sort.js模块
+import sort from './sort.js';
+sort([2,1,3]);
+引入的sort就相当于sort.js模块中导出的默认函数。
+同样，在有默认导出的同时我们也可以导出其他函数
+// sort.js
+export default function(arr) {
+  // 给数组排序
+}
+export function heapSort(arr) {
+  // 堆排序
+}
+要从模块中导入默认导出和非默认导出我们要遵循下面的规则
+首先，默认导出要在最前面
+其他非默认导出，在后面用花括号导入
+比如这样
+import sort, { heapSort } from './sort.js';
+sort([2,1,3]);
+heapSort([3,1,2]);
+如果要别名默认导出，我们也可以使用as关键字，像这样
+import { default as quicksort, heapSort} from './sort.js';
 
 
 ########## http协议 #########
