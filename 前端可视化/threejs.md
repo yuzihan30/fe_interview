@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 20:01:34
- * @LastEditTime: 2022-05-23 18:58:07
+ * @LastEditTime: 2022-05-24 09:51:16
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/threejs.md
@@ -151,4 +151,124 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement)
 controls.addEventListener('change', () => {
     renderer.render(scene, camera)
 })
+```
+## 地月环绕案例
+这次使用模块化的方式导入
+canvas {
+    background-image: url(imgs/star.jpg);
+    background-size: cover
+}
+```javascript
+<script type="module">
+import * as THREE from '../libs/build/three.module.js'
+import { OrbitControls } from '../libs/jsm/OrbitControls.js'
+// 文字这些是2D渲染,导入css 2D渲染器和css 2D对象, 从js模块化的渲染器导入
+import { CSS2DRenderer, CSS2DObject } from '../libs/jsm/renderers/CSS2DRenderer.js'
+
+// 声明全局变量，比如标签渲染器
+let camera, scene, renderer, labelRenderer;
+let moon, earth;
+// 声明了时间，方便后面更好的渲染
+let clock = new THREE.Clock()
+// 实例化纹理加载器
+const textureLoader = new THREE.TextureLoader()
+
+// 设置初始化函数
+function init() {
+    // 地球和月球半径大小
+    const EARTH_RADIUS = 2.5
+    const MOON_RADIUS = 0.27
+    // 初始化相机
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 2000)
+    camera.position.set(10, 5, 20)
+
+    // 实例化场景
+    var scene = new THREE.Scene();
+    // 设置聚光灯光源
+    var dirLight = new THREE.SpotLight(0xffffff) //白色
+    dirLight.position.set(0, 0, 10)
+    dirLight.intensity = 2 // 设置强度
+    dirLight.castShadow = true // 灯光要投射出阴影
+    scene.add(dirLight) // 添加到场景中
+    // 添加环境光
+    const aLight = new THREE.AmbientLight(0xffffff)
+    aLight.intensity = 0.3 // 光的亮度调节
+    scene.add(aLight)
+
+    // 创建月球，16 * 16的网格比较精细
+    const moonGeometry = new THREE.SphereGeometry(MOON_RADIUS, 16, 16)
+    // Phong可以实现高光
+    const moonMaterial = new THREE.MeshPhongMaterial({ 
+        map: textureLoader('textures/planets/moon_1024.jpg')
+     })
+    moon = new THREE.mesh(moonGeometry, moonMaterial)
+    // 给月球设置接收投影、设置阴影
+    moon.castShadow = true
+    moon.receiveShadow = true
+    scene.add(moon)
+
+    // 创建地球
+    const earthGeometry = new THREE.SphereGeometry(EARTH_RADIUS, 16, 16)
+    // Phong可以实现高光
+    const earthMaterial = new THREE.MeshPhongMaterial({ 
+        // 觉得地球表面太亮，就可以把镜面反射调低一些
+        shininess: 5,
+        map: textureLoader.load('textures/planets/earth_atmos_2048.jpg'),
+        // 表面太光滑，让表面更有纹理，通过像素值设置法线
+        specularMap: textureLoader.load('textures/planets/earth_specular_2048.jpg'),
+        // 对环境高光反射的设置
+        normalMap: textureLoader.load('textures/planets/earth_normal_2048.jpg')
+        // 上述处理之后大陆山脉具有凹凸感
+    })
+    earth = new THREE.mesh(earthGeometry, earthMaterial)
+    // 给地球设置接收投影、设置阴影
+    earth.castShadow = true
+    earth.receiveShadow = true
+    scene.add(earth)
+
+    // 创建渲染器
+    let renderer = new THREE.WebGLRender({
+        alpha: true // 设置透明，就能看到背景图了
+    })
+    // 设置它的像素比，设置成屏幕的像素比就可以
+    renderer.setPixelRatio(window.deviceRatio)
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    // 渲染阴影
+    renderer.shadowMap.enabled = true
+    document.body.appendChild(renderer.domElement)
+
+    // 绑定控制器和摄像头
+    const controls = new OrbitControls(camera, renderer.domElement)
+}
+let oldTime = 0
+// 定义渲染函数
+function animate() {
+    const elapsed = clock.getElapseTime() // 获取时间
+    moon.position.set(Math.sin(elapsed) * 5, 0, Math.cos(elapsed) * 5)
+
+    // 地球自转，设置一个三维向量, 绕y轴
+    let axis = new THREE.Vector3(0, 1, 0)
+    // 绕某个轴，每毫秒旋转多少度
+    earth.rotateOnAxis(axis, (elapsed - oldTime) * Math.PI / 10)
+    renderer.render(scene, camera)
+    oldTime = elapsed
+    requestAnimationFrame(animate)
+
+    // 创建标签
+    const earthDiv = document.createElement('div')
+    earthDiv.className = 'label'
+    earthDiv.textContent = 'Earth'
+    
+}
+init()
+animate()
+
+// 调整尺寸
+window.onresize = function() {
+    camera.aspect = window.innerWidth / window.innerHeight
+    // 更新相机，也就是更新摄像头矩阵
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+}
+</script>
 ```
