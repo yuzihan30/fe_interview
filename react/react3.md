@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 18:44:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-25 21:13:58
+ * @LastEditTime: 2022-05-25 22:38:22
  * @FilePath: /fe_interview/react/react3.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -137,4 +137,96 @@ function FilmDetail() {
     const value = useContext(GlobalContext)
     // 这边负责用供应商的东西
 }
+### useReducer
+1. 经常和useContext一起搭配使用，学好它可以方便理解redux
+redux的理念不错，然后react就将其引入到hooks里了
+通常组件里有数据逻辑和视图逻辑，现在就有一种理念，将数据逻辑分离出来，就是将状态放到外部来管理；对单个组件来说，这样做没有任何意义，会增加复杂度，多个组件共享状态的时候它才会有意义，分离可以让耦合度降低
+之前A组件点a按钮传a值给B组件，A组件点c按钮传c值给C组件，是通过他们公共的父组件来中转，A改父组件的state传给B、C；这种情况父组件既要渲染那几个孩子，有自己的视图逻辑，还要关心自己的状态，要让A中改这个状态进行子传父，又要父传子去控制这些状态；这样状态管理在父组件中就会比较乱，这个时候分离式的状态管理就显得重要了，A中通过一种方法改变外部状态中的stateA，B里面再用这个状态，就不用和父组件进行子传父、父传子进行交流了；这样就围着外部状态，一边想着怎么改状态，另一边想着怎么用这个状态；这样代码更容易维护，降低了代码的耦合度
+单组件useReducer + useContext就能模拟出redux的功能
+
+2. 单组件useReducer
+大部分情况用它是处理复杂的父子通信的
+// 处理函数，减速器, 第一个参数会得到老的状态preState，第二个参数会得到dispatch里面的对象，reducer可以根据对象里的type值来控制状态来减还是加1
+const reducer = (prevState, action) => {
+    let newState = {...prevState} // 不改变老状态，也就是后面说的纯函数
+    switch(action.type) {
+        case 'add':
+            // 和state用法一致，需要先保存住老状态，深复制一下；react不允许直接++
+            newState.count++
+            return newState
+        case 'minus':
+            newState.count--
+            return newState
+        default: // 没有匹配到，返回老状态就行
+            return prevState // 返回复制完的也可以
+        } // 这样就可以非常清洗的管理好外部状态
+}
+// 外部状态
+const initialState = {
+    count: 0
+}
+function App() {
+    const [state, dispatch] = useReducer(reducer, initialState) // 第一个函数就是专门在外面容易管理状态的，第二个参数就是初始状态
+    // 返回的第一个是状态值，第二个是改变状态的唯一方法
+    // 就是useState, 只是useState在内部管理状态，在内部写自己的处理函数；而useReducer是在外部进行管理
+    return (
+        <div>
+            <button onClick={() => {
+                // state.count--
+                // 这里是低耦合度的，尽量不去碰状态自身，所以用dispatch
+                // 不是直接改，相当于发个通知
+                dispatch({ // 调用dispatch之后会将对象传到reducer里面
+                    type: 'minus',
+
+                })
+            }}>-</button>
+                { state.count }
+            <button onClick={() => {
+                dispatch({
+                    type: 'add',
+                })
+            }}>+</button>
+        </div>
+    )
+}
+
+3. 案例
+A改传给B、C
+newState.a = action.value
+return newState // 导致state改变，App重新渲染，state重新传给2、3组件
+const GlobalContext = React.createContext()
+export default App() {
+    // useReducer只能在父组件中创建一份，如果分别在子组件中用，就生成的是不同的东西
+    // 让大家（子组件）共享这一个state, dispatch也传给child1、2、3来改, 1用dispatch来改，而2、3就用state来显示；这时需要useContext出场了
+    const [state, dispatch] = useReducer(reducer, initialState) // 不能放到组件外面，只能在组件内使用
+    return (
+        // 这里提供的服务就两个
+        <GlobalContext.provider value={
+            state, // state: state的简写
+            dispatch
+        }>
+            <div>
+                <Child1 />
+                <Child2 />
+                <Child3 />
+            </div>
+        </GlobalContext.provider>
+    )
+}
+function Child1() {
+    const { dispatch } = useContext(GlobalContext)
+    onClick={()=>{
+        dispatch({
+            type: 'change-a',
+            value: '111' // 也可以传个值过去
+        })
+    }}
+}
+function Child2() {
+    const { state } = useContext(GlobalContext)
+}
+function Child3() {
+    const { state } = useContext(GlobalContext)
+}
+
 
