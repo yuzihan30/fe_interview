@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 18:44:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-25 18:10:41
+ * @LastEditTime: 2022-05-25 19:01:59
  * @FilePath: /fe_interview/react/react3.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -88,4 +88,17 @@ useEffect可以使用多次，而生命周期函数后面会把前面覆盖掉
 6. useLayoutEffect和useEffect区别
 常规使用，看不到区别，但调用时机不同，useLayoutEffect和之前CDM & CDU一致，在react完成DOM更新后马上同步调用的代码，会阻塞页面渲染，useEffect是会在整个页面渲染完成后才会调用的代码；DOM更新对应DOM树，这个DOM可能还在内存中，只是说把DOM创建更新完了，这时useLayoutEffect里代码执行，就会阻止DOM树到渲染树生成；所以useEffect性能更好，是在UI渲染完成了才执行，官方也推荐useEffect
 但如果需要DOM操作（比如不断加动画），则放到useLayoutEffect，这些DOM更改和react做的DOM更改会合并然后一次性渲染到屏幕上，只有一次回流和重绘的代价，避免了页面抖动
-
+### useCallback记忆函数
+const [count, setcount] = useState(0)
+// useState记忆函数，会记住状态，count更新会导致函数式组件重新执行，useState也会重新执行，但count不会变成0，而是更新为最新的状态；能够帮我们存好count值，来复用；useCallback可以让函数给记住，防止函数被重新创建，起到缓存作用
+let mycount = 0 // 作为对比，每次更新mycount还是0
+let handleClick = () => {
+    
+}
+组件的每次重新渲染都会导致定义的临时变量、函数都会重新赋值
+const handleChange = useCallback(
+    (evt) => {
+        settext(evt.target.value)
+    }, []
+) // 那下次更新的时候就会用之前缓存的函数，那里面的变量也是以前缓存的值；所以可以记但不能永久记，加入依赖的状态或者props属性；加入依赖，依赖变的时候，里面函数会被再创建一次；就是状态或者属性的改变和当前函数不相关的时候就会起到缓存的作用
+主要用了闭包的原理，可以将临时变量、临时函数永驻内存
