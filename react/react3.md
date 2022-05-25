@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 18:44:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-25 19:53:32
+ * @LastEditTime: 2022-05-25 20:28:49
  * @FilePath: /fe_interview/react/react3.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -110,6 +110,18 @@ useCallback不会执行第一个参数函数，而是将其返回，useMemo会�
 2. 改造受控cinema
 // const getCinemaList = useMemo(()=>[1,2,3], [])
 const getCinemaList = useMemo(()=>cinemaList.filter(), [cinemaList， mytext]) // cinemaList， mytext如果都没变就会把之前缓存的结果拿出来，而不去再执行filter
-
-
+### useRef保存引用值
+1. 放在普通的DOM节点身上，拿到的就是普通DOM节点，放在组件身上，它引用的就是这个组件对象
+const mytext = useRef() // 等价于类组价中React.createRef()的写法
+<input ref={mytext} />
+mytext.current.value即可拿到值
+mytext.current.value = '' // 清空值
+2. 还有另一个用途：比如问你保存状态有哪些方法
+useState可以，useRef也可以
+let mycount = useRef(0) // mycount是个对象，里面有个current属性
+// 每次更新不是从0开始赋值，而是把之前存的current值重新赋给它，背后都是闭包原理支撑的
+<button onClick={ () => {
+    mycount.current++
+} }>
+3. 总结：两个用途，保存数据不丢失，引用DOM或者组件（实现组件通信或者原生DOM节点的访问）
 

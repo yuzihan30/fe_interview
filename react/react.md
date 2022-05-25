@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-05-11 08:15:14
+ * @LastEditTime: 2022-05-25 20:13:28
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -52,7 +52,7 @@ onClick={() => {this.handleClick4()} }简化成onClick={() => this.handleClick4(
 
 9. react事件绑定和原生事件绑定的区别
 react没有具体绑定在DOM节点上，绑定DOM身上比较消耗内存，采用事件代理方案，绑定在根节点上
-event事件对象时react自己模拟的不是浏览器提供的，也有event.stopPropagation,event.preventDefault方法
+event事件对象是react自己模拟的不是浏览器提供的，也有event.stopPropagation,event.preventDefault方法
 
 10. ref绑在普通标签身上时，<input ref="username">, this.refs.username可以获得真实DOM
 refs这种方式现在被遗弃，因为可能多个人命名一样，ReactDOM.render(<ReactStrictMode><app/>
@@ -254,7 +254,7 @@ import Sidebar from ''
 状态多了管理会复杂，多写无状态组件，让组态放到父组件，子组件通过属性听从父组件的调配，有状态的父组件控制无状态的孩子组件；这种子组件就是广义上的受控组件
 
 17. 狭义的受控组件和非受控组件， 表单中的受控组件和非受控组件
-<input value="xx">这在react中相当于一个组件，并给属性value传了个写死的值，用defaultValue="xx"，意思是第一次是xx值，后续可以改，只是赋予一个初始值，后续没法控制更新了；ref拿到dom值，修改dom值就是非受控方案，并没有通过react的state来获取状态；这种方案的缺点是如果当前组件里有子组件，需要传当前组件的状态，直接传this.username.current.value无法做到响应式更新
+<input value="xx">这在react中相当于一个组件，并给属性value传了个写死的值；用defaultValue="xx"，意思是第一次是xx值，后续可以改，只是赋予一个初始值，后续没法控制更新了；ref拿到dom值，修改dom值就是非受控方案，并没有通过react的state来获取状态；这种方案的缺点是如果当前组件里有子组件，需要传当前组件的状态，直接传this.username.current.value无法做到响应式更新
 
 react中input和原生的input的区别，react中input中value是受控，defaultValue非受控，而且onChange和onInput是同效的，原生js则不然
 在react中把input看成一个组价
@@ -303,7 +303,7 @@ handleChecked = (index) => {
 style={{ textDecoration: item.checked? "line-through": '' }} // 文本带删除线的样式
 
 10. 受控组件：表单元素的控制交给React，表单元素的值完全由state控制。比如我们可以称由state控制的input表单元素为受控组件，可以扩展到自定义组件，如果组件的状态由传入的props来控制，而没有自己的内部状态state也叫受控组件
-非受控组件：表单元素的状态不受React组件状态的影响，表单元素的值存储于DOM元素中，组件要获取DOM元素的值可以通过ref的方式，扩展到自定义组件，如果组件的状态完全又内部的state来控制，就是非受控组件（即不受外部控制的组件）
+非受控组件：表单元素的状态不受React组件状态的影响，表单元素的值存储于DOM元素中，组件要获取DOM元素的值可以通过ref的方式，扩展到自定义组件，如果组件的状态完全由内部的state来控制，就是非受控组件（即不受外部控制的组件）
 也可以既是受控组件又是非受控组件，比如可以根据props是否传有值来判断是否启用自身的state对应值
 能够通过属性完全驱动和控制孩子组件，就是受控组件
 
