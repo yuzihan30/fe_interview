@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-21 20:01:34
- * @LastEditTime: 2022-05-24 11:46:32
+ * @LastEditTime: 2022-05-24 21:50:59
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/前端可视化/threejs.md
@@ -296,3 +296,4 @@ window.onresize = function() {
 ```
 
 ## 导弹飞行3D效果和AI插件
+着色器用的是OpenGL语言，类似于C语言

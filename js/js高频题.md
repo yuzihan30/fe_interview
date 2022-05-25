@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-24 16:10:54
+ * @LastEditTime: 2022-05-25 09:18:14
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -423,6 +423,28 @@ sort([2,1,3]);
 heapSort([3,1,2]);
 如果要别名默认导出，我们也可以使用as关键字，像这样
 import { default as quicksort, heapSort} from './sort.js';
+
+11. AMD和CMD区别
+- RequireJS在主文件里是将所有的文件同时加载，然而SeaJS强调一个文件一个模块。
+- AMD推崇依赖前置，CMD推崇依赖就近。就是AMD在定义模块的时候要先声明其依赖的模块，CMD没有这里严格的要求，它只要依赖的模块在附近就可以了
+// AMD
+define(['jquery'],function($){
+    var  backButton=$('.backToTop');
+});
+// CMD
+define(function(require, exports, module) {
+var a = require('./a')
+a.doSomething()
+// 此处略去 100 行
+var b = require('./b') // 依赖可以就近书写
+b.doSomething()
+// ... 
+})
+- AMD和CMD最大的区别不是说上面的两点，而是他们俩对依赖模块的执行时机有所不同！！！对依赖模块的执行时机取决于他们的模块定义方式，AMD推崇依赖前置，因此，JS可以及其轻巧地知道某个模块依赖的模块是哪一个，因此可以立即加载那个模块；而CMD是就近依赖，它要等到所有的模块变为字符串，解析一遍之后才知道他们之间的依赖关系，这在别人看来是牺牲了性能换来开发的便利性。然而我要告诉你的是解析模块用的时间短的可以忽略不计，所以这又有什么关系呢？
+那么说了那么多，他们是怎么执行的呢？
+AMD加载完模块后，就立马执行该模块；CMD加载完某个模块后没有立即执行而是等到遇到require语句的时再执行。
+所以，他们两者的不同导致各自的优点是AMD用户体验好，因为模块提前执行了；CMD性能好，因为只有用户需要的时候才执行。
+
 
 
 ########## http协议 #########
