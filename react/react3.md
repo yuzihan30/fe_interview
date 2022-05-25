@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 18:44:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-25 20:28:49
+ * @LastEditTime: 2022-05-25 21:13:58
  * @FilePath: /fe_interview/react/react3.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -124,4 +124,17 @@ let mycount = useRef(0) // mycount是个对象，里面有个current属性
     mycount.current++
 } }>
 3. 总结：两个用途，保存数据不丢失，引用DOM或者组件（实现组件通信或者原生DOM节点的访问）
+### useContext
+useContext减少组件层级的, 主要用在简化消费者写法上
+const GlobalContext = React.createContext() // 返回的值就是生产者定义的value值
+function FilmItem(props) {
+    // const context = useContext(GlobalContext)
+    const value = useContext(GlobalContext)
+    return 这里就可以直接使用value就不用套用<GlobalContext.Consumer>
+    // 这边负责改供应商的东西
+}
+function FilmDetail() {
+    const value = useContext(GlobalContext)
+    // 这边负责用供应商的东西
+}
 
