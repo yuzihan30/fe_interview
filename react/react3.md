@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 18:44:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-25 19:01:59
+ * @LastEditTime: 2022-05-25 19:53:32
  * @FilePath: /fe_interview/react/react3.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -102,3 +102,14 @@ const handleChange = useCallback(
     }, []
 ) // 那下次更新的时候就会用之前缓存的函数，那里面的变量也是以前缓存的值；所以可以记但不能永久记，加入依赖的状态或者props属性；加入依赖，依赖变的时候，里面函数会被再创建一次；就是状态或者属性的改变和当前函数不相关的时候就会起到缓存的作用
 主要用了闭包的原理，可以将临时变量、临时函数永驻内存
+### useMemo记忆组件
+1. useMemo可以完全替代useCallback的功能
+useCallback(fn, inputs)等价于useMemo(()=>fn, input) //useMemo中fn作为返回值
+useCallback不会执行第一个参数函数，而是将其返回，useMemo会执行第一个函数并将执行结果返回给你
+可以类比vue的计算属性功能
+2. 改造受控cinema
+// const getCinemaList = useMemo(()=>[1,2,3], [])
+const getCinemaList = useMemo(()=>cinemaList.filter(), [cinemaList， mytext]) // cinemaList， mytext如果都没变就会把之前缓存的结果拿出来，而不去再执行filter
+
+
+
