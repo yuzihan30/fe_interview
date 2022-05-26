@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 14:55:25
+ * @LastEditTime: 2022-05-26 17:33:13
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -122,7 +122,7 @@ render() {
             <div>大轮播</div>
             <div>导航</div>
             // 路由配置，嵌套路由; 它们写在了一级路由的组件的里面；把组件的路由套在一个组件的内部
-            // 创建组件时路径关系上也要体现出来，views下建个films目录放这俩子组件;两个路由不会同时显示，只能活一个，而且路径完全匹配的情况下；同时<Route path="/films" component={Films} />中去掉精确匹配
+            // 创建组件时路径关系上也要体现出来，views下建个films目录放这俩子组件（和views平级的components目录则放一些公共组件，比如选项卡、公共导航栏、轮播组件，可以放一些零零散散的小组件，但也可以放films里的组件）;两个路由不会同时显示，只能活一个，而且路径完全匹配的情况下；同时<Route path="/films" component={Films} />中去掉精确匹配
             <Switch>
                 <Route path="/films/nowplaying" component={Nowplaying} />
                 <Route path="/films/comingsoon" component={comingsoon} />
@@ -132,4 +132,93 @@ render() {
         </div>
     )
 }
+## 声明式导航和编程式导航
+1. 用户使用时不会说是使用输入url导航，而是点击切换或者跳转导航，比如选项卡、tab;一级导航选项卡，二级导航选项卡
+以前声明式:html标签方式<a href="/index.html">aaa</a>
+以前编程式:js编码方式location.href = '/index.html'
+现在引入react的声明式导航和编程式导航，原网站也不是这种输入路径的，而是通过选项卡的方式
+2. Tabbar.js
+<ul>
+    <li>
+        <a href="#/films">电影</a> // 注意这个跳转写的时候一定加#号,js的hash,如果不加#号，就会走到localhost:8080/hash;可以看到用原始的生命式写法是肯定没问题的
+    </li>
+    <li>
+        <a href="#/cinemas">影院</a>
+    </li>
+    <li></li>
+</ul>
+另外高亮的问题，点击选项卡导航，会高亮；怎么直接输入url链接导航也能高亮呢，就是监听路径的改变，自动帮你高亮；原生js中window.onhashchange可以监听到路径改变，location.hash拿到切换的路径，对比给那个选项相等就加上高亮；那直接监听到路径改变，那直接让某个组件显示也是可以的
+实际上react-router将这些已经实现了
+
+3. react声明式导航
+<NavLink to="/films" activeClassName="active">films<NavLink>
+<li>
+    // <a href="#/films">电影</a>
+    // 就像配置路由的时候我们这里不用带#
+    <NavLink to="/films" activeClassName="active">films<NavLink> 
+</li>
+<li>
+    <a href="#/cinemas">影院</a>
+</li>
+这时运行会报错，提示NavLink必须放到<HashRouter>内，怎么做到不用放进去呢，那就采用弯道超车的方式，放到App.js中的<MRouter>内,作为它的子组件,然后HashRouter内留好一个插槽
+
+4. 引入路由后改造根组件App.js
+import MRouter from "./router/IndexRouter"
+return (
+    <MRouter>
+        <Tabbar></Tabbar>
+    </MRouter>
+    // 当然外面也可以嵌套一层div, 比如除了路由组件还有其他东西
+)
+<HashRouter>
+    { this.props.children }
+    <Switch>
+        // 默认也是模糊匹配，会提前拦截到子路由的匹配，除非加个exact;但这个时候nowplaying又会把上面的films完全覆盖掉，因为当前看他们俩的关系是平级的，也就是说/films/nowplaying也会把/films上面公共的轮播也盖掉；虽然看路径上父子关系，但实质上市完全平级的，组件时互相替代的
+        // <Route path="/films" component={Films} />
+        <Route path="/films" component={Films} exact />
+        <Route path="/films/nowplaying" component={Nowplaying} />
+        <Route path="/cinemas" component={Cinemas} />
+        <Route path="/center" component={Center} />
+        <Redirect from="/" to="/films" exact />
+        <Route component={NotFound}/>
+    </Switch>
+</HashRouter>
+运行起来后，在浏览器里查看发现这些标签又被渲染成a链接了
+点击切换，组件会动态的增删.active属性，但active属性的样式需要自己写，你如果不想用active这个名，则需要显示生命一个新的class名，每个当行都要写，然后程序可以帮忙做自动的增删，匹配到谁就给谁加activeClassName="active"
+<NavLink to="/films" activeClassName="active">电影<NavLink> 
+<NavLink to="/cinemas" activeClassName="active">影院<NavLink> 
+
+6. react编程式导航
+从列表页跳转到详情页, 声明导航可以做，这里我们用编程导航，绑定click事件
+// Nowplaying的父组件并不是Films，只是传给了Films里的Route组件，内部机制是会把Nowplaying组件变成Route组件的子组件
+export default function Nowplaying(props) {
+    useEffect(() => {
+        axios().then( setlist(res.data.data.films) )
+    }, )
+}
+const history = useHistory() // 它就等价于props.history
+const handleChangePage = (id) => {
+    // 先试试传统编程导航,原生js写法
+    // window.location.href = "#/detail"+id // 要加#号
+    // 再用react写法
+    // Nowplaying变成Route的子组件之后，props里就可以拿到history、location、match属性
+    // history里面就有go、goBack、goForward、push方法，类似于window.history里的方法
+    // 经常用的就是push方法
+    // props.history.push(`/detail/${id}`) // 这里就不要带#号
+    // 还有种hooks写法
+    history.push(`/detail/${id}`)
+}
+<div>
+    {
+        list.map(item=>
+        <li key={item.filmId} onClick={() => handleChangePage(film.itemId)>
+            // {item.name}
+            // <NavLink to={'/detail/' + item.filmId}>{item.name}<NavLink> 
+        </li>
+        )
+    }
+</div>
+
+
+
 
