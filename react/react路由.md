@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 18:52:30
+ * @LastEditTime: 2022-05-26 19:09:13
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -273,7 +273,9 @@ onClick={() => {
 }}
 
 ## 路由模式
-在讲html时，#是锚点，而js中是hash
+在讲html时，#是锚点，而js中是hash;带#就是前端接收路径决定怎么去显示，而且这个#号切换完全不会影响到后端，不会认为是新的一次跳转请求后端渲染返回数据的
+你想更好看的，更接近于真实页面请求的，用单页面的路由也是可以做的；把之前的HashRouter改为BrowserRouter也是可以的，爬虫也喜欢这种路径关系;BrowserRouter真正会朝后端发请求要页面，后端没有对应的路径处理逻辑，就会404,会被认为是后端路由，这个时候是返回数据还是返回页面，这要看后端的配置；这样就跟后端确认，一旦后端接到不合法或者没有的路径，希望后端重新渲染首页，这种情况下浏览器就会重新接管路由改成自己的路由模式进行处理
+import { HashRouter as Router, Route } from 'react-router-dom'
 
 
 
