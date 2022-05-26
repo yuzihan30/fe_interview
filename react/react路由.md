@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 17:33:13
+ * @LastEditTime: 2022-05-26 18:16:36
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -218,6 +218,35 @@ const handleChangePage = (id) => {
         )
     }
 </div>
+
+## 动态路由
+1. Detail组件，就是详情页
+export default Detail(props) {
+    // 这里怎么获得id值呢
+    console.log(props.match.params)
+}
+<Route path="/films" component={Films} exact />
+<Route path="/films/nowplaying" component={Nowplaying} />
+<Route path="/cinemas" component={Cinemas} />
+<Route path="/center" component={Center} />
+// <Route path="/detail" component={Detail} />
+// :myid代表一个模糊值，冒号是占位符，这就是动态路由，这样的话，Detail组件props.match.params里就能拿到id值；那样就不需要通过window.location或者props.location截字符串了
+<Route path="/detail/:myid" component={Detail} />
+<Redirect from="/" to="/films" exact />
+<Route component={NotFound}/>
+2. 面试题，react中从一个组件传另一个组件数据，两组间不挨着，非父子、兄弟关系？
+- 动态路由，还有另外的传参方式，和路径没有关联
+history.push(`/detail/${id}`)
+<Route path="/detail/:myid" component={Detail} />
+- this.props.history.push({pathname: '/detail', query: {id: id}})
+<Route path="/detail" component={Detail} />
+this.props.location.query.id
+- this.props.history.push({pathname: '/user', state: {id: id}})
+<Route path="/detail" component={Detail} />
+this.props.location.state.id
+后两种方法的问题是，复制链接给别人，别人打开，由于id数据在内存中，所以会页面报错；类似个全局变量，刷新页面也会丢；而第一种方案id是带在路径上的，就不存在这种问题
+
+
 
 
 
