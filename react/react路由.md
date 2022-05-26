@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 11:33:36
+ * @LastEditTime: 2022-05-26 12:04:51
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -68,3 +68,36 @@ return (
     <MRouter></MRouter>
     // 当然外面也可以嵌套一层div, 比如除了路由组件还有其他东西
 )
+## 路由重定向
+1. 路由重定向
+<HashRouter>
+    // 路径里有1个叫一级，有两个的就叫二级；组件名是什么，最好路径名跟它也是有关联的
+    <Route path="/films" component={Films}>
+    <Route path="/cinemas" component={Cinemas}>
+    <Route path="/center" component={Center}>
+    // react中万物皆组件，上面都不匹配的时候就走下面的;但写成下面还有个问题，就是在center等页面刷新的时候还会进到films页面；原因是由于/是模糊匹配；还有个问题，第一次输入url比如center能停住，但刷新就跑到films了，这个5版本路由刚改的，老的路由，第一次和后面刷新都会匹配"/";为了解决这个问题就引入了Switch组件，匹配到了就会break,就不会再往下走了
+    <Redirect from="/" to="/films" />
+</HashRouter> 
+<HashRouter>
+    <Switch>
+        // 路径里有1个叫一级，有两个的就叫二级；组件名是什么，最好路径名跟它也是有关联的
+        <Route path="/films" component={Films}>
+        <Route path="/cinemas" component={Cinemas}>
+        <Route path="/center" component={Center}>
+        // react中万物皆组件，上面都不匹配的时候就走下面的;但写成下面还有个问题，就是在center等页面刷新的时候还会进到films页面；原因是由于/是模糊匹配；还有个问题，第一次输入url比如center能停住，但刷新就跑到films了，这个5版本路由刚改的，老的路由，第一次和后面刷新都会匹配"/";为了解决这个问题就引入了Switch组件，匹配到了就会break,就不会再往下走了
+        <Redirect from="/" to="/films" /> // 万能匹配
+    </Switch>
+</HashRouter> 
+2. 重定向改造
+没有的路径，返回404
+<HashRouter>
+    <Switch>
+        <Route path="/films" component={Films} />
+        <Route path="/cinemas" component={Cinemas} /><
+        <Route path="/center" component={Center}>
+        // <Redirect from="/" to="/films" />
+        // 前面都不满足的时候就走这个，但都被上面重定向给拦截了，这是因为上面重定向是模糊匹配，要变成精准匹配，找不到的路径比如/aaa就可以走下面的了;传个属性exact
+        <Redirect from="/" to="/films" exact />
+        <Route component={NotFound}/>
+    </Switch>
+</HashRouter>
