@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 12:04:51
+ * @LastEditTime: 2022-05-26 14:55:25
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -93,11 +93,43 @@ return (
 <HashRouter>
     <Switch>
         <Route path="/films" component={Films} />
-        <Route path="/cinemas" component={Cinemas} /><
-        <Route path="/center" component={Center}>
+        <Route path="/cinemas" component={Cinemas} />
+        <Route path="/center" component={Center} />
         // <Redirect from="/" to="/films" />
         // 前面都不满足的时候就走这个，但都被上面重定向给拦截了，这是因为上面重定向是模糊匹配，要变成精准匹配，找不到的路径比如/aaa就可以走下面的了;传个属性exact
         <Redirect from="/" to="/films" exact />
         <Route component={NotFound}/>
     </Switch>
 </HashRouter>
+## 嵌套路由
+<HashRouter>
+    <Switch>
+        // 默认也是模糊匹配，会提前拦截到子路由的匹配，除非加个exact;但这个时候nowplaying又会把上面的films完全覆盖掉，因为当前看他们俩的关系是平级的，也就是说/films/nowplaying也会把/films上面公共的轮播也盖掉；虽然看路径上父子关系，但实质上市完全平级的，组件时互相替代的
+        // <Route path="/films" component={Films} />
+        <Route path="/films" component={Films} exact />
+        <Route path="/films/nowplaying" component={Nowplaying} />
+        <Route path="/cinemas" component={Cinemas} />
+        <Route path="/center" component={Center} />
+        <Redirect from="/" to="/films" exact />
+        <Route component={NotFound}/>
+    </Switch>
+</HashRouter>
+引入嵌套路由
+Films.js
+render() {
+    return (
+        <div>
+            <div>大轮播</div>
+            <div>导航</div>
+            // 路由配置，嵌套路由; 它们写在了一级路由的组件的里面；把组件的路由套在一个组件的内部
+            // 创建组件时路径关系上也要体现出来，views下建个films目录放这俩子组件;两个路由不会同时显示，只能活一个，而且路径完全匹配的情况下；同时<Route path="/films" component={Films} />中去掉精确匹配
+            <Switch>
+                <Route path="/films/nowplaying" component={Nowplaying} />
+                <Route path="/films/comingsoon" component={comingsoon} />
+                // 这也加个重定向，输入/films可以直接定向到/films/nowplaying"；但是刷新又会出之前提到过的万能匹配的问题，需要加switch来解决
+                <Redirect from="/films" to="/films/nowplaying"/>
+            </Switch>
+        </div>
+    )
+}
+
