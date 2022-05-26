@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 18:41:14
+ * @LastEditTime: 2022-05-26 18:52:30
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -265,6 +265,16 @@ function isAuth() {
 <Route path="/center" render={() => {
     return isAuth() ？<Center/> : <Redirect to="/login"/>
 }} />
+<Route path="/login"  component={Login} />
+Login.js
+onClick={() => {
+    localStorage.setItem('token', 'aaa')
+    this.props.history.push('/center')
+}}
+
+## 路由模式
+在讲html时，#是锚点，而js中是hash
+
 
 
 
