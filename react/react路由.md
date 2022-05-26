@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 18:16:36
+ * @LastEditTime: 2022-05-26 18:41:14
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -246,6 +246,25 @@ this.props.location.query.id
 this.props.location.state.id
 后两种方法的问题是，复制链接给别人，别人打开，由于id数据在内存中，所以会页面报错；类似个全局变量，刷新页面也会丢；而第一种方案id是带在路径上的，就不存在这种问题
 
+## 路由拦截
+有些页面会涉及到权限认证的，统一的一种处理方式叫路由拦截，也叫路由守卫；有些路径你进不来，除非你是授过权的；传统的if else逻辑不太好，同样的逻辑要复制很多次
+function isAuth() {
+    return localStorage.getItem('token')
+    // 如果token是伪造的，后端也会给拦截住，给你返回401，就用axios拦截
+}
+<Route path="/center" component={Center} />
+// 这样跟上面效果一样
+<Route path="/center" render={() => <Center />} />
+// 只是现在可以写逻辑了
+<Route path="/center" render={() => {
+    // return 是否授权 ？<Center/> : <Login/>
+    return isAuth() ？<Center/> : <Login/>
+    // 这样有个问题，Login组件渲染了，但url并未同步更新，需要进一步优化
+}} />
+优化
+<Route path="/center" render={() => {
+    return isAuth() ？<Center/> : <Redirect to="/login"/>
+}} />
 
 
 
