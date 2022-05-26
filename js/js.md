@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 09:51:39
- * @LastEditTime: 2022-05-20 15:06:39
+ * @LastEditTime: 2022-05-26 10:34:30
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js题库.md
@@ -83,3 +83,22 @@ cache = import.meta.hot.data.cache = {
     amount: import.meta.hot.data.cache ? import.meta.hot.data.cache.account : 0
 }
 ```
+## 网络
+### socket
+1. 什么是socket?
+独立于具体协议的网络编程接口,在OSI模型中主要位于会话层和传输层之间
+2. socket类型
+- 流式套接字 （SOCK_STREAM） TCP
+提供一个面向连接、可靠的数据传输服务，数据无差错、无重复发送并按顺序抵达。内设流量控制，避免数据流淹没前面的数据。数据被查看时字节流，无长度限制。
+- 数据报套接字（SOCK_DGRAM） UDP
+提供无连接服务，数据包以独立数据包形式被发送，不提供无差错保证，数据有可能丢失或重复到达，顺序发送可能会乱序接收
+- 原始套接字（SOCK_RAW）
+可以直接访问较低层次的协议例如 IP\ICMP。
+## 端口
+用于区分一台主机中接收到的数据包应该转交给哪一个进程进行处理。
+TCP端口号与UDP端口号是相互独立的
+端口号一般由IANA(Internet Assigned Numbers Authority) 统一管理
+众所周知端口： 1 - 1023 （1-25之间为众所周知的端口 ， 256 - 1023 为UNIX系统占用）
+何为总所周知端口其实就是早已固定号的端口比如80端口分配给WWW服务，21端口分配给FTP服务等
+注册端口： 1024 -49151 分配给进程或者应用。这些端口号在还没有被服务器资源占用时，可以由用户的APP动态注册获得。
+动态端口号：49152 - 65535 被称为动态端口号一般不固定分配某种服务而是动态分配的。一般可以使用 65000以上的就可以随便用
