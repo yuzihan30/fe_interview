@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 18:44:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-25 22:38:22
+ * @LastEditTime: 2022-05-26 09:18:04
  * @FilePath: /fe_interview/react/react3.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -228,5 +228,51 @@ function Child2() {
 function Child3() {
     const { state } = useContext(GlobalContext)
 }
+4. 改造之前的FilmItem和FilmDetail
+useEffect(() => {
+    axios.get('/test.json').then(res => {
+        console.log(res.data)
+        // setList(res.data.data) 
+        dispatch({
+            type: 'change-filmList'
+            value: res.data.data.films
+        })
+    })
+}, [])
+FilmItem:
+() => {
+    dispatch({
+        type: 'change-info',
+        value: synopsis
+    })
+}
+每次dispatch发出去，会导致reducer重新执行，App组件和子组件重新渲染
+useReducer的缺点就是异步无法处理，只能在组件内部通过useEffect来解决，而后面redux是支持异步和中间件的写法的
+### 自定义hooks
+大函数里面分出很多子函数，或者有共享的逻辑，抽出来复用；自定义Hooks必须以use开头
+改造之前的模糊查询，hooks只能把逻辑抽出来，UI是不动的
+function useCinemaList() { // 自定义hooks里面都可以使用之前官方提供的hooks
+    const [cinemaList, setcinemaList] = useState([])
+
+    useEffect(() => {
+        axios().then(setcinemaList(res.data.data.cinemas))
+        // 这边是异步，下面能等吗，在react hooks体系下，执行set方法后，useCinemaList也会被重新的触发
+    }, [])
+    return {
+        cinemaList
+    }
+}
+function useFilter(cinemaList, mytext) {
+    const getCinemaList = useMemo()
+    return {
+        getCinemaList
+    }
+
+}
+export default Cinema() {
+    const { cinemaList } = useCinemaList()
+    cosnt { getCinemaList } = useFilter(cinemaList, mytext)
+}
+
 
 
