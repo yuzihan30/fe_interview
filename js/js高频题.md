@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-25 09:18:14
+ * @LastEditTime: 2022-05-27 17:07:21
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -98,6 +98,11 @@ e: apply、call调用模式
 4. 判断对象是否有某个属性
 obj.hasOwnProperty() 自身属性  对应getOwnPropertyNames()
 in 自身或者原型链上的属性 对应 for in
+
+## 对象
+1. 对象和map区别：
+- Object无法使用非字符串值作为键名，但Map的键名可以是任意类型；
+- 常规对象里，为了遍历keys、values和entries，你必须将它们转换为数组，如使用Object.keys()、Object.values()和Object.entries()，或使用for ... in，另外for ... in循环还有一些限制：它仅仅遍历可枚举属性、非Symbol属性，并且遍历的顺序是任意的，但Map可直接遍历，且因为它是键值对集合，所以可直接使用for…of或forEach来遍历。这点不同的优点是为你的程序带来更高的执行效率
 
 ########## 变量 ########
 1. function foo() { console.log(x) }
@@ -521,9 +526,11 @@ const myJsonp = (url = '', params = {}, callback = () => {}) => {
     // 4. 添加scriptNode
     document.body.appendChild(scripNode)
 }
-
 ```
 2. CORS流程，JSONP只支持get请求，推荐使用CORS方式跨域，流程：浏览器发头带origin源的请求->服务器看origin字段的请求头后，就在响应中添加Access-Control-Allow-Origin标头，指定请求来源（或者*允许任何来源）->浏览器收到带Access-Control-Allow-Origin标头的响应后，会允许与客户端站点共享响应数据
+
+3. 浏览器直接读取本地文件会存在跨域问题，起个本地服务器可以解决该问题
+
 
 ########## 浏览器的垃圾回收机制 #########
 1. 浏览器内存，64位的话1.4G, 新生代64M(From 和 To分别为32M), 32位的都减半
@@ -774,6 +781,8 @@ Uncaught Error:
 Vue.config.errorHandler 
 React ErrorBoundary
 
+## 单点登录
+- sso需要一个独立的认证中心，只有认证中心能接受用户的用户名密码等安全信息，其他系统不提供登录入口，只接受认证中心的间接授权。间接授权通过令牌实现，sso认证中心验证用户的用户名密码没问题，创建授权令牌，在接下来的跳转过程中，授权令牌作为参数发送给各个子系统，子系统拿到令牌，即得到了授权，可以借此创建局部会话，局部会话登录方式与单系统的登录方式相同。
 
 
 ########## 新概念 #########

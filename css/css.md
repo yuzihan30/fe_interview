@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 14:13:46
- * @LastEditTime: 2022-05-15 22:43:01
+ * @LastEditTime: 2022-05-27 14:05:43
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/css/css题库.md
@@ -88,6 +88,13 @@ img会被搜索引擎识别，background不会。所以一些重要的图片内�
 img标签作为html标签，使用src引入图片，别的资源会被中断加载；而CSS引用使用href引入，可以与别的资源并行加载。所以img标签会比background-image优先加载
 4）是否可操作
 使用img引用的图片是可以进行另存为，移动和改变src实现图片替换等操作。使用背景属性引用的图片不能进行这些操作。
+
+## css布局
+1. css实现固定宽高比例方案
+-  height: 0; padding-top或者padding-bottom: 75%
+- ::after伪元素和padding
+- height: 0和padding-top: calc(100%) * 75%
+- 视窗宽高
 
 
 

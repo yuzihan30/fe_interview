@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-26 10:22:34
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-26 19:09:13
+ * @LastEditTime: 2022-05-27 21:08:31
  * @FilePath: /fe_interview/react/react路由.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 
@@ -277,8 +277,52 @@ onClick={() => {
 你想更好看的，更接近于真实页面请求的，用单页面的路由也是可以做的；把之前的HashRouter改为BrowserRouter也是可以的，爬虫也喜欢这种路径关系;BrowserRouter真正会朝后端发请求要页面，后端没有对应的路径处理逻辑，就会404,会被认为是后端路由，这个时候是返回数据还是返回页面，这要看后端的配置；这样就跟后端确认，一旦后端接到不合法或者没有的路径，希望后端重新渲染首页，这种情况下浏览器就会重新接管路由改成自己的路由模式进行处理
 import { HashRouter as Router, Route } from 'react-router-dom'
 
-
-
-
-
+##  withRouter
+1. 从center中点击电影订单，跳转，发现pros.history.push()报错，打印发现props是空的
+<Route path="/center" render={() => {
+    return isAuth() ？<Center/> : <Redirect to="/login"/>
+}} />
+因为上述这种写法并不是把Center当做Route的子组件，而是把Center自己实例化了，也没传任何属性
+<Route path="/center" component={Center} />
+Route的源码大致如下：
+class Route extends Component {
+    ...
+    render() {
+        var MyComponent = this.props.component
+        return <div>
+            <MyComponent history={} match={} />
+        </div>
+    }
+}
+现在这种写法，想拿到props只能通过下面这种方式
+<Route path="/center" render={(props) => {
+    return isAuth() ？<Center {...props}/> : <Redirect to="/login"/>
+}} />
+然后这样就可以拿到props里的值了
+pros.history.push('/filmOrder')
+2.  nowplaying这个组件如果有子组件，能不能拿到history
+比如说之前list不是渲染成n个li而是渲染成n个子组件来
+list.map(item => <FilmItem key={item.filmId} {...item}/>)
+function FilmItem(props) {
+    let {name, FilmId} = props
+    return <li onClick={()=>{
+        console.log(filmId)
+        // 这样也会报错，因为props只有父传子的那些数据而已，并没有history;只能让父组件顺带传下来props
+        props.history.push(`/detail/${filmId}`)
+    }}>
+    </li>
+}
+list.map(item => <FilmItem key={item.filmId} {...item} {...props}/>)
+但遇到父组件也没有这个属性的时候怎么办，withRouter高阶组件出场，用withRouter包一层，然后往里面传一些数据
+3. withRouter可以帮助跨级传输history值，withRouter是路由提供的，有隔空传送路由参数的能力
+const WithFilmItem = withRouter(FilmItem)
+list.map(item => <WithFilmItem key={item.filmId}/>)
+之前的center跳到电影订单也可以重写用withRouter改造
+<Route path="/center" render={() => {
+    return isAuth() ？<Center /> : <Redirect to="/login"/>
+}} />
+function Center() {
+    props.history.push('/filmsorder')
+}
+export default withRouter(Center)
 

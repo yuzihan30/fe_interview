@@ -25,3 +25,6 @@ v-show 只在初始化时加载渲染一次，只是display:none和block的切�
 ########## 路由 #########
 1. 默认hash模式，a链接本地跳转的形式，相当于一个锚点
 history是h5方式的路由，项目正式部署的时候，需要后台配合，因为相当于发起一个请求，没有处理这种请求，就会报404
+
+## 组件通信
+vuex、eventBus、以及props与emit、$parent与$children，除此之外，还有provide与inject、$attrs与$listeners等；另外ref绑定到组件上也能通信
