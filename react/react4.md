@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-27 21:20:53
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-27 22:09:07
+ * @LastEditTime: 2022-05-27 22:45:17
  * @FilePath: /fe_interview/react/react4.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -50,3 +50,6 @@ app.use(
 每次添加或者修改setupProxy，都要重启服务器
 ## CSSModule
 解决样式冲突问题
+之前tabbar里引入的样式，在films不引入但却能直接使用；这是因为通过import引入的css最终都会插入到head里面
+views->css文件夹->Films.css 如果Films.css被引入后有和tabbar引入样式有同名的，则后面的style样式会覆盖之前的；解决方法，1可以换个名字，2使用脚手架提供的方式将文件名改为Films.module.css，这就是css模块化的写法，但这种写法，导入方式就要配套了import style from './css/Films.module.css';打印导入的style会发现，是个对象，键值对，键是自己写的名字，值是替换后带有hash码的名字；那用的时候就activeClassName={style.name};id选择器和类选择器处理方式一样；但标签选择器就无法这样处理，还是会全局影响，会原模原样显示出来，不会二次加工；如果一定要用ul li, 则前面需要.film ul li, 同时在组件Films里return <div className={style.film}>, 如果还要加额外独立的class则可以这样拼接，中间加空格，{style.film + " bb"}, 比如bb可以new swipper初始化使用；module.css里写全局样式，则需要:global(.active),就会被保留下来，不会被重命名
+目录整理 views->films文件夹下面放css、js文件；但后面用了组件库之后自己写css的情况就比较少了
