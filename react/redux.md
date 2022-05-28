@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-28 09:16:44
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-28 13:30:00
+ * @LastEditTime: 2022-05-28 15:04:05
  * @FilePath: /fe_interview/react/redux.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -58,7 +58,7 @@ views平级建个redux目录->store.js
 那什么时候会订阅到消息呢，就是进去detail页面时通知隐藏，离开时通知显示
 引入redux->createStore(reducer)
 import {createStore} from 'redux'
-const reducer = (prevState={ show: true }, action) { // 接收老的状态和action的type和payload
+const reducer = (prevState={ show: true }, action={}) { // 接收老的状态和action的type和payload
     let newState = {...prevState}
     switch(action.type) {
         case 'hide-tabbar':
@@ -127,4 +127,49 @@ export { show, hide }
 Detail.js
 import {show, hide} from "...TabbarActionCreator"
 store.dispatch(show())
+## redux原理
+尝试写一下store
+import {createStore} from 'redux'
+const reducer = (prevState={ show: true }, action={}) { // 接收老的状态和action的type和payload
+    let newState = {...prevState}
+    switch(action.type) {
+        case 'hide-tabbar':
+            / 不能直接修改状态，也是先深复制一份
+            newState.show = false
+            return newState
+        case 'show-tabbar':
+            newState.show = true
+            return newState
+        default:
+            return prevState
+    }
+    // return prevState // 如果不处理就返回老状态，如果处理就返回新状态
+}
+// 我处理不了，但我交给我自己的代言人reducer来处理
+const store = createStore(reducer) // 支持在第二个参数写状态
+// store.dispatch
+// store.subscribe
+// store.getStore
+function createMyStore(reducer) {
+    var list = []
+    var state = reducer() // reducer()第一次执行完后返回的是默认的老状态
+    function subscribe(callback){
+        list.push(callback)
+    }
+    function dispatch(action){
+        state = reducer(state, action)
+        for(var i in list) {
+            list[i] && list[i]()
+        }
 
+    }
+    function getStore(){
+
+    }
+    return {
+        subscribe,
+        dispatch,
+        getStore
+    }
+}
+export default store
