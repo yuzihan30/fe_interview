@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-27 17:07:21
+ * @LastEditTime: 2022-05-28 12:32:28
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -529,7 +529,7 @@ const myJsonp = (url = '', params = {}, callback = () => {}) => {
 ```
 2. CORS流程，JSONP只支持get请求，推荐使用CORS方式跨域，流程：浏览器发头带origin源的请求->服务器看origin字段的请求头后，就在响应中添加Access-Control-Allow-Origin标头，指定请求来源（或者*允许任何来源）->浏览器收到带Access-Control-Allow-Origin标头的响应后，会允许与客户端站点共享响应数据
 
-3. 浏览器直接读取本地文件会存在跨域问题，起个本地服务器可以解决该问题
+3. 浏览器直接读取本地文件会存在跨域问题，起个本地服务器可以解决该问题；这是由于浏览器的保护机制，不允许访问本地文件。
 
 
 ########## 浏览器的垃圾回收机制 #########
