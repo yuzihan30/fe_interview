@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-28 09:16:44
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-29 15:15:16
+ * @LastEditTime: 2022-05-29 21:12:41
  * @FilePath: /fe_interview/react/redux.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -283,4 +283,81 @@ function getCinemaListAction() {
 }
 export default getCinemaListAction
 之前store.dispatch(getCinemaListAction())里面的函数只能返回一个对象，现在引入thunk中间件，可以让其返回函数
+function getCinemaListAction() {
+    // thunk发现是对象就直接返回，发现返回是函数就会走thunk流程，执行这个函数，还会塞个参数
+    return (dispatch) => {
+        axios({}).then(res=>{
+            dispatch({
+                type: "change-list",
+                payload: res.data.data.cinemas
+            })
+        })
+    }
+}
+store.js
+import { applyMiddleware } from 'redux'
+import reduxThunk from 'redux-thunk'
 
+const store = createStore(reducer, applyMiddleware)
+cinema.js里面订阅
+const [cinemaList, setCinemaList] = useState(store.getState().CinemaListReducer.list)
+useEffect(()=>{
+    if(store.getState().CinemaListReducer.list.length === 0) {
+        // 去后台取数据， 不放在这里;放到redux里做
+        // actionCreator里面写异步
+        store.dispatch(getCinemaListAction())
+    } else { //  }
+    store.subscribe(()=>{
+        // console.log(store.getState().CinemaListReducer.list)
+        setCinemaList(store.getState().CinemaListReducer.list)
+    })
+}, [])
+有个问题，就是进detail, 没次切回影院都会订阅一次，再切到其他页面有dispatch触发，就会导致订阅者执行；就是订阅者频繁执行的问题，每次cinema切走，cinema组件会销毁、cinema组件内部状态会销毁；但store不是cinema组件的东西，必须在离开的时候手动销毁它
+
+## redux-promise
+useEffect(()=>{
+    if(store.getState().CinemaListReducer.list.length === 0) {
+    } else { //  }
+    // 每次执行完会返回一个函数
+    let unsubscribe = store.subscribe(()=>{
+        setCinemaList(store.getState().CinemaListReducer.list)
+    })
+    // 重复订阅，销毁时注意取消订阅
+    return () => {
+        unsubscribe()
+    }
+}, [])
+函数式组件有时要执行一次以上，要确保数据更新完了；所以把ajax放到函数式组件的外层比较危险
+添加搜索组件
+<Route path="/cinemas" component={Cinemas} exact /> // 为了让后面的匹配上，这里要设置成精准匹配
+<Route path="/cinemas/search" component={Search} /> // 虽然这样写，但事实上search和Cinemas组件是平级的
+redux-promise的写法， return返回promise
+export default getCinemaListAction
+之前store.dispatch(getCinemaListAction())里面的函数只能返回一个对象，现在引入thunk中间件，可以让其返回函数
+function getCinemaListAction() {
+    // thunk发现是对象就直接返回，发现返回是函数就会走thunk流程，执行这个函数，还会塞个参数
+    return axios({}).then(res=>{
+            return {
+                type: "change-list",
+                payload: res.data.data.cinemas
+            }
+        })
+}
+// getCinemaListAction().then(res => {
+    // redux-promise中间件会帮你dispatch出去
+// })
+或者用async， async在其他语言中叫协程，让函数处理能挂起，不再往下执行；Es6的生成器转化而来，生成器内置了自执行函数
+async function getCinemaListAction() {
+    let list = await axios({}).then(res=>{
+            return {
+                type: "change-list",
+                payload: res.data.data.cinemas
+            }
+        })
+    return list
+}
+store.js
+import reduxPromise from 'redux-promise'
+const store = createStore(reducer, applyMiddleware(reduxThunk, reduxPromise))
+// applyMiddleware入参里写任意多个都没事儿
+上边两个中间件相当于在action和reducer中间架起一座桥梁

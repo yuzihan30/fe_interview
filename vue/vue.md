@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 09:11:19
- * @LastEditTime: 2022-05-17 16:28:28
+ * @LastEditTime: 2022-05-29 16:50:03
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue.md
@@ -28,3 +28,6 @@ history是h5方式的路由，项目正式部署的时候，需要后台配合�
 
 ## 组件通信
 vuex、eventBus、以及props与emit、$parent与$children，除此之外，还有provide与inject、$attrs与$listeners等；另外ref绑定到组件上也能通信
+
+## 初始化
+1. el是element的意思
