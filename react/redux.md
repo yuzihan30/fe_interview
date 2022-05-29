@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-28 09:16:44
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-28 15:04:05
+ * @LastEditTime: 2022-05-29 11:20:12
  * @FilePath: /fe_interview/react/redux.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -152,7 +152,8 @@ const store = createStore(reducer) // 支持在第二个参数写状态
 // store.getStore
 function createMyStore(reducer) {
     var list = []
-    var state = reducer() // reducer()第一次执行完后返回的是默认的老状态
+    // var state = reducer() // reducer()第一次执行完后返回的是默认的老状态
+    // var state = reducer(undefined, {})
     function subscribe(callback){
         list.push(callback)
     }
@@ -173,3 +174,88 @@ function createMyStore(reducer) {
     }
 }
 export default store
+## redux-reducer合并
+1. redux三大使用原则
+state以单一对象存在store中。 修改和访问的是同一个对象
+state只读（每次返回一个新对象）
+使用纯函数reducer执行state更新。 纯函数就是对外边的变量或者对象没有副作用，同样的输入得到同样的输出
+2. 增加状态
+const reducer = (prevState={ show: true, cityName: '北京' }, action={}) { // 接收老的状态和action的type和payload
+    let newState = {...prevState}
+    switch(action.type) {
+        case 'hide-tabbar':
+            / 不能直接修改状态，也是先深复制一份
+            newState.show = false
+            return newState
+        case 'show-tabbar':
+            newState.show = true
+            return newState
+        default:
+            return prevState
+    }
+    // return prevState // 如果不处理就返回老状态，如果处理就返回新状态
+}
+Cinema.js
+const [cityName, setcityName] = useState(store.getState().cityName)
+<div onClick={() => {
+    props.history.push('/city')
+}}>{cityName}</div>
+City.js
+const [list] = useState(['北京', '上海'])
+<div>
+    city
+    <ul>
+        list.map(item=>{
+            <li key="item" onClick={()=>{
+                dispatch({
+                    type: 'change-city',
+                    payload: item
+                })
+                // props.history.push('/cinemas')
+                props.history.goBack()
+            }}>{item}</li>
+        })
+    </ul>
+</div>
+<Route path="/city" component={city} />
+这个场景其实不用dispatch, 其实每次切换，都会销毁重新进来
+case 'show-tabbar':
+    newState.show = true
+    return newState
+case 'change-city':
+    newState.cityName = action.payload
+    return newState // 一旦返回会通知所有订阅者，这里我们不用通知，因为在city页面dispatch后还要跳回到cinema.js, cinema执行就会读最新的store
+default:
+    return prevState
+
+3. 刷新数据丢失
+Cinema.js
+因为数据是在内存中，刷新会丢失，改变城市之后回到影院，刷新又会回到北京这个城市；后面会用redux持久化来解决这个问题
+4. case太多了怎么办，reducer扩展
+拆分成多个reducer,每个reducer只管理里面的子状态，最终再把他们合并成一个单一状态；如果不同的action之间处理的属性没有联系，可以把reducer函数拆分，不同函数处理不同属性，最终合并成一个大的reducer即可
+redux文件夹下->reducers文件夹->CityReducer.js、TabbarReducer.js
+CityReducer.js
+const reducer = (prevState={ cityName: '北京' }, action={}) { // 接收老的状态和action的type和payload
+    let newState = {...prevState}
+    switch(action.type) {
+        case 'change-city':
+            newState.cityName = action.payload
+            return newState // 一旦返回会通知所有订阅者，这里我们不用通知，因为在city页面dispatch后还要跳回到cinema.js, cinema执行就会读最新的store
+        default:
+            return prevState
+    }
+    // return prevState // 如果不处理就返回老状态，如果处理就返回新状态
+}
+export default CityReducer
+store.js
+import CityReducer from ''
+import TabbarReducer from ''
+const reducer = combineReducer({
+    CityReducer,
+    TabbarReducer
+})
+App.js
+this.setState({
+    isShow: store.getState().TabbarReducer.show
+})
+
