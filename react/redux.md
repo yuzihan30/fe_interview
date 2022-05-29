@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-28 09:16:44
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-29 11:20:12
+ * @LastEditTime: 2022-05-29 15:15:16
  * @FilePath: /fe_interview/react/redux.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -258,4 +258,29 @@ App.js
 this.setState({
     isShow: store.getState().TabbarReducer.show
 })
+## redux中间件-redux-thunk
+1. swith的case分支能直接匹配到，不像if else分支每个都得走一遍
+之前都是同步场景；而且切换城市之后影院请求完数据后，切换搜索，又会重新请求一次影院数据，多请求了，这种异步场景；同样的数据往后端要两次，后端是有压力的；优化的话就先将请求的数据放store, 让后搜索组件请求的时候，先判断if(store.list.length == 0){自己再取} else {从store读取} 同样的逻辑也放到search组件中一份
+还有种场景也可以用，就是一个接口里面返回的数据是两个页面都会用到的数据
+redux数据存在内存里也有它的优点，当接口数据有更新，应用刷新redux数据丢失，下次就会请求最新的接口数据；或者关闭应用，内存数据也会丢失，下次再打开也会请求最新的数据；localstorage永久缓存就会导致永远不跟后端交互了，使得数据得不到同步更新的问题
+
+2. cinema.js里试试上面的方案，
+useEffect(()=>{
+    if(store.getState().CinemaListReducer.list.length === 0) {
+        // 去后台取数据， 不放在这里;放到redux里做
+        // actionCreator里面写异步
+        store.dispatch(getCinemaListAction())
+    } else { //  }
+}, [])
+actionCreater文件夹下创建getCinemaListAction.js
+function getCinemaListAction() {
+    axios().then()
+    return {
+        type: 'change-list',
+
+    }
+    // 这里就出现没法处理的情况，如果return放到then内，因为里面then是异步，外边函数就会同步返回undefined
+}
+export default getCinemaListAction
+之前store.dispatch(getCinemaListAction())里面的函数只能返回一个对象，现在引入thunk中间件，可以让其返回函数
 
