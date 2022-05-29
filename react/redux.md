@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-28 09:16:44
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-29 21:12:41
+ * @LastEditTime: 2022-05-29 22:07:10
  * @FilePath: /fe_interview/react/redux.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -361,3 +361,15 @@ import reduxPromise from 'redux-promise'
 const store = createStore(reducer, applyMiddleware(reduxThunk, reduxPromise))
 // applyMiddleware入参里写任意多个都没事儿
 上边两个中间件相当于在action和reducer中间架起一座桥梁
+
+## redux devtools
+开发环境下安装完插件需要配置一下，上线需要把配置的代码删除
+store.js
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(reduxThunk, reduxPromise))
+App.js是根组件不会销毁，所以不会不断的订阅取消订阅，但cinema组件则不行
+
+## react-redux
+拥有react-redux后，作为app组件就不需要订阅了，connect给App生成一个父组件，帮你订阅和取消订阅；订阅到改变，父传子传进来，props.isShow
+detail组件也不用自己dispatch了，connect给detail生成一个父组件，帮你订阅和取消订阅,而且帮你分发事件dispatch action;但需要子传父告诉他action, this.props.show(), 回调功能
+最后store从哪获得呢，更高阶的组件负责给所有connect组件提供store;最外层写个供应商组件，Provider store=(store)负责把store跨级给connect组件
