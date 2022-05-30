@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-08 14:13:46
- * @LastEditTime: 2022-05-27 14:05:43
+ * @LastEditTime: 2022-05-30 11:05:27
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/css/css题库.md
@@ -95,6 +95,9 @@ img标签作为html标签，使用src引入图片，别的资源会被中断加�
 - ::after伪元素和padding
 - height: 0和padding-top: calc(100%) * 75%
 - 视窗宽高
+
+## 盒模型
+1. background颜色只会覆盖到contentpadding不会覆盖到border上面
 
 
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-28 12:32:28
+ * @LastEditTime: 2022-05-30 22:29:43
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -73,7 +73,7 @@ NaN ==或者=== NaN都返回false  NaN是js中唯一自己和自己不相等的�
 注意区分对象相同和相等的概念
 js中判断两个对象是否相等，属性名值相同认为对象是相等的，不能只用==、===, ==、===比较的是地址，需要用==、===(说明两个是相同对象),结合遍历a对象，是否a对象的每个属性都在b对象中且值相等，遍历b对象，是否b对象的每个属性都在a对象中且值相等, 如果属性时引用类型需要递归判断。建议参考vue源码，方法更简洁合理，但vue的源码是为了服务vue的，并未考虑正则表达式相等的情况
 a: typeof BigInt('111')、typeof 111n 都会返回bigint
-typeof Func会返回function, 后面是其它引用类型都返回object
+typeof Func会返回function, 后面是其它引用类型都返回object; 
 typeof 原始类型除null返回object外都返回对应类型
 b: [].constructor === Array  alert.constructor === Function null和undefined为无效对象无constructor, 存在问题：自定义对象的重写prototype后，会导致constructor引用丢失, 不建议使用
 c: instanceof判断引用数据类型，判断构造函数的原型是否出现对象的原型链上，[] instanceof Array为true, 存在问题：iframe中的数组传到主页面会出现无法判断为Array的问题，所以用Array.isArray()
@@ -103,7 +103,47 @@ in 自身或者原型链上的属性 对应 for in
 1. 对象和map区别：
 - Object无法使用非字符串值作为键名，但Map的键名可以是任意类型；
 - 常规对象里，为了遍历keys、values和entries，你必须将它们转换为数组，如使用Object.keys()、Object.values()和Object.entries()，或使用for ... in，另外for ... in循环还有一些限制：它仅仅遍历可枚举属性、非Symbol属性，并且遍历的顺序是任意的，但Map可直接遍历，且因为它是键值对集合，所以可直接使用for…of或forEach来遍历。这点不同的优点是为你的程序带来更高的执行效率
+- 对象的key无序，map的key有序
 
+2. 判断是否是对象
+一.判断值是否是对象
+1.toString 方式【常用】
+Object.prototype.toString.call(val) === '[object Object]' // true 代表为对象
+注意：这里要使用 call 方法改变作用域
+2.constructor 方式
+val?.constructor === Object // true 代表为对象
+这里使用了 null 传导符(?.) 以防止出错
+3.typeof 与 instanceof
+typeof 与 instanceof 并不能完全判断一个值为对象
+typeof 的取值有：
+"undefined"——如果这个值未定义；
+"boolean"——如果这个值是布尔值；
+"string"——如果这个值是字符串；
+"number"——如果这个值是数值；
+"object"——如果这个值是对象（包括数组）或null；
+"function"——如果这个值是函数；
+"symbol"——如果这个值是Symbol
+instanceof 操作符对于数组和对象都返回 true
+[] instanceof Object // true
+new Object instanceof Object // true
+4.__proto__ 方式【不推荐】
+ __proto__属性，用来读取或设置当前对象的 prototype 对象，此属性未纳入标准，不建议使用。
+val.__proto__ === Object.prototype // true 代表为对象
+5.Object.getPrototypeOf 方式
+Object.getPrototypeOf()，用来读取对象的 prototype 对象。
+Object.getPrototypeOf(val) === Object.prototype // true 代表为对象
+
+## 数组
+1. 判断数组的方法
+- 使用es6： Array.isArray( obj )
+- 原型对象判断 obj.__proto__ === Array.prototype
+Object.getPrototypeOf( obj ) === Array.Prototype
+- 使用 instanceof 操作符 obj instanceof Array
+- Array.prototype.isPrototypeOf( obj )
+- 使用对象class属性： Object.prototype.toString.call( obj ) 返回值 '[object Array]'
+        function(obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+  };
 ########## 变量 ########
 1. function foo() { console.log(x) }
 function bar() { var x = 2; foo(); console.log(x) }

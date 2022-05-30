@@ -22,7 +22,10 @@ objectOfAttrs: {
 
 5. 指令的动态参数，<a v-bind:[attributeName]="url">...</a>简写为<a :[attributeName]="url">...</a> <a v-on:[eventName]="doSomething">...</a>或者简写<a @[eventName]="doSomething">
 
+6. vue3允许template下有多个节点
+
 ############## 响应式基础 #################
+1. vue3的provide-inject支持响应式；但vue2不支持
 
 ############## SSR #################
 hydrate 混合

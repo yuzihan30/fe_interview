@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 09:11:19
- * @LastEditTime: 2022-05-29 16:50:03
+ * @LastEditTime: 2022-05-30 15:15:29
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue.md
@@ -31,3 +31,10 @@ vuex、eventBus、以及props与emit、$parent与$children，除此之外，还�
 
 ## 初始化
 1. el是element的意思
+
+## 工具
+Vue Template Explorer
+是一个网页工具，可以将模板转换成网页的函数，例如换行都会原样生成，但是在运行时消耗无意义的内存
+vue-template-explorer
+Vue 2.6 把模板编译成 render 函数的工具 vue-next-template-explorer Vue 3.0 beta
+把模板编译成 render 函数的工具
