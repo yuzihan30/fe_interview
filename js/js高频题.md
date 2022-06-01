@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-30 22:29:43
+ * @LastEditTime: 2022-05-31 10:37:57
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -132,6 +132,36 @@ val.__proto__ === Object.prototype // true 代表为对象
 5.Object.getPrototypeOf 方式
 Object.getPrototypeOf()，用来读取对象的 prototype 对象。
 Object.getPrototypeOf(val) === Object.prototype // true 代表为对象
+
+3. weakMap
+当我们对一个不再使用的对象保持引用的时候将会造成内存泄漏，所以如果你不再使用对象，请删除它的任何变量引用。
+使用weakmap时我们不应该使用.keys() / .values() /.entries()，因为我们不知道何时垃圾回收器会移除这个对象。
+let obj = { name: 'toto' }
+let arr = [ obj ]
+obj = null // 存在强引用关系，内存泄露
+
+使用map，对象会占用内存，可能不会被垃圾回收。Map对一个对象是强引用
+
+let obj = { name: 'toto' }
+let mapObj = new Map()
+mapObj.set(obj, 'any value')
+
+obj = null
+mapObj.size() // 1
+Weakmap则是完全不同的，它不会阻止关键对象的垃圾回收
+第一条规则，weakmap只接受object作为key，第二条规则是它只保存对对象的弱引用。
+let obj = { name: 'toto' }
+let weakmapObj = new WeakMap()
+weakmapObj.set(obj, 'any value')
+obj = null
+weakmapObj .size() // 0
+
+4. WeakSet
+WeakSet 结构与 Set 类似，但只有add、delete、has三个方法
+不同之处：
+WeakSet的成员只能是对象，并且WeakSet不支持clear方法，不支持遍历，也没有forEach这个方法，没有属性size
+WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，如果只有WeakSet引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存
+
 
 ## 数组
 1. 判断数组的方法

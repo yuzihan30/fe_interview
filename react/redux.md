@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-28 09:16:44
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-29 22:07:10
+ * @LastEditTime: 2022-05-31 22:36:49
  * @FilePath: /fe_interview/react/redux.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -370,6 +370,85 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(reduxThunk, 
 App.js是根组件不会销毁，所以不会不断的订阅取消订阅，但cinema组件则不行
 
 ## react-redux
-拥有react-redux后，作为app组件就不需要订阅了，connect给App生成一个父组件，帮你订阅和取消订阅；订阅到改变，父传子传进来，props.isShow
+1. 拥有react-redux后，作为app组件就不需要订阅了，connect给App生成一个父组件，帮你订阅和取消订阅；订阅到改变，父传子传进来，props.isShow
 detail组件也不用自己dispatch了，connect给detail生成一个父组件，帮你订阅和取消订阅,而且帮你分发事件dispatch action;但需要子传父告诉他action, this.props.show(), 回调功能
 最后store从哪获得呢，更高阶的组件负责给所有connect组件提供store;最外层写个供应商组件，Provider store=(store)负责把store跨级给connect组件
+index.js // 其他组件就不用引入store了
+import {Provider} from 'react-redux'
+<Provider store={store}>
+    <App />
+</Provider>
+App.js
+import { connect } from 'react-redux'
+const App = ..
+export default connect(()=>{
+    return { a:0 }
+})(App) // connect()入参可以让你定制一下要哪个，要求传入的回调函数必须有返回值, 返回值是什么，APP就会得到这个属性；比之前withRouter(FilmItem)更好用，withRouter只能接受
+connect((state)=>{ // 这时就可以需要什么传什么
+    return { isShow: state.TabbarReducer.show }
+})(App)
+{ this.props.isShow && <Tabbar></Tabbar> }
+或者
+const mapStateToProps = (state)=>{ // 这时就可以需要什么传什么
+    return { isShow: state.TabbarReducer.show }
+}
+export default connect(mapStateToProps)(App)
+
+Detail.js // 不需要自己去dispatch了
+// connect(将来给孩子传的属性，将来给孩子传的回调函数->对象里函数的形式)，帮子组件dispatch
+// 依赖的一部分可以结构出来
+let {match, show, hide} = props
+useEffect(() => {
+    console.log(match.params.myid)
+    // props.hide()
+    hide()
+    return {
+        // props.show()
+        show()
+    }
+}, [hide, show, match.params.myid])
+export default connect(null, {
+    // a() {}, // 回调函数式什么，子组件就帮忙dispatch什么，this.props.a()就帮你dispatch a的返回值
+    // b() {}
+    show,
+    hide
+})(Detail)
+或者这样写
+const mapDispatchToProps = {
+    show,
+    hide
+}
+export default connect(null, mapDispatchToProps)(Detail)
+
+City.js
+props.change(item)
+const mapDispatchToProp = {
+    change(item) {
+        return {
+            type: "change-city",
+            payload: item
+        }
+    }
+}
+export default connect(null, mapDispatchToProp)(City)
+
+2. 改造异步，优势更明显
+Cinemas.js
+const { list, getCinemaListAction } = props
+useEffect(() => {
+    if(list.length===0) {
+        getCinemaListAction()
+    } else {
+
+    }
+}, [list, getCinemaListAction]) // 开始list.length===0会走一次，list更新后会走一次else; else分支可以删掉
+const mapStateToProps = (state) => {
+    return {
+        list: state.CinemaListReducer.list,
+        cityName: state.CityReducer.cityName
+    }
+}
+const mapDispatchToProps = () => {
+    getCinemaListAction
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Cinemas)

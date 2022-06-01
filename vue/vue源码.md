@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-09 16:55:19
- * @LastEditTime: 2022-05-30 22:38:21
+ * @LastEditTime: 2022-05-31 15:48:04
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue源码.md
@@ -79,20 +79,13 @@ with(obj) {
 建议看看这篇文章：Vue源码详解之nextTick：MutationObserver只是浮云，microtask才是核心！
 
 - nextTick 实现原理
-🤔nextTick 方法主要是使用了宏任务和微任务，定义一个异步方法，多次调用 nextTick 会将方法存在队列中，通过这个异步方法清空当前队列。所以这个 nextTick 方法就是异步方法
-
+nextTick 方法主要是使用了宏任务和微任务，定义一个异步方法，多次调用 nextTick 会将方法存在队列中，通过这个异步方法清空当前队列。所以这个 nextTick 方法就是异步方法
 这句话说的很乱，典型的让面试官忍不住想要深挖一探究竟的回答。（因为一听你就不是真的懂）
-
 正确的流程应该是先去 嗅探环境，依次去检测：
-
-Promise 的 then -> 🤔MutationObserver 的回调函数 -> 🤔setImmediate -> 🤔setTimeout 是否存在，找到存在的就使用它，以此来确定回调函数队列是以哪个 api 来异步执行。
-
+Promise 的 then -> MutationObserver 的回调函数 -> setImmediate -> setTimeout 是否存在，找到存在的就使用它，以此来确定回调函数队列是以哪个 api 来异步执行。
 在 nextTick 函数接受到一个 callback 函数的时候，先不去调用它，而是把它 push 到一个全局的 queue 队列中，等待下一个任务队列的时候再一次性的把这个 queue 里的函数依次执行。
-
 这个队列可能是 microTask 队列，也可能是 macroTask 队列，前两个 api 属于微任务队列，后两个 api 属于宏任务队列。
-
 简化实现一个异步合并任务队列：
-
 let pending = false
 // 存放需要异步调用的任务
 const callbacks = []
@@ -132,11 +125,11 @@ console.log(4)
 // 此时 callbacks 里的 3 个函数被依次执行。
 
 - Vue 优点
-🤔虚拟 DOM 把最终的 DOM 操作计算出来并优化，由于这个 DOM 操作属于预处理操作，并没有真实的操作 DOM，所以叫做虚拟 DOM。最后在计算完毕才真正将 DOM 操作提交，将 DOM 操作变化反映到 DOM 树上
+虚拟 DOM 把最终的 DOM 操作计算出来并优化，由于这个 DOM 操作属于预处理操作，并没有真实的操作 DOM，所以叫做虚拟 DOM。最后在计算完毕才真正将 DOM 操作提交，将 DOM 操作变化反映到 DOM 树上
 
 看起来说的很厉害，其实也没说到点上。关于虚拟 DOM 的优缺点，直接看 Vue 作者尤雨溪本人的知乎回答，你会对它有进一步的理解：
 
-网上都说操作真实 DOM 慢，但测试结果却比 React 更快，为什么？[2]
+网上都说操作真实 DOM 慢，但测试结果却比 React 更快，为什么？
 
 🤔双向数据绑定通过 MVVM 思想实现数据的双向绑定，让开发者不用再操作 dom 对象，有更多的时间去思考业务逻辑
 
@@ -181,15 +174,12 @@ Vue 虽然可以传递回调，但是一般来说还是通过 @change 这样的�
 
 Vue 也可以利用高阶函数实现组合和复用。
 
-diff 算法的时间复杂度
-🤔两个数的完全的 diff 算法是一个时间复杂度为 o(n3)， 🤔Vue 进行了优化 O(n3)复杂度的问题转换成 O(n)复杂度的问题(只比较同级不考虑跨级问题)在前端当中，你很少会跨级层级地移动 Dom 元素，所以 Virtual Dom 只会对同一个层级地元素进行对比
-
+- diff 算法的时间复杂度
+两个数的完全的 diff 算法是一个时间复杂度为 o(n3)， Vue 进行了优化 O(n3)复杂度的问题转换成 O(n)复杂度的问题(只比较同级不考虑跨级问题)在前端当中，你很少会跨级层级地移动 Dom 元素，所以 Virtual Dom 只会对同一个层级地元素进行对比
 听这个描述来说，React 没有对 O(n3) 的复杂度进行优化？事实上 React 和 Vue 都只会对 tag 相同的同级节点进行 diff，如果不同则直接销毁重建，都是 O(n) 的复杂度。
 
-谈谈你对作用域插槽的理解
-🤔单个插槽当子组件模板只有一个没有属性的插槽时， 父组件传入的整个内容片段将插入到插槽所在的 DOM 位置， 并替换掉插槽标签本身。
-
-跟 DOM 没关系，是在虚拟节点树的插槽位置替换。
+- 谈谈你对作用域插槽的理解
+单个插槽当子组件模板只有一个没有属性的插槽时， 父组件传入的整个内容片段将插入到插槽所在的 DOM 位置， 并替换掉插槽标签本身。跟 DOM 没关系，是在虚拟节点树的插槽位置替换。
 
 - Vue 中 key 的作用
 如果不加 key,那么 vue 会选择复用节点(Vue 的就地更新策略),导致之前节点的状态被保留下来，会产生一系列的 bug
@@ -280,5 +270,11 @@ Store.prototype._withCommit = function _withCommit(fn) {
 1. 渲染watcher, 负责更新视图变化的，即⼀个vue实例对应⼀个渲染watcher
 2. ⽤户⾃定义watcher，⽤户通过watch：{value(val, oldVal){}}选项定义的，或者this.$watch()⽅法⽣成的。
 3. computed选项⾥⾯的计算属性也是watcher, 和第2点中的watcher的区别是它的watcher实例有dirty属性控制着watcher.value值的变化
+## Object.defineProperty的问题
+无法监听Map、Set的变化
+无法监听Class类型的数据
+属性的新增和删除无法监听
+数组元素的新增和删除无法监听，无法监听通过索引改变数组的情况
+
 
 
