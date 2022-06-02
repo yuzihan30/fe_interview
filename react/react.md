@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-05-25 20:13:28
+ * @LastEditTime: 2022-06-01 15:11:55
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/react/react.md
@@ -10,7 +10,7 @@
 1. 组件书写注意事项：
 import导入首字母必须大写
 return 返回标签时，要么不换行，要么换行时用括号括起来，js中return如果换行会返回undefined
-return 返回所有内容必须由一个标签包裹
+return 返回所有内容必须由一个标签包裹，也可以是一个空标签
 
 2. 16.8之前函数式组件又叫无状态组件，16.8开始引入react-hooks，函数式组件开始可以有状态
 
@@ -232,7 +232,7 @@ props函数式组件，函数式组件天生支持props，不像state，16.8之�
 import React from 'react'
 export default function Sidebar(props) {
     let { bg } = props
-    return (
+    return ( // 必须要有个根节点，根节点为空标签也是可以的
         <div style={{
             background: bg, 
             width="200px"

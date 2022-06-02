@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-28 09:16:44
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-06-01 09:55:57
+ * @LastEditTime: 2022-06-01 10:25:02
  * @FilePath: /fe_interview/react/redux.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -470,3 +470,7 @@ export default myConnect(() => {
     aa(){},
     bb(){}
 })(NotFound)
+
+## redux持久化
+影院列表不希望能持久化，因为后台数据更新不能同步；选完上海，刷新后期望仍能保持上海
+redux-persist: 可以配置想要持久化的reducer的名字;黑名单就不会持久化
