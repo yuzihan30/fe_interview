@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-09 16:55:19
- * @LastEditTime: 2022-05-31 15:48:04
+ * @LastEditTime: 2022-06-03 13:11:33
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue源码.md
@@ -276,5 +276,25 @@ Store.prototype._withCommit = function _withCommit(fn) {
 属性的新增和删除无法监听
 数组元素的新增和删除无法监听，无法监听通过索引改变数组的情况
 
+## diff算法
+- 什么是diff算法
+diff算法就是进行虚拟节点对比，并返回一个patch对象，用来存储两个节点不同的地方，最后用patch记
+录的消息去局部更新Dom。
+简单来说：
+diff的过程就是调用名为patch的函数，比较新旧节点，一边比较一边给真实的DOM打补丁
+- diff算法的特点
+比较只会在同层级进行, 不会跨层级比较
+在diff比较的过程中，循环从两边向中间比较
+diff 算法的在很多场景下都有应用，在 vue 中，作用于虚拟 dom 渲染成真实 dom 的新旧 VNode 节点比较
+- diff算法的步骤
+用 JavaScript 对象结构表示 DOM 树的结构；然后用这个树构建一个真正的 DOM 树，插到文 档当中
+当状态变更的时候，重新构造一棵新的对象树。然后用新的树和旧的树进行比较(diff)，记录两棵树差异
+把第二棵树所记录的差异应用到第一棵树所构建的真正的DOM树上(patch)，视图就更新了
+- 比较方式
+diff整体策略为：深度优先，同层比较
+比较只会在同层级进行, 不会跨层级比较
+比较的过程中，循环从两边向中间收拢
+- 原理分析
+当数据发生改变时，set方法会调用Dep.notify通知所有订阅者Watcher，订阅者就会调用patch给真实的DOM打补丁，更新相应的视图
 
 
