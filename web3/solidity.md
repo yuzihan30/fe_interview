@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 22:18:35
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-20 23:25:30
+ * @LastEditTime: 2022-06-03 18:49:33
  * @FilePath: /fe_interview/web3/solidity.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -41,3 +41,9 @@ contract HelloWorld {
 // 添加changeName方法后重新编译部署后，填写修改值并点击面板changeName，会发现gas会一直减少
 // 修改状态，所有节点都会同步，所以会消耗一定的燃料
 ```
+## pure和view节约gas
+view指定这个方法不会修改
+function pureTest(string _name) public pure returns(string) { // pure永久的意思，传什么返回什么，连状态都不会去读取
+    return _name;
+}
+changeName修改状态，需要全网同步，需要消耗很多资源
