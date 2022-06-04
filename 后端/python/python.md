@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-25 13:56:36
- * @LastEditTime: 2022-05-22 21:51:55
+ * @LastEditTime: 2022-06-04 21:48:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/后端/python.md
@@ -32,6 +32,8 @@ dict.keys()、dict.values() 和 dict.items() 返回的都是视图对象（ view
 
 2. 字典有一些内置函数和内置方法
 内置函数是将字典作为参数，比如len(dict)、str(dict)、type(dict), 内置方法是将字典作为调用者,比如dict.clear()、dict.copy()、in操作符判断键是否存在字典中（not in就是不在）
+
+3. **解包字典数据，可用于关键字参数
 
 ############## 数据类型bytes #################
 1. 在python中，数据转成2进制后不是直接以010101的形式表示的，而是用一种叫bytes(字节)的类型来表示的。 例如 b'\xe8\x87\xaa\xe5
