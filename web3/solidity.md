@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-20 22:18:35
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-06-03 18:49:33
+ * @LastEditTime: 2022-06-04 13:06:03
  * @FilePath: /fe_interview/web3/solidity.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -42,8 +42,73 @@ contract HelloWorld {
 // 修改状态，所有节点都会同步，所以会消耗一定的燃料
 ```
 ## pure和view节约gas
-view指定这个方法不会修改
+view指定这个方法不会修改状态
 function pureTest(string _name) public pure returns(string) { // pure永久的意思，传什么返回什么，连状态都不会去读取
     return _name;
 }
 changeName修改状态，需要全网同步，需要消耗很多资源
+测试
+## 真假bool值
+Boolean.sol
+```
+pragma solidity ^0.4.0;
+
+contract BooleanTest {
+    bool _a; // 1. bool数据类型未初始化时默认返回false
+    int num1 = 100;
+    int num2 = 200;
+
+    function getBool() returns(bool) {
+        return _a;
+    }
+    function getBool2() returns(bool) {
+        return !_a; // 2. 前面加！布尔值取反
+    }
+    function judge() returns(bool) {
+        return num1 == num2; // 3. 用于判断
+    }
+    function judge2() returns(bool) {
+        return num1 != num2; 
+    }
+    // 4. 与或非，&& || !
+    function and() returns(bool) {
+        return (num1 == num2) && true; // false
+    }
+    // || 
+    function or() returns(bool) {
+        return (num1 == num2) || true; // true
+    }
+}
+```
+## 整型特性与运算
+Math.sol
+```
+pragma solidity ^0.4.0;
+
+contract MathTest {
+    // 1. 定义整型两种方式：int、uint
+    int num1 = 100; // int可正可负，实际上是int256
+    uint num2 = 200; // uint非负整型, 实际上是uint256
+    uint8 num3 = 2; // uint8最大存储8位二进制, 最大值是255
+    // 2. 加、减、乘、除、取余、幂运算
+    function add(uint x, uint y) pure public returns(uint) {
+        return x + y;
+    }
+    function sub(uint x, uint y) pure public returns(uint) {
+        return x - y;
+    }
+    function multiply(uint x, uint y) pure public returns(uint) {
+        return x * y;
+    }
+    function divide(uint x, uint y) pure public returns(uint) {
+        return x / y;
+    }
+    function mod(uint x, uint y) pure public returns(uint) {
+        return x % y;
+    }
+    // 幂运算
+    function power(uint x, uint y) pure public returns(uint) {
+        return x ** y;
+    }
+}
+```
