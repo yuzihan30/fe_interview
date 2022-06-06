@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-05-31 10:37:57
+ * @LastEditTime: 2022-06-05 09:59:35
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -854,11 +854,16 @@ React ErrorBoundary
 ## 单点登录
 - sso需要一个独立的认证中心，只有认证中心能接受用户的用户名密码等安全信息，其他系统不提供登录入口，只接受认证中心的间接授权。间接授权通过令牌实现，sso认证中心验证用户的用户名密码没问题，创建授权令牌，在接下来的跳转过程中，授权令牌作为参数发送给各个子系统，子系统拿到令牌，即得到了授权，可以借此创建局部会话，局部会话登录方式与单系统的登录方式相同。
 
+## 前后端交互
+1. 表单数据的「媒体类型」编码一般为 application/x-www-form-urlencoded。
+但包含文件的表单编码为 multipart/form-data
 
 ########## 新概念 #########
 1. pnpm新的依赖管理工具，比npm、yarn快两倍
 
 2. Monorepo单体代码仓库
+
+
 
 
 
