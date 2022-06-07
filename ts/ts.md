@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-06-07 15:24:09
+ * @LastEditTime: 2022-06-07 17:07:32
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -81,6 +81,41 @@ tsconfig.json配置文件可以配置监控所有文件，即使里面没有内�
     }
 }
 - 类型推断, 没有明确指定类型的时候推测出一个类型，先let txt = 100,推断出number类型 再赋值txt = 'xx'就不行；定义一个变量没有赋值，推断为any类型，let a, a = 10, a = 'xx'
+
+3. 接口
+TS核心是对值所具有的结构进行类型检查， 接口可以定义对象的类型
+定义一个接口，该接口作为person对象的类型使用，限定或者是约束该对象中的属性数据
+interface IPerson {
+    readonly id: number // readonly定义只读属性
+    name: string
+    age: number
+    sex?: string // ?可有可无的
+}
+变量限制属性只读用const, 属性限制只读用readonly
+- 函数类型，函数类型需要通过接口来实现，需要给接口定义一个调用签名
+interface ISearchFunc {
+    // 定义一个调用签名, 就像一个只有参数列表和返回值类型的函数定义
+    (source: string, subString: string): boolean
+}
+// 示例：定义一个函数，它的类型就是ISearchFunc接口
+const searchString: ISearchFunc = function (source: string, subString: string) {
+    return source.search(subString) > -1
+}: boolean
+- 类类型，也是接口实现，类实现某个接口，把接口看成是类的类型
+定义一个接口
+interface IFly {
+    // 该方法没有任何的实现
+    fly()
+}
+定义一个类，类的类型就是上面接口
+class Person implements IFly {
+    fly() { // 必须实现接口中的方法
+        console.log('fly')
+    }
+}
+接口相当是一种能力，一个类可以实现多个接口class Person2 implements IFly, ISwim, 接口中的内容要真正的被实现；同时接口可以实现多个接口，interface IFlyAndSwim extends IFly, ISwim {里面可以是空}; 接口和接口之间叫继承，类和接口之间叫实现
+
+4. 
 
 ########## 类、对象 ########
 1. 子类和父类的方法相同是重写

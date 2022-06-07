@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-06-05 09:59:35
+ * @LastEditTime: 2022-06-07 16:39:27
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -174,6 +174,36 @@ Object.getPrototypeOf( obj ) === Array.Prototype
         function(obj) {
     return Object.prototype.toString.call(obj) === '[object Array]';
   };
+2. js中includes()、indexOf()、search()、match()几种方法的区别
+- includes()
+includes() 方法用来判断一个数组是否包含一个指定的值，如果是则返回 true，否则返回false。
+let d = ['a','b','c'].includes('a')
+        console.log(d);  //true
+- indexOf()
+indexOf() 方法可返回数组中某个指定的元素位置。
+该方法将从头到尾地检索数组，看它是否含有对应的元素。开始检索的位置在数组 start 处或数组的开头（没有指定 start 参数时）。如果找到一个 item，则返回 item 的第一次出现的位置。开始位置的索引为 0。
+如果在数组中没找到指定元素则返回 -1。
+let fruits=["Banana","Orange","Apple","Mango","Banana""Orange","Apple"];
+console.log(fruits.indexOf('Apple'));   //2
+- search()
+search() 方法用于检索字字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。
+如果没有找到任何匹配的子串，则返回 -1
+var str="Visit Runoob!"; 
+var n=str.search("Runoob");
+console.log(n);  //6
+- match()
+match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配
+第一种用法:字符串匹配
+var strs = "hello world";
+var ret = strs.match("hello");
+console.log(ret); 
+如果没有匹配到“hello”，则会返回null
+第二种用法:正则表达式匹配
+var strss="1 plus 2 equal 3";
+var retss= strss.match(/\d+/g)
+console.log(retss);
+注意:正则表达式的后面一定要加上g，这个标记这个retss的值是1,2,3 匹配所有的数字并用逗号隔开，否则返回null
+
 ########## 变量 ########
 1. function foo() { console.log(x) }
 function bar() { var x = 2; foo(); console.log(x) }
