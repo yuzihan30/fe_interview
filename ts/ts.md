@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-06-07 11:33:05
+ * @LastEditTime: 2022-06-07 15:24:09
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -59,8 +59,28 @@ tsconfig.json配置文件可以配置监控所有文件，即使里面没有内�
 - 小结：ts一开始是什么类型，后面赋值也必须是什么类型
 - undefined和null,各自有自己的类型，也是其他所有类型的子类型；let und: undefined = undefined, let nll: null = null； 可以赋值给其他类型，需要把ts配置的严格模式配置为false, "strict": false, 示例let num2: number = undefined
 - 数组和元组，数组定义方式：let arr1: number[] = [10, 20, 30]或者let arr2: Array<number> = [10, 20 ,30](泛型写法)；注意问题：number类型数组里不能有其他类型；要想数组里有不同类型，就需要元组，let arr3: [string, number, boolean] = ['xx', 100, true],类型的位置和个数一开始就确定了
-- 枚举，定义一些数值固定且常用的数据，里面的数据叫元素，每个元素都有自己的编号，且编号依次递增加1；enum Color { red, green, blue }， 下面定义一个枚举变量接收枚举值，let color: Color = Color.red, console.log(Color.red, Color.green, Color.blue) // 0, 1, 2; 可以手动改值，enum Color { red=100 green, blue }， 但很少这样做；由枚举值可以拿到它的名字，console.log(Color[2]) // blue
-
+- 枚举，定义一些个数固定且常用的数据，比如性别，里面的数据叫元素，每个元素都有自己的编号，且编号依次递增加1；enum Color { red, green, blue }， 下面定义一个枚举变量接收枚举值，let color: Color = Color.red, console.log(Color.red, Color.green, Color.blue) // 0, 1, 2; 可以手动改值，enum Color { red=100 green, blue }， 但很少这样做；由枚举值可以拿到它的名字，console.log(Color[2]) // blue
+- any类型，适用于当前不知道是什么数据类型，又想把它存储起来，let str: any = 100, str = 'xx'；let arr: any[] = [100, 'xx']当一个数组中存储的数据类型不确定，个数不确定时适用；有好也有坏，就是没有类型错误提示信息
+- void, 没有任何类型，用在函数声明的时候function showMsg(): void {},代表的是该函数没有任何返回值;let vd: void = undefined, 这样没多大意义，定义一个void类型的变量，接收undefined类型数据
+- object表示非原始类型，function getObj(obj: object): object {
+    console.log(obj)
+    return {
+        name: 'xx',
+        age: 18
+    }
+}
+- 联合类型，表示取值可以为多种类型中的一种， function getStr(str: number | string): string {
+    return str.toString()
+}
+- 类型断言, 可以告诉编译器，“相信我,我知道自己在做什么", 类似于其他语言的类型转换，但不进行特殊的类型检查和解构，它没有运行时的影响，只在编译阶段起作用；两种写法，一种尖括号，一种as；如果str本身是string类型，就没有必要调用toString方法， function getLen(str: number | string): number) {
+    if (str.length) { // 有问题，空字符串没有考虑;这个时候还有提示信息，不知道此时是number还是string类型;类型断言，(<string>str).length或者(str as string).length;可以解决错误的提示信息
+    // str.length存在说明是string类型
+        return str.length // return (<string>str).length
+    } else {
+        str.toString().length
+    }
+}
+- 类型推断, 没有明确指定类型的时候推测出一个类型，先let txt = 100,推断出number类型 再赋值txt = 'xx'就不行；定义一个变量没有赋值，推断为any类型，let a, a = 10, a = 'xx'
 
 ########## 类、对象 ########
 1. 子类和父类的方法相同是重写
