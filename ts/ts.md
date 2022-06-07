@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-05-12 19:07:26
+ * @LastEditTime: 2022-06-07 11:33:05
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -50,6 +50,17 @@ tsconfig.json配置文件可以配置监控所有文件，即使里面没有内�
 
 ########## TS数据类型相关 ########
 1. 类型断言：as string, 当你比程序更确定类型的时候使用，比如某个函数的入参有类型限制，但此时传的参数程序无法判断出类型，就会提示有问题，而此时你能确定实参的类型就可以给实参加上类型断言
+
+2. 基础类型
+支持js类型，同时提供枚举类型
+- 布尔类型，let flag:boolean = true
+- 数字number,和js一样都是浮点数；除了支持10和16进制，还支持ES6引入的2和8进制; let a2: number = 0b1010, let a3: number = 0o12, let a3: number = 0xa
+- string,表示文本数据类型，let str1: string = 'xx';支持字符串和数字之间拼接
+- 小结：ts一开始是什么类型，后面赋值也必须是什么类型
+- undefined和null,各自有自己的类型，也是其他所有类型的子类型；let und: undefined = undefined, let nll: null = null； 可以赋值给其他类型，需要把ts配置的严格模式配置为false, "strict": false, 示例let num2: number = undefined
+- 数组和元组，数组定义方式：let arr1: number[] = [10, 20, 30]或者let arr2: Array<number> = [10, 20 ,30](泛型写法)；注意问题：number类型数组里不能有其他类型；要想数组里有不同类型，就需要元组，let arr3: [string, number, boolean] = ['xx', 100, true],类型的位置和个数一开始就确定了
+- 枚举，定义一些数值固定且常用的数据，里面的数据叫元素，每个元素都有自己的编号，且编号依次递增加1；enum Color { red, green, blue }， 下面定义一个枚举变量接收枚举值，let color: Color = Color.red, console.log(Color.red, Color.green, Color.blue) // 0, 1, 2; 可以手动改值，enum Color { red=100 green, blue }， 但很少这样做；由枚举值可以拿到它的名字，console.log(Color[2]) // blue
+
 
 ########## 类、对象 ########
 1. 子类和父类的方法相同是重写
