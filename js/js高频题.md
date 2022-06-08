@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 15:20:17
- * @LastEditTime: 2022-06-07 16:39:27
+ * @LastEditTime: 2022-06-07 18:11:46
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/js/js高频题.md
@@ -365,8 +365,8 @@ console.log(counter); // 4
 允许在script标签内执行import和export操作，或者src里引入包含import导入的js文件
 
 4. import from 和import区别
-- import from 是静态的，会被js引擎静态分析，先于模块内其他语句先执行，不能放到if判断或者函数里（会句法报错），所以要放在文件顶部。
-- import()是动态的，js执行时才会导入； 而且是异步的，返回一个Promise, 可以和await结合使用；和commonjs的require()很像，只是require()是同步加载的；支持import需要babel的额外配置
+- import from 是静态的，会被js引擎静态分析，先于模块内其他语句先执行，不能放到if判断或者函数里（会句法报错），所以要放在文件顶部。如果直接import 'XX.js', 就是直接同步导入并执行
+- import()是动态的，js执行时才会导入； 而且是异步的，返回一个Promise, 可以和await结合使用；和commonjs的require()很像，只是require()是同步加载的；支持import需要babel的额外配置；它不需要依赖 type="module" 的 script 标签
 ```javascript
 {
   "plugins": [

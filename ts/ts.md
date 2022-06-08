@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-15 13:46:56
- * @LastEditTime: 2022-06-07 17:07:32
+ * @LastEditTime: 2022-06-08 12:28:47
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/ts/ts.md
@@ -115,7 +115,65 @@ class Person implements IFly {
 }
 接口相当是一种能力，一个类可以实现多个接口class Person2 implements IFly, ISwim, 接口中的内容要真正的被实现；同时接口可以实现多个接口，interface IFlyAndSwim extends IFly, ISwim {里面可以是空}; 接口和接口之间叫继承，类和接口之间叫实现
 
-4. 
+4. 类，类可以理解为模板，通过模板可以实例化对象
+- 类的定义
+class Person {
+    // 定义属性
+    name: string
+    age: number
+    gender: string
+    // 定义构造函数，实例化对象的时候用于对属性值初始化
+    constructor(name: string='xx', age: number=16, gender: string='男') {
+        // 更新对象中属性数据
+        this.name = name
+        this.age = age
+        this.gender = gender
+    }
+    // 定义实例方法
+    sayHi(str:string) {
+        console.log(`${this.name}${this.age}`, str)
+    }
+}
+- 类的继承
+上面定义的类作基类（超类，父类）
+class Student extends Person {
+    // 也可以有自己的舒心g
+    constructor(name: string='xx', age: number=16, gender: string='男') {
+        // 调用父类别中的构造函数
+        super(name, age, gender)
+    }
+    sayHi() {
+        console.log('学生中的sayHi')
+        super.sayHi('哈哈哈') // 子类可以调用父类的方法，但里面的this就指向子类了，很容易验证，比如父类没有实例化，而只有子类实例化了
+    }    
+}
+- 多态
+父类型的引用指向了子类型的实例，不同类型的对象针对相同的方法，产生了不同的行为
+class Dog extends Animal {
+    constructor(name: string) {
+        // 调用父类的构造函数，实现子类中属性的初始化操作
+        super(name)
+    }
+    // 实例方法，重写父类的实例方法
+    run(distance: number = 5) {
+        console.log(`跑了${distance}米`)
+    }
+}
+实例化父类对象
+const ani: Animal = new Animal('动物')
+ani.run()
+实例化子类对象
+const dog: Dog = new Dog('大黄')
+dog.run()
+const pig:Pig = new Pig('佩奇')
+pig.run()
+const dog: Animal = new Dog('大黄') // 也没问题
+dog.run()
+const pig: Animal = new Pig('佩奇')
+pig.run()
+function showRun(ani: Animal) {
+    ani.run()
+}
 
 ########## 类、对象 ########
 1. 子类和父类的方法相同是重写
