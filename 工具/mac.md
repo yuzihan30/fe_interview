@@ -2,7 +2,7 @@
  * @Author: yuzihan yuzihanyuzihan@163.com
  * @Date: 2022-05-14 16:59:40
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-06-04 19:53:04
+ * @LastEditTime: 2022-06-10 13:27:42
  * @FilePath: /fe_interview/工具/mac.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -49,3 +49,16 @@ System Integrity Protection status: disabled
 在终端上输入命令 csrutil disable然后回车。
 csrutil disable
 最后点击左上角苹果图标  ，再点击重新启动就可以了。
+
+## 格式化
+第一步：电脑关机
+第二步：按住command+option+R键，然后按一下开机键，不要松手，直到出现界面放手，M1也是一样的操作
+第三步：显示地球画面后，连接上你的无线网
+第四部 改成简体中文
+进入下一个页面->选择磁盘工具，显示所有设备->点显示所有设备后会显示以下界面->然后点击左上角APPLE SSD 选择当前硬盘，选择抹掉->
+待抹掉完成后，进行以下四步操作
+1：左上角，磁盘工具，退出
+2：点重新安装MACOS，点继续
+3：继续 同意，选择未命名 ， 安装
+新的MAC流程差不多，可以参考执行
+Mac OSMonterey
