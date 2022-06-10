@@ -62,3 +62,26 @@ csrutil disable
 3：继续 同意，选择未命名 ， 安装
 新的MAC流程差不多，可以参考执行
 Mac OSMonterey
+
+## 命令不识别问题
+1. zsh: command not found: brew
+- Mac系统下的环境变量
+a. /etc/profile
+b. /etc/paths
+、
+c. ~/.bash_profile
+d. ~/.bash_login
+e. ~/.profile
+f. ~/.bashrc
+说明：
+1、其中a和b是系统级别的，系统启动就会加载，其余是用户接别的。
+2、c,d,e按照从前往后的顺序读取，如果c文件存在，则后面的几个文件就会被忽略不读了，以此类推。
+3、~/.bashrc没有上述规则，它是bash shell打开的时候载入的。
+4、建议在c中添加环境变量，以下也是以在c中添加环境变量来演示的。
+- 添加环境变量
+安装完成后的提示中会给出解决方案，如下⬇️：
+具体步骤：
+命令行输入：sudo vim ~/.bash_profile
+在该文件中添加一行（命令行模式下点“i”插入）：export PATH="/opt/homebrew/bin:$PATH"
+保存文件并退出（命令行模式下输入:wq保存退出）
+命令行输入，激活文件：source ~/.bash_profile
