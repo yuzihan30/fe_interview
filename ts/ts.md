@@ -209,6 +209,182 @@ function showRun(ani: Animal) {
 private修饰，类外部实例是无法访问的，子类的内部无法访问
 protected修饰，只能被类和子类内部访问，
 
+- readonly
+对属性成员修饰后，就不能在外部随意修改了；但在构造函数内部可以被修改，比如实例化的时候；但在普通方法中不能修改；构造函数中的name参数，一旦使用readonly修饰，该name参数可以叫参数属性，同时Person中就有了一个name的属性成员，此时外部也是无法修改类中的name属性成员；如果构造函数的name参数，一旦使用的public、private或者protected，该类中自动添加该类型的属性
+
+- 存取器
+为了控制对属性成员的访问，可以通过getters/setters来截取对对象成员的访问
+示例：
+firstName: string
+lastName: string
+constructor() {}
+// 读取器---负责读取数据
+get fullName() { // 不必像firstName那样显示定义fullName,如果只有get就是只读属性
+    return this.firstName + '_' + this.lastName
+}
+// 设置器---负责设置数据的（修改）
+set fullName() {}
+
+- 静态属性
+静态成员包含静态属性和静态方法
+static修饰；类名.的方式调用，静态属性可以读取和设置; 类中默认有一个name属性，所以定义static属性时不能定义为name；构造方法不能用static修饰
+
+- 抽象类
+包含抽象方法（抽象方法没有具体实现），也可以有实例方法；抽象类不能被实例化；没有必要在抽象类中定义抽象属性去让子类去实现；抽象类是为了子类而存在的
+
+5. 函数
+- js里面的函数->TS同样可以这样写
+函数声明，命名函数
+function add(x, y) {
+    return x + y
+}
+函数表达式，匿名函数
+function add2 = function (x, y) {
+    return x + y
+}
+- ts中的书写方式
+函数声明，命名函数
+function add(string: x, string: y) : string {
+    return x + y
+}
+函数表达式，匿名函数
+const add2 = function (number: x, number: y): number {
+    return x + y
+}
+- ts中函数类型的完整写法
+// (number: x, number: y) => number当前函数类型
+// function (number: x, number: y): number { return x + y}符合上面函数类型的值
+const add3: (number: x, number: y) => number = function (number: x, number: y): number {
+    return x + y
+}
+- 可选参数和默认参数  
+函数在声明的时候，内部参数有自己的默认值，此时这个参数就叫默认参数；声明时，内部参数使用了?进行修饰，则该参数可传入也可不传入，叫可选参数
+- 剩余参数
+...args: string[]剩余参数放在一个字符串数组args中；剩余参数要放到所有的参数最后
+- 函数重载
+函数名字相同，函数参数及个数不同
+函数重载声明, 下面这样声明后，add非法传参就会提示报错add(10, "aa")
+function add(x : string, y: string): string
+function add(x : number, y: number): number
+
+function add(x: string | number, y: string | number):string | number {
+    if (typeof x === "string" && typeof y === "string") {
+        return x + y        
+    } else if (typeof x === "number" && typeof y === "number") {
+        return x + y
+    }
+}
+
+6. 泛型
+定义函数、接口、类的时候不能预先确定要使用的数据类型，在使用的时候才能确定数据的类型
+比如有个需求，定义一个函数，可以传入任意类型的数据，返回来的是存储这个任意类型数据的数组
+function getArr3(value: any, count: number): any[] {
+    const arr: any[] = []
+    for (let i = 0; i < count; i++) {
+        arr.push(value)
+    }
+    return arr
+}
+any会出现没有智能提示的问题
+// 写T或者其他字母都行，T可以代表类型的意思
+function getArr4<T>(value: T, count: number): T[] {
+    // const arr: T[] = [] 或者
+    const arr:Array<T> = [] // 初始化一下，不然会警告
+    for (let i = 0; i < count; i++) {
+        arr.push(value)
+    }
+    return arr
+}
+const arr1 = getArr4<number>(200.12345, 5)
+const arr1 = getArr4<string>('abc', 5)
+- 多个泛型参数的函数
+一个函数可以定义多个泛型参数
+function getMsg<K, V>(value1: K, value2: V): [K, V] {
+    return [value1, value2]
+}
+const arr1 = getMsg<string, number>('jim', 10)
+- 泛型接口
+通过一个接口去约束一个函数或者一个类的时候
+在定义接口的时候，为接口中的属性或者方法定义泛型类型，在使用接口时，再指定具体的泛型类型
+class User {
+    id?: number
+    name: string
+    age: number
+}
+// CURD->create、Read、Update、Delete
+class UserCURD {
+    data: Array<User> = [] // 如果以后是动物等类型怎么办，所以需要让类中属性或者方法中的类型更灵活一些，这个时候可以使用泛型接口
+    add(user: User) // 用来存储用户信息对象
+    getUserId(id: number) // 根据id查询指定的用户信息对象
+    constructor
+}
+定义一个泛型接口类型
+interface IBaseCRUD<T> {
+    data: Array<T>
+    add: (t: T) => T
+    getUserId: (id: number) => T
+}
+怎么用
+class UserCURD implements IBaseCRUD<User> {
+    data: Array<User> = [] 
+    add(user: User): User {
+        user.id = Data.now() + Math.random() // Math.random()防止瞬间执行完导致user.id相同
+        this.data.push(user)
+        return user
+    } // 用来存储用户信息对象
+    getUserId(id: number) : User {
+        return this.data.find(user=>user.id === id)
+    } // 根据id查询指定的用户信息对象
+} 
+const userCRUD: UserCRUD = new USerCRUD()
+- 泛型类
+类中的属性和方法，属性的类型或者方法的参数及返回值的类型是不确定的
+class GenericNumber<T> {
+    defaultValue: T
+    add: (x: T, y: T) => T
+}
+const g1 : GenericNumber<number> = new GenericNumber<number>()
+g1.defaultValue = 100
+g1.add = function (x, y) {
+    return x + y
+}
+const g2 : GenericNumber<string> = new GenericNumber<string>()
+- 泛型约束
+如果我们直接对一个泛型参数取length属性，会报错，因为这个泛型根本就不知道它有这个属性，我们可以通过一个接口来约束
+function getLength<T>(x: T): number {
+    return x.length    
+} 
+interface ILength{
+    // 接口中有一个属性length
+    length: number
+}
+function getLength<T extends ILength>(x: T): number {
+    return x.length    
+} 
+console.log(getLength<string>('what r u do'))
+console.log(getLength<number>(100) // 会报错，number没有实现length
+
+7. 其他
+- 声明文件：当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能
+jQuery.d.ts
+declare var jQuery: (selector: string) => any // 这种定义操作比较多, 一般安装库的方法会提示安装声明文件比如：npm install @types/jquery --save-dev, 安装完之后会放到node_modules中的@types目录中
+main.ts // d文件会自动扫描main.ts的内容, 所以这里不用导入d文件及jQuery
+安装声明文件后
+import jQuery from 'jquery'
+再使用jQuery时就会有提示信息及代码补全
+- 内置对象
+js中定义好的数据类型都能在TS中使用
+* ES中的内置对象Boolean、Number、String、Date、RegExp、Error
+let b: Boolean = new Boolean(1) 
+b = true // 可以这样修改
+let bb: boolean = new Boolean(2) //这样就是错的，一个是基本类型，一个是包装器对象，不是互通的
+* BOM和DOM的内置对象
+Window Document HTMLElement DocumentFragment Event NodeList 这些在TS中都可以正常使用
+document.addEventListener('click', (event: MouseEvent) => {
+
+})
+const fragment: DocumentFragment = document.createDocumentFragment()
+
 ########## 类、对象 ########
 1. 子类和父类的方法相同是重写
 子类方法中的super代表的是父类或者父类的实例

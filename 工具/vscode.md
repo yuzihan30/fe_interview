@@ -15,3 +15,9 @@ https://juejin.cn/post/6882292770606678029
 Settings Sync VSCode设置同步到Gist: command + shift + p
 macOS: Shift + Option + U¨
 针对react项目的插件：参考资料 https://xie.infoq.cn/article/fdfe14852fb523ad16c5334ec
+5. 行字符数限制
+一般规定一行代码不超过80或者120个字符。
+取决于团队的编码规范。
+不同公司不同团队有不同的规定。
+当单行代码过长。产生横向滚动条。使得代码难以阅读。
+在设置中搜索 editor.rulers -> "editor.rulers": [120]

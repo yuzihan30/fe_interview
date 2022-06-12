@@ -85,7 +85,7 @@ for in 遍历对象及原型链上的可枚举属性，不包括symbol属性
 Object.getOwnPropertyNames()遍历自身属性（枚举+非枚举）
 Object.getOwnPropertySymbols()遍历自身symbol属性（枚举+非枚举）
 
-3. js函数的5中调用模式
+3. js函数的5种调用模式
 a: 普通方式， 声明一个函数，然后调用
 b: 函数表达式
 // 使用函数的lambda表达式定义函数, 然后调用
@@ -162,7 +162,29 @@ WeakSet 结构与 Set 类似，但只有add、delete、has三个方法
 WeakSet的成员只能是对象，并且WeakSet不支持clear方法，不支持遍历，也没有forEach这个方法，没有属性size
 WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，如果只有WeakSet引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存
 
+5. 对象与json
+- JSON 是 JS 对象的字符串表示法。它使用文本表示一个 JS 对象的信息，（JSON）本质是一个字符串。
+如：var obj = {a: 'Hello', b: 'World'}; //这是一个js对象，注意js对象的键名也是可以使用引号包裹的,这里的键名就不用引号包含
+var json = '{"a": "Hello", "b": "World"}'; //这是一个 JSON 字符串，本质是一个字符串
+JSON（格式字符串） 和 JS 对象（也可以叫JSON对象 或 JSON 格式的对象）互转（JSON.parse 和 JSON.stringify）。
+对于对象字面，你需要用引号来包装那些由破折号（-）分隔的字的键；如果你想避免引号，你可以重写键，使用骆驼字母大小写（favoriteGame），或者用下划线来分隔单词（`favorite_game'）
+- 你可能会想，如果有JSON对象和数组，你就不能在你的程序中像普通的JavaScript对象字面或数组一样使用它吗？
+不能这样做的原因是，JSON实际上只是一个字符串。
+例如，当你在一个单独的文件中写JSON时，如上面的jane-profile.json或profiles.json，该文件实际上包含了JSON对象或数组形式的文本，它恰好看起来像JavaScript。
+如果你向API发出请求，它将返回类似这样的东西:
+{"name":"Jane Doe","favorite-game":"Stardew Valley","subscriber":false}
+就像文本文件一样，如果你想在你的项目中使用JSON，你需要把它解析或改变成你的编程语言可以理解的东西。例如，在Python中解析一个JSON对象将创建一个字典。
+- 如何用fetch解析JSON
+从API获取数据的最简单方法是使用fetch，它包括.json()方法，将JSON响应自动解析为可用的JavaScript对象字面或数组。
+下面是一些代码，使用 fetch 从对一个对开发者免费的 Chuck Norris Jokes API平台，发出 GET 请求:
+fetch('https://api.chucknorris.io/jokes/random?category=dev')
+  .then(res => res.json()) // the .json() method parses the JSON response into a JS object literal
+  .then(data => console.log(data));
+- 参考资料： https://chinese.freecodecamp.org/news/json-stringify-example-how-to-parse-a-json-object-with-javascrip/
 
+6. js为什么将初始变量赋值为null?
+- 初始赋值为null是为了将变量转为Object类型
+- 之后赋值为null使用垃圾回收机制回收
 ## 数组
 1. 判断数组的方法
 - 使用es6： Array.isArray( obj )
@@ -630,6 +652,7 @@ const myJsonp = (url = '', params = {}, callback = () => {}) => {
 2. CORS流程，JSONP只支持get请求，推荐使用CORS方式跨域，流程：浏览器发头带origin源的请求->服务器看origin字段的请求头后，就在响应中添加Access-Control-Allow-Origin标头，指定请求来源（或者*允许任何来源）->浏览器收到带Access-Control-Allow-Origin标头的响应后，会允许与客户端站点共享响应数据
 
 3. 浏览器直接读取本地文件会存在跨域问题，起个本地服务器可以解决该问题；这是由于浏览器的保护机制，不允许访问本地文件。
+默认情况下，出于安全考虑，浏览器不允许访问本地文件。这是一件好事，你不应该试图绕过这种行为。
 
 
 ########## 浏览器的垃圾回收机制 #########
@@ -880,6 +903,22 @@ Uncaught Error:
 7. 第三方库本身的那种异常捕获能力
 Vue.config.errorHandler 
 React ErrorBoundary
+
+## jsdom
+1. remove
+remove与empty一样，都是移除元素的方法，但是remove会将元素自身移除，同时也会移除元素内部的一切，包括绑定的事件及与该元素相关的jQuery数据。
+例如一段节点，绑定点击事件
+如果不通过remove方法删除这个节点其实也很简单，但是同时需要把事件给销毁掉，这里是为了防止"内存泄漏"，所以前端开发者一定要注意，绑了多少事件，不用的时候一定要记得销毁
+通过remove方法移除div及其内部所有元素，remove内部会自动操作事件销毁方法，所以使用使用起来非常简单
+2. JS删除DOM元素的两种方法
+删除子节点
+var box=document.getElementById("box");
+box.parentNode.removeChild(box);
+删除自身
+var box=document.getElementById("box");
+box.remove();
+
+
 
 ## 单点登录
 - sso需要一个独立的认证中心，只有认证中心能接受用户的用户名密码等安全信息，其他系统不提供登录入口，只接受认证中心的间接授权。间接授权通过令牌实现，sso认证中心验证用户的用户名密码没问题，创建授权令牌，在接下来的跳转过程中，授权令牌作为参数发送给各个子系统，子系统拿到令牌，即得到了授权，可以借此创建局部会话，局部会话登录方式与单系统的登录方式相同。
