@@ -13,3 +13,64 @@ create-react-app需要5以上的版本才行， npm i -g create-react-app将最�
 index.tsx中先把<React.StrictMode>注释掉
 document.get... // 警告，找不到“document”, 因为TS版本太老的问题（比如4.0.1），新版本的VSCODE不会有这个问题，要么升级vscode要么com+shift+P点使用工作区版本（使用的是脚手架安装的ts）,但又提示找不到路径，需要把项目拖到VScode的根目录下才行
 npm start启动， 3000端口
+### 语法
+1. 基本类型
+一开始赋值为什么类型，后面就是什么类型；但以后显示定义好，不要隐式推断
+var name = 'xx'
+
+2. 数组
+- 第一种写法
+var list3:(number | string)[] = [1,2,'xx']
+- 泛型写法
+let mylist1: Array<string | number> = ['x', 'y', 'z', 1]
+
+3. 对象
+ts文件要有export, 导入时可以直接import '.ts'
+let obj1 = { // 这样是默认推断的情况，隐式推断有什么属性及属性类型
+    name: "aa",
+    age:100
+}
+export default {} 
+// 通过接口来描述对象的形状，接口不在于实现过程，只在于大体描述轮廓(只描述了有什么属性及属性类型)
+interface IObj {
+    name: string,
+    age: number,
+    location?: string, // 可选属性
+    [propName: string]: any, // 适用于后台接口返回很多字段，我只要某几个；不关心其他属性值，也不想都写一遍；表示属性名是字符串类型，接收这个值爱是什么类型是什么类型
+}
+let obj1: IObj = {
+
+}
+4. 函数
+不写返回值，返回void
+function test(a: string, c?: number): string {} // 问号可选参数
+第二种写法：接口
+interface IFunc {
+    (a: string, c?: number): string
+} 
+let test: IFunc = function test1(a: number, ...) {}
+上面这种场景用的少一些，更多是讲属性、函数组合到一个接口里面来限制对象
+interface IObj {
+    name: string,
+    age: number,
+    getName: (name: string) => string
+}
+let obj:IObj = {
+    name: 'xx',
+    age: 10,
+    getName: (name: string) => {
+        return name
+    }
+}
+5. Toast
+Cinemas.js
+if (list.length === 0) {
+    Toast.show({ // Toast只是一个对象，不是一个组件； duration设置为0就不会自动消失
+        icon: 'loading',
+        content: '加载中...',
+        duration: 0
+    })
+    // action.js中拿到数据后隐藏掉，Toast因为不是一个组件，完全可以脱离组件库去使用
+}
+优化方案：
+请求发送前加载，请求成功或者失败后隐藏；就在axios拦截器里做
