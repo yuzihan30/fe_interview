@@ -1,4 +1,23 @@
 ## TS
+### react引入TS
+> 参考资料：https://blog.csdn.net/weixin_44892714/article/details/109090852
+1. 使用脚手架create-react-app 创建新的ts react 项目
+npx create-react-app my-app --typescript
+或者
+yarn create react-app my-app --typescript
+2. 将现有的js react 项目改造成ts
+先执行
+npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+或者
+yarn add typescript @types/node @types/react @types/react-dom @types/jest
+然后将.js文件重命名改为.tsx，再重新运行项目就可以了
+
+react-router-dom
+注意安装@types/react-router-dom
+npm i react-router-dom @types/react-router-dom
+
+注意：
+要想使用typescript，在安装一些react常用工具的时候，别忘了安装对应额ts 包，@types/包名
 ### typescript
 现在的js是动态类型，写完代码在浏览器中是边解析边执行，出了错编译器发现不了，只有执行的时候才能看到
 1. TS定位是静态语言类型，在写代码阶段就能检查错误，而非运行阶段
