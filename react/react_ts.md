@@ -1,6 +1,7 @@
 ## TS
 ### react引入TS
 > 参考资料：https://blog.csdn.net/weixin_44892714/article/details/109090852
+> 最佳实践： https://zzfzzf.com/article/1465585026269933570
 1. 使用脚手架create-react-app 创建新的ts react 项目
 npx create-react-app my-app --typescript
 或者

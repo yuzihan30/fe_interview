@@ -19,7 +19,7 @@
 常见的CSS引入方式有以下：
 - 在组件内直接使用
 - 组件中引入 .css 文件
-- 组件中引入 .module.css 文件
+- 组件中引入 .module.css 文件  （craco-plugin-scoped-css和这种方式类似）
 - CSS in JS
 
 ### 在组件内直接使用

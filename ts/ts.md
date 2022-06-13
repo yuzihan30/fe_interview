@@ -110,7 +110,7 @@ unknown
 unknown 类型是 ts 中所有基础类型的父类型，所有基础类型都能赋值为 unknown 类型。
 但是当 unknown 类型赋值为其他任意类型时，就会进行类型检查。我们必须将这个 unknown 类型的变量断言为具体的类型，才可以继续使用。
 所以 any 和 unknown 的区别就是：
-二者都是可以赋值给任意类型的， any 会绕过类型检查，直接可用；而 unkonwn 则必须要在判断完它是什么类型之后才能继续使用
+二者都是可以赋值给任意类型的， any 会绕过类型检查，直接可用；而 unknown 则必须要在判断完它是什么类型之后才能继续使用
 
 3. 接口
 TS核心是对值所具有的结构进行类型检查， 接口可以定义对象的类型
@@ -211,8 +211,23 @@ type Pair<T> = [T, T];
 type Coordinates = Pair<number>;  
 type Tree<T> = T | { left: Tree<T>, right: Tree<T> };
         - interface 可以而 type 不行
+表现上来说2者可以实现的功能都可以互相实现，唯一的声明合并方面，type不行即type 类型不能二次编辑，而 interface 可以随时扩展
+interface Person {
+  age: number;
+}
+interface Person {
+  name: string;
+}
+type Person {
+  age: number;
+}
+type Person {
+  name: string;
+}
+//TS2300: Duplicate identifier 'Person'.
 
 4. 类，类可以理解为模板，通过模板可以实例化对象
+可以指定对象的类型, 当类没有被显示定义时，限定对象的类型还可以这样：val: typeof user
 - 类的定义
 class Person {
     // 定义属性

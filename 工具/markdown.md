@@ -6,6 +6,8 @@
  * @FilePath: /fe_interview/工具/markdown.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
+## 参考资料
+> markdown官方教程： https://markdown.com.cn/basic-syntax/blockquotes.html
 # 快捷键
 Markdown	图标	快捷键
 撤销		Ctrl /⌘+Z
@@ -31,6 +33,7 @@ Markdown	图标	快捷键
 ###### 六级标题
 
 # 文本样式
+`yu`两反斜杠可以加灰底， 常用于语句中出现的关键词、版本号、函数等
 *强调文本* _强调文本_
 
 **加粗文本** __加粗文本__
@@ -45,7 +48,8 @@ H~2~O is是液体。
 
 2^10^ 运算结果是 1024。
 
-分割线
+## 分割线
+要创建分隔线，请在单独一行上使用三个或多个星号 (***)、破折号 (---) 或下划线 (___) ，并且不能包含其他内容。为了兼容性，请在分隔线的前后均添加空白行。
 --- 
 # 列表
 - 项目
