@@ -307,7 +307,7 @@ function(){}()  // 错误， ()前需要是函数表达式而不能是
 ########## js运算符 #########
 1. ??空值合并操作符，当左侧为null或者undefined，返回右侧值，否则返回左侧值
 || 当左侧为假时返回右侧，0、''也是假
-?.可选链，就是obj $$ obj.a的语法糖
+?.可选链，就是obj && obj.a的语法糖
 
 2. 逗号运算符，每个表示式都会执行，逗号运算符的结果是最后一个表达式的值
 
@@ -584,6 +584,46 @@ get请求指定的页面信息，并返回实体主题；get请求应该只是�
 HEAD类似于get请求，只不过返回的响应中没有具体内容，用于获取报头；可以在不必传输整个响应内容的情况下，就可以获取包含在响应消息头中的元信息。
 POST用于提交数据，例如提交表单或者上传文件，数据被包含在请求体中，POST请求可能会导致新的资源建立或者已有资源修改；POST请求不会被缓存，对数据长度没有限制，无法从浏览器历史记录中查到POST请求
 PUT用发送的数据取代指定文档的内容；发送数据到服务器以创建或者更新资源，将包含的元素放在所提供的URI下，如果URI指示的是当前资源，则会被改变，如果URI未指示当前资源，则服务器可以使用该URI创建资源
+> idempotent 幂等的
+如果一个方法重复执行多次，产生的效果是一样的，那就是idempotent的；
+idempotent的意思是如果相同的操作再執行第二遍第三遍，結果還是一樣。
+“Methods can also have the property of ‘idempotence’ in that (aside from error
+or expiration issues) the side-effects of N > 0 identical requests is the same
+as for a single request.”
+
+POST 方法
+用来创建一个子资源，如 /api/users，会在users下面创建一个user，如users/1；
+POST方法不是幂等的，多次执行，将导致多条相同的用户被创建（users/1，users/2 …
+而这些用户除了自增长id外有着相同的数据，除非你的系统实现了额外的数据唯一性检查）
+
+PUT 方法
+PUT比較正確的定義是 Replace (Create or Update)，
+例如 PUT /items/1 的意思是替換 /items/1 ，如果已經存在就替換，沒有就新增；
+因此，PUT方法一般会用来更新一个已知资源，除非在创建前，你完全知道自己要创建的对象的URI
+
+http post put 区别
+**在HTTP中，PUT被定义为idempotent的方法，POST则不是，这是一个很重要的区别
+
+举个栗子：
+POST /api/articles
+PUT /gists/:id/stars
+如果产生两个资源，就说明这个服务不是idempotent（幂等的），因为多次使用产生了副作用；
+如果后一个请求把第一个请求覆盖掉了，那这个服务就是idempotent的。
+前一种情况，应该使用POST方法；
+后一种情况，应该使用PUT方法。
+
+PATCH 方法
+PATCH方法是新引入的，是对PUT方法的补充，用来对已知资源进行局部更新
+HTTP PATCH method require a feature to do partial resource modification.
+The existing HTTP PUT method only allows a complete replacement of a document.
+
+需要注意的地方
+**语义**"而非 风格；是语义的问题，换句话说：
+也就是这取决于这个REST服务的行为是否是idempotent（幂等的）
+// 但是这个只是在语义上，同时不要太苛求语义
+DELETE 刪除，無論如何 资源 最後都将不复存在
+// PUT 替換(新增或完整更新)
+// PATCH 部分更新
 
 DELETE请求服务器删除URI指定的资源
 

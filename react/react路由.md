@@ -219,6 +219,23 @@ const handleChangePage = (id) => {
     }
 </div>
 
+- 更新
+2021-07-27 React useHistory 更新为useNavigate如何传值
+> 路由组件如何传值
+1.组件跳转并传值
+（1）导入
+import { useNavigate } from ‘react-router-dom’;
+（2）使用
+const navigate = useNavigate();
+点击事件中使用
+组件“/machine”为已经定义好的路由,state负责传值state:{参数:值}
+（3）获取值
+导入import { useLocation } from ‘react-router-dom’;
+使用
+let location = useLocation();
+let server_id = location.state;
+
+
 ## 动态路由
 1. Detail组件，就是详情页
 export default Detail(props) {

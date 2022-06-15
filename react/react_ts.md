@@ -94,3 +94,55 @@ if (list.length === 0) {
 }
 优化方案：
 请求发送前加载，请求成功或者失败后隐藏；就在axios拦截器里做
+项目目录->util->request.js
+加请求拦截器和响应拦截器
+import {Toast} from 'antd-mobile'
+Toast.show({ // 放到请求拦截器
+    icon: 'loading',
+    content: '加载中...',
+    duration: 0
+})
+响应拦截器中，成功和失败都要放 Toast.clear(), return 之前放
+
+App.js中引入
+import './util/request'
+
+6. 类、类加接口
+interface Ifunc {
+    getName: () => string
+}
+A implements Ifunc {
+    A1,
+    A2,
+    getName() {
+
+    }
+}
+B implements Ifunc {
+    B1,
+    B2,
+    getName() {
+        
+    }
+}
+function init(obj: Ifunc) {
+    obj.getName()
+}
+接口约束类，要这样实现和这样调用
+
+7. TS类组件
+最多的就是接口类型的应用，限制组件状态属性符合接口
+state = { name: 'xx' }
+setState({
+    name: 100 // 这个值如果是后台返回的，你不知道类型，运行时才能看到报错；或者调用别人的函数的返回结果
+})
+换种写法再试试
+interface IState {
+    name: string
+}
+export ...
+state: IState = { name: 'xx' }
+// 
+setState({ // 此时这样改并不会提示，因为不是直接改, this.state.name = 100这样才有提示
+    name: 100 
+}

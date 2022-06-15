@@ -27,7 +27,7 @@ setList(newList)
 { !list.length && <div>暂无待办事项</div> }
 ### useEffect
 1. useEffect（处理副作用）和 useLayoutEffect(同步执行副作用)
-模拟类组件中声明周期的作用
+模拟类组件中生命周期的作用
 const [list, setList] = useState([])
 模拟请求
 axios.get('/test.json').then(res => {

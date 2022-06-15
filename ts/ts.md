@@ -82,6 +82,10 @@ tsconfig.json配置文件可以配置监控所有文件，即使里面没有内�
 }
 - 类型推断, 没有明确指定类型的时候推测出一个类型，先let txt = 100,推断出number类型 再赋值txt = 'xx'就不行；定义一个变量没有赋值，推断为any类型，let a, a = 10, a = 'xx'
 
+- 类型保护 is
+在使用类型保护时，TS 会进一步缩小变量的类型。例子中，将类型从 any 缩小至了 string；
+类型保护的作用域仅仅在 if 后的块级作用域中生效
+
 - never 是其它类型（包括 null 和 undefined）的子类型，代表从不会出现的值。
 
 - 常见问题
@@ -447,6 +451,8 @@ function getLength<T extends ILength>(x: T): number {
 } 
 console.log(getLength<string>('what r u do'))
 console.log(getLength<number>(100) // 会报错，number没有实现length
+
+- Promise的泛型T代表promise变成成功态之后resolve的值，resolve(value)
 
 7. 其他
 - 声明文件：当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能
