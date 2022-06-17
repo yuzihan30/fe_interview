@@ -36,3 +36,11 @@ vscode+prettier 配置保存自动格式化
 "eslint.autoFixOnSave": true,
 "eslint.enable": true,
 这样当我们在保存文件的时候，就会自动优化文件格式了。
+
+## Mac 更新 VSCode 写权限被拒绝 Cannot update while running on a read-only volume
+
+执行以下命令并重启 vscode, 其实执行第一条命令就行了，有时新插件老版本不支持，比如 volar
+
+sudo chown -R \$USER ~/Library/Caches/com.microsoft.VSCode.ShipIt
+xattr -dr com.apple.quarantine ~/Downloads/Visual\ Studio\ Code.app
+~/Downloads/Visual/换成自己电脑的 vscode 安装的路径，其他地方不需要修改
