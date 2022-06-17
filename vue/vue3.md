@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-01 21:45:58
- * @LastEditTime: 2022-05-15 20:00:49
+ * @LastEditTime: 2022-06-17 09:29:52
  * @LastEditors: yuzihan yuzihanyuzihan@163.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/vue/vue3.md
@@ -29,3 +29,24 @@ objectOfAttrs: {
 
 ############## SSR #################
 hydrate 混合
+
+
+## 新增特性
+组合api
+setup: ref和reactive, computed和watch, 新的生命周期函数，provide和inject
+新组件：Fragment新组件，Teleport瞬移组件, suspense异步加载组件的loading界面
+其他API更新：全局API的修改，将原来的全局API转移到应用对象，模板语法变化
+
+## 创建vue3项目的两种方式
+### vue-cli创建
+npm install -g @vue/cli
+vue --version // 4.5.0以上才行
+vue create my-project
+选第三个手动选择->选TS按下空格->选vue3->一路回车
+### 使用vite创建
+基于原生ESM驱动的构建工具，在开发环境下基于浏览器原生ES imports开发
+能在本地快速启动，生产环境Rollup打包：快速冷启动，不需等待打包操作；即时的热模块更新，替换性能和模块数量的解耦让更新起飞；按需编译，不需等待整个应用编译完成
+npm init vite-app <project-name>
+cd <project-name>
+npm install
+npm run dev

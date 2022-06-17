@@ -94,6 +94,9 @@ nothing to commit, working tree clean
 这样我们就可以在不还原新的开发的情况下去处理已知的BUG了。
 git stash pop删除暂存并恢复暂存的内容
 使用git stash pop来恢复之前暂存的内容。
+## 本地项目上传到GitHub
+https://blog.csdn.net/tyh_keephunger/article/details/115697379
+github上建项目->git remote add origin git@github.com:yuzihan30/vue3-init.git->git push origin master/main
 
 
 ########## Monorepos ########
