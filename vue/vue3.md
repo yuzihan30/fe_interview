@@ -60,7 +60,7 @@ npm run dev
 
 ## 组合 API 常用部分
 
-### setup
+1. setup
 
 也是个函数或者叫回调函数，在程序运行的时候只执行一次
 
@@ -79,7 +79,7 @@ npm run dev
   执行以下命令并重启 vscode, 有时新插件老版本不支持，比如 volar
   sudo chown -R \$USER ~/Library/Caches/com.microsoft.VSCode.ShipIt
 
-### ref
+2. ref
 
 - 作用： ref 定义一个响应式的数据
 - 语法：const xxx = ref(initValue)
@@ -88,7 +88,7 @@ npm run dev
   - 模板中操作数据：不需要.value
 - 一般用来定义一个基本类型的响应式数据，言外之意对象就用 reactive
 
-### reactive
+3. reactive
 
 - 作用：定义多个数据的响应式，就是定义响应式的对象
 - const proxy = reactive(obj):接受一个普通对象然后返回该普通对象的响应式代理器对象
@@ -96,7 +96,7 @@ npm run dev
   内部基于 ES6 的 Proxy 实现，
 - 操作代理数据影响界面更新渲染
 
-### vue2 和 vue3 的响应式对比
+4. vue2 和 vue3 的响应式对比
 
 - vue2 的响应式
   - 核心：
@@ -164,7 +164,7 @@ npm run dev
   console.log(user);
   ```
 
-### setup 的细节
+5. setup 的细节
 
 - setup 的执行时机
 
@@ -223,29 +223,74 @@ npm run dev
   - attrs: 包含没有在 props 配置中声明的属性的对象，相当于 `this.$attrs`
   - slots: 包含所有传入的插槽内容的对象，相当于 `this.$slots`
   - emit: 用来分发自定义事件的函数，相当于 `this.$emit`
-- reactive 和 ref 细节
-  ref 也可以对对象进行处理
-  - 是 Vue3 的 composition API 中 2 个最重要的响应式 API
-  - ref 用来处理基本类型数据, reactive 用来处理对象(递归深度响应式)
-  - 如果用 ref 对象/数组, 内部会自动将对象/数组转换为 reactive 的代理对象
-  - ref 内部: 通过给 value 属性添加 getter/setter 来实现对数据的劫持
-  - reactive 内部: 通过使用 Proxy 来实现对对象内部所有数据的劫持, 并通过 Reflect 操作对象内部数据
-  - ref 的数据操作: 在 js 中要.value, 在模板中不需要(内部解析模板时会自动添加.value)
-- 计算属性与监视
 
-  - computed 函数:
-    - 与 computed 配置功能一致
-    - 只有 getter
-    - 有 getter 和 setter
-  - watch 函数
-    - 与 watch 配置功能一致
-    - 监视指定的一个或多个响应式数据, 一旦数据变化, 就自动执行监视回调
-    - 默认初始时不执行回调, 但可以通过配置 immediate 为 true, 来指定初始时立即执行第一次
-    - 通过配置 deep 为 true, 来指定深度监视
-  - watchEffect 函数
+6. reactive 和 ref 细节
+   ref 也可以对对象进行处理
 
-  - 不用直接指定要监视的数据, 回调函数中使用的哪些响应式数据就监视哪些响应式数据
-  - 默认初始时就会执行第一次, 从而可以收集需要监视的数据
-  - 监视数据发生变化时回调
+- 是 Vue3 的 composition API 中 2 个最重要的响应式 API
+- ref 用来处理基本类型数据, reactive 用来处理对象(递归深度响应式)
+- 如果用 ref 对象/数组, 内部会自动将对象/数组转换为 reactive 的代理对象
+- ref 内部: 通过给 value 属性添加 getter/setter 来实现对数据的劫持
+- reactive 内部: 通过使用 Proxy 来实现对对象内部所有数据的劫持, 并通过 Reflect 操作对象内部数据
+- ref 的数据操作: 在 js 中要.value, 在模板中不需要(内部解析模板时会自动添加.value)
+
+7. 计算属性与监视
+
+- computed 函数:
+  - 与 computed 配置功能一致
+  - 只有 getter
+  - 有 getter 和 setter
+- watch 函数
+  - 与 watch 配置功能一致
+  - 监视指定的一个或多个响应式数据, 一旦数据变化, 就自动执行监视回调
+  - 默认初始时不执行回调, 但可以通过配置 immediate 为 true, 来指定初始时立即执行第一次
+  - 通过配置 deep 为 true, 来指定深度监视
+- watchEffect 函数
+
+- 不用直接指定要监视的数据, 回调函数中使用的哪些响应式数据就监视哪些响应式数据
+- 默认初始时就会执行第一次, 从而可以收集需要监视的数据
+- 监视数据发生变化时回调
+
+8. vue3 生命周期
+
+卸载前、卸载后换成了 beforeUnmount、unmounted; vue2 中的都能在 vue3 中使用，但 vue2 中是 options 选项， vue3 都是组合式的 api；新增两个钩子函数主要用来做调试的
+
+- 与 2.x 版本生命周期相对应的组合式 API
+  vue2 中有 11 个，8 个常见的，2 个缓存组件的，1 个错误捕获的；vue3 中常见剩 6 个，因为有俩用 setup 代替了
+
+beforeCreate -> 使用 setup()
+created -> 使用 setup()
+beforeMount -> onBeforeMount
+mounted -> onMounted
+beforeUpdate -> onBeforeUpdate
+updated -> onUpdated
+beforeDestroy -> onBeforeUnmount
+destroyed -> onUnmounted
+errorCaptured -> onErrorCaptured
+
+- 新增的钩子函数
+
+组合式 API 还提供了以下调试钩子函数：
+
+onRenderTracked
+onRenderTriggered
+
+- 执行顺序
+  3.0 中的 setup
+  2.x 中的 beforeCreate
+  2.x 中的 created
+  3.0 中的 onBeforeMount
+  2.x 中的 beforeMount
+  3.0 中的 onMounted
+  2.x 中的 mounted
+
+  3.0 中的 onBeforeUpdate
+  2.x 中的 beforeUpdate
+  3.0 中的 onUpdated
+  2.x 中的 updated
+  3.0 中的 onBeforeUnmount
+  2.x 中的 beforeUnmount
+  3.0 中的 onUnmounted
+  2.x 中的 unmounted
 
 ## 组合 API 其他部分
