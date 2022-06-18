@@ -208,4 +208,44 @@ npm run dev
   - this 是 undefined,说明就不能通过 this 再去调用 data/computed/methods
   - 其实所有的 composition API 相关回调函数中也都不可以
 
+- setup 返回值
+  - setup 的返回值是一个对象，内部的属性和方法是给 html 模板使用的
+  - setup 中对象内部的属性和 data 函数中的 return 对象的属性都可以在 html 模板中使用
+  - setup 中对象内部的属性和 data 函数中的 return 对象的属性会合并为组件对象的属性
+  - setup 中的对象的方法和 method 对象中的方法会合并为组件对象的方法
+  - 重名时 setup 优先
+  - 注意事项：
+  - 在 Vue3 中尽量不要混合的使用 data 和 setup 及 methods 和 setup；setup 访问不到 methods 里的方法和 data 里的属性，因为 this 是 undefined, setup 执行是在 beforeCreate 之前，此时组件还没被创建出来
+  - setup 不能是一个 async 函数，因为返回值不再试 return 的对象，而是 promise，模板看不到
+- setup 参数
+  - setup(props, context)/setup(props, {attrs,slots,emit})
+  - props: 包含 props 配置生命且传入了的所有属性的对象
+  - attrs: 包含没有在 props 配置中声明的属性的对象，相当于 `this.$attrs`
+  - slots: 包含所有传入的插槽内容的对象，相当于 `this.$slots`
+  - emit: 用来分发自定义事件的函数，相当于 `this.$emit`
+- reactive 和 ref 细节
+  ref 也可以对对象进行处理
+  - 是 Vue3 的 composition API 中 2 个最重要的响应式 API
+  - ref 用来处理基本类型数据, reactive 用来处理对象(递归深度响应式)
+  - 如果用 ref 对象/数组, 内部会自动将对象/数组转换为 reactive 的代理对象
+  - ref 内部: 通过给 value 属性添加 getter/setter 来实现对数据的劫持
+  - reactive 内部: 通过使用 Proxy 来实现对对象内部所有数据的劫持, 并通过 Reflect 操作对象内部数据
+  - ref 的数据操作: 在 js 中要.value, 在模板中不需要(内部解析模板时会自动添加.value)
+- 计算属性与监视
+
+  - computed 函数:
+    - 与 computed 配置功能一致
+    - 只有 getter
+    - 有 getter 和 setter
+  - watch 函数
+    - 与 watch 配置功能一致
+    - 监视指定的一个或多个响应式数据, 一旦数据变化, 就自动执行监视回调
+    - 默认初始时不执行回调, 但可以通过配置 immediate 为 true, 来指定初始时立即执行第一次
+    - 通过配置 deep 为 true, 来指定深度监视
+  - watchEffect 函数
+
+  - 不用直接指定要监视的数据, 回调函数中使用的哪些响应式数据就监视哪些响应式数据
+  - 默认初始时就会执行第一次, 从而可以收集需要监视的数据
+  - 监视数据发生变化时回调
+
 ## 组合 API 其他部分
