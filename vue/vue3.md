@@ -293,4 +293,10 @@ onRenderTriggered
   3.0 中的 onUnmounted
   2.x 中的 unmounted
 
+9. 自定义 hook 函数
+
+- 使用 Vue3 的组合 API 封装的可复用的功能函数
+- 自定义 hook 的作用类似于 vue2 中的 mixin 技术
+- 自定义 Hook 的优势: 很清楚复用功能代码的来源, 更清楚易懂
+
 ## 组合 API 其他部分
