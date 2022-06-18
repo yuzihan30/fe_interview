@@ -94,5 +94,118 @@ npm run dev
 - const proxy = reactive(obj):接受一个普通对象然后返回该普通对象的响应式代理器对象
 - 响应式转换是深层的：会影响对象内部所有嵌套的属性，通过代理对象操作源对象内部数据都是响应式的
   内部基于 ES6 的 Proxy 实现，
+- 操作代理数据影响界面更新渲染
+
+### vue2 和 vue3 的响应式对比
+
+- vue2 的响应式
+  - 核心：
+    - 对象：通过 defineProperty 对对象的已有属性值的读取和修改进行劫持（监视/拦截）
+    - 数组：通过重写数组更新数组一系列更新元素的方法来实现元素修改的劫持
+  - 问题：
+    - 对象直接新添加的属性或者删除已有的属性，界面不会自动更新
+    - 直接通过下标替换元素或者更新 length,界面不会自动更新
+      后面就有了`$set` 方法来实现数据的响应式操作
+- vue3 的响应式
+  通过 Proxy 和 Reflect 的配合来实现了监视及数据的响应式操作
+
+  - 通过 Proxy(代理)：拦截对 data 的任意属性的任意（13 种）操作，包括属性的读写、添加和删除等；cont p = new Proxy(target, handler) handler 用来监视数据的变化，内部还要配合 Reflect 实现
+  - 通过 Reflect(反射)：动态对被代理对象的相应属性进行特定的操作；所谓反射就是你给我这个事物，我可以把这个事物的内部东西再给你；通过反射对象可以将当前代理对象或者目标对象当中相关的属性、属性值或者属性的操作直接给你返回过来；Reflect 是个内置对象，不能 new 的，它里面所有的相关方法得通过调用它的静态方法才行或者说叫直接调用
+  - vue3 响应式原理
+
+  ```javascript
+  // 目标对象
+  const user = {
+    name: "xx",
+    age: 28,
+    gf: {
+      name: "yy",
+      age: 25,
+      cars: ["BMW", "BENZ", "audi"]
+    }
+  };
+
+  // 把目标对象变成代理对象, 第二个参数是一些处理器对象，处理器对象里面有一些监视方法，
+  // 监视方法再加上反射对象里面一些对应的方法来实现数据的响应式
+  // 参数1：user->target目标对象
+  // 参数2：handler->处理器对象，用来监视数据及对数据的操作
+  const proxyUser = new Proxy(user, {
+    // 获取目标对象中的某个属性值
+    get(target, prop) {
+      console.log("get方法调用了");
+      // 这里要通过反射对象将数据返回去
+      return Reflect.get(target, prop);
+    },
+    // 修改目标对象的属性值/为目标对象添加新的属性
+    set(target, prop, val) {
+      console.log("set方法调用了");
+      // 这里要通过反射对象将数据返回去
+      return Reflect.set(target, prop, val);
+    },
+    // 删除目标对象中的某个属性
+    deleteProperty(target, prop) {
+      console.log("delete方法调用了");
+      return Reflect.deleteProperty(target, prop);
+    }
+  });
+
+  // 通过代理对象获取目标对象中的某个属性值
+  console.log(proxyUser.name);
+  // 通过代理对象更新目标对象中的某个属性值
+  proxyUser.name = "yy";
+  console.log(user);
+  // 通过代理对象向目标对象中添加一个新的属性
+  proxyUser.gender = "male";
+  console.log(user);
+  delete proxyUser.name;
+  console.log(user);
+  // 更新目标对象中属性对象的属性, 说明是个深度监视的操作
+  proxyUser.gf.name = "zz";
+  console.log(user);
+  ```
+
+### setup 的细节
+
+- setup 的执行时机
+
+  vv3 指令可以快速创建一个 vue3 的单文件组件, vscode 可以配置，code->首选项->配置用户代码片段->搜 vue.json 或者 vue, 里面进行配置，该换行换行该转义转义
+
+  ```json
+  {
+    // Place your snippets for vue here. Each snippet is defined under a snippet name and has a prefix, body and
+    // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+    // same ids are connected.
+    // Example:
+    // "Print to console": {
+    // 	"prefix": "log",
+    // 	"body": [
+    // 		"console.log('$1');",
+    // 		"$2"
+    // 	],
+    // 	"description": "Log output to console"
+    // }
+    "Print5 to console": {
+      "prefix": "vv3",
+      "body": [
+        "<template>",
+        "</template>",
+        "<script lang=\"ts\">",
+        "import { defineComponent } from 'vue'",
+        "export default defineComponent({",
+        "\tname: 'App'",
+        "})",
+        "</script>"
+      ],
+      "description": "Log output to console"
+    }
+  }
+  ```
+
+  eslint 会校验多单词命名子组件
+
+  - 在 beforeCreate 之前执行一次，此时组件实例还未创建
+  - this 是 undefined,说明就不能通过 this 再去调用 data/computed/methods
+  - 其实所有的 composition API 相关回调函数中也都不可以
 
 ## 组合 API 其他部分

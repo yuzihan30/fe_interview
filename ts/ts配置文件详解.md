@@ -1,14 +1,15 @@
+## 配置解释
+
 {
+// ...
 
-  // ...
-
-  "compilerOptions": {
+"compilerOptions": {
 
     "incremental": true, // TS编译器在第一次编译之后会生成一个存储编译信息的文件，第二次编译会在第一次的基础上进行增量编译，可以提高编译的速度
 
     "tsBuildInfoFile": "./buildFile", // 增量编译文件的存储位置
 
-    "diagnostics": true, // 打印诊断信息 
+    "diagnostics": true, // 打印诊断信息
 
     "target": "ES5", // 目标语言的版本
 
@@ -42,7 +43,7 @@
 
     "types": [], // 加载的声明文件包
 
-    "removeComments":true, // 删除注释 
+    "removeComments":true, // 删除注释
 
     "noEmit": true, // 不输出文件,即编译后不会生成任何js文件
 
@@ -100,6 +101,10 @@
 
     "listFiles": true// 打印编译的文件(包括引用的声明文件)
 
-  }
+}
 
 }
+
+## 严格模式详解
+
+https://juejin.cn/post/6896680181000634376
