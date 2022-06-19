@@ -54,7 +54,7 @@
 - 小结：ts 一开始是什么类型，后面赋值也必须是什么类型
 - undefined 和 null,各自有自己的类型，也是其他所有类型的子类型；let und: undefined = undefined, let nll: null = null； 可以赋值给其他类型，需要把 ts 配置的严格模式配置为 false, "strict": false, 示例 let num2: number = undefined
 - 数组和元组，数组定义方式：let arr1: number[] = [10, 20, 30]或者 let arr2: Array<number> = [10, 20 ,30]->泛型写法；注意问题：number 类型数组里不能有其他类型；要想数组里有不同类型，就需要元组，let arr3: [string, number, boolean] = ['xx', 100, true],类型的位置和个数一开始就确定了
-- 枚举，定义一些个数固定且常用的数据，比如性别，里面的数据叫元素，每个元素都有自己的编号，且编号依次递增加 1；enum Color { red, green, blue }， 下面定义一个枚举变量接收枚举值，let color: Color = Color.red, console.log(Color.red, Color.green, Color.blue) // 0, 1, 2; 可以手动改值，enum Color { red=100, green, blue }， 但很少这样做；由枚举值可以拿到它的名字，console.log(Color[2]) // blue
+- 枚举，定义一些个数固定且常用的数据，比如性别，里面的数据叫元素，每个元素都有自己的编号，且编号依次递增加 1；enum Color { red, green, blue }， 下面定义一个枚举变量接收枚举值，let color: Color = Color.red, console.log(Color.red, Color.green, Color.blue) // 0, 1, 2; 可以手动改值，enum Color { red=100, green, blue }， 但很少这样做；也可以这样，enum Color { red='red', green='green', blue='blue' }；由枚举值可以拿到它的名字，console.log(Color[2]) // blue
 - any 类型，适用于当前不知道是什么数据类型，又想把它存储起来，let str: any = 100, str = 'xx'；let arr: any[] = [100, 'xx']当一个数组中存储的数据类型不确定，个数不确定时适用；有好也有坏，就是没有类型错误提示信息
 - void, 没有任何类型，用在函数声明的时候 function showMsg(): void {},代表的是该函数没有任何返回值;let vd: void = undefined, 这样没多大意义，定义一个 void 类型的变量，接收 undefined 类型数据
 - object 表示非原始类型，function getObj(obj: object): object {
@@ -80,6 +80,24 @@
 - 类型保护 is
   在使用类型保护时，TS 会进一步缩小变量的类型。例子中，将类型从 any 缩小至了 string；
   类型保护的作用域仅仅在 if 后的块级作用域中生效
+  // 判断参数是否为 string 类型, 返回布尔值
+  function isString(s:unknown):s is string{
+  return typeof s === 'string'
+  }
+
+// 判断参数是否为字符串,是在调用转大写方法
+function ifUpperCase(str:unknown){
+
+if(isString(str)){
+str.toUpperCase()
+// (parameter) str: string
+}
+}
+s is string 不仅返回 boolean 类型判断参数 s 是不是 string 类型, 同时明确的 string 类型返回到条件为 true 的代码块中.
+因此当我们判断条件为 true, 即 str 为 string 类型时, 代码块中 str 类型也转为更明确的 string 类型
+类型谓词的主要特点是：
+返回类型谓词，如 s is string；
+包含可以准确确定给定变量类型的逻辑语句，如 typeof s === 'string'。
 
 - never 是其它类型（包括 null 和 undefined）的子类型，代表从不会出现的值。
 
@@ -470,6 +488,22 @@ return x + y
 
 })
 const fragment: DocumentFragment = document.createDocumentFragment()
+
+8. 运算符
+
+- !.非空断言操作符
+  这是 TypeScript 的语法，叫非空断言操作符（non-null assertion operator），和?.相反，这个符号表示对象后面的属性一定不是 null 或 undefined。
+  Non-null Assertion Operator (Postfix
+  !
+  )
+  TypeScript also has a special syntax for removing null and undefined from a type without doing any explicit checking. Writing ! after any expression is effectively a type assertion that the value isn’t null or undefined:
+
+function liveDangerously(x?: number | null) {
+// No error
+console.log(x!.toFixed());
+}
+Try
+Just like other type assertions, this doesn’t change the runtime behavior of your code, so it’s important to only use ! when you know that the value can’t be null or undefined.
 
 ########## 类、对象 ########
 
