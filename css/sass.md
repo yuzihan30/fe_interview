@@ -104,4 +104,7 @@
     type-of(1px solid #000 或者 5px 6px) 输出“list”, 列表数据就是中间用空格或者逗号分开
     type-of(rgb(255, 255, 0)或者#fff 或者 red 或者 hsl(0, 100%, 50%))输出"color"
     加减乘除都能用：
-    font: 18px/1.8 serif
+    font: 18px/1.8 serif // 18px 是字号，1.8 是行间距；运算时可以保留单位，5px + 2
+
+- 数字函数
+  abs();round()四舍五入；进一位 ceil();退一位 floor();将一个数变成百分比 percentage(65px / 100px);最小数 min(1,2,3),最大数 max(1,2,3)
