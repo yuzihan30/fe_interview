@@ -121,8 +121,8 @@ npm run dev
     gf: {
       name: "yy",
       age: 25,
-      cars: ["BMW", "BENZ", "audi"]
-    }
+      cars: ["BMW", "BENZ", "audi"],
+    },
   };
 
   // 把目标对象变成代理对象, 第二个参数是一些处理器对象，处理器对象里面有一些监视方法，
@@ -146,7 +146,7 @@ npm run dev
     deleteProperty(target, prop) {
       console.log("delete方法调用了");
       return Reflect.deleteProperty(target, prop);
-    }
+    },
   });
 
   // 通过代理对象获取目标对象中的某个属性值
@@ -298,5 +298,16 @@ onRenderTriggered
 - 使用 Vue3 的组合 API 封装的可复用的功能函数
 - 自定义 hook 的作用类似于 vue2 中的 mixin 技术
 - 自定义 Hook 的优势: 很清楚复用功能代码的来源, 更清楚易懂
+
+10. toRefs
+
+- 把一个响应式对象转换成普通对象，该普通对象的每个 property 都是一个 ref
+- 应用: 当从合成函数返回响应式对象时，toRefs 非常有用，这样消费组件就可以在不丢失响应式的情况下对返回的对象进行分解使用
+- 问题: reactive 对象取出的所有属性值都是非响应式的
+- 解决: 利用 toRefs 可以将一个响应式 reactive 对象的所有原始属性转换为响应式的 ref 属性
+
+11. ref 获取元素
+    利用 ref 函数获取组件中的标签元素
+    功能需求: 让输入框自动获取焦点
 
 ## 组合 API 其他部分
