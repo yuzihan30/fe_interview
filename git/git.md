@@ -6,101 +6,108 @@
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /fe_interview/git/git.md
 -->
-1. push报错fetal: Could not read from remote repository
-原因：远程仓库没有本地仓库的公钥无法认证
-解决方法：本地生成SSH公钥配置到远程仓库的公钥管理中
-ssh-keygen -t rsa -C "xx@yy.com" (mac中测试这一步就能生成公钥)
-ssh-agent -s
-将id_rsa.pub中的公钥复制到远程仓库的个人设置-安全设置-SSH公钥
 
-test git 
+1. push 报错 fetal: Could not read from remote repository
+   原因：远程仓库没有本地仓库的公钥无法认证
+   解决方法：本地生成 SSH 公钥配置到远程仓库的公钥管理中
+   ssh-keygen -t rsa -C "xx@yy.com" (mac 中测试这一步就能生成公钥)
+   ssh-agent -s
+   将 id_rsa.pub 中的公钥复制到远程仓库的个人设置-安全设置-SSH 公钥
+
+test git
 test git without vpn
-经验证测试，切换IP会导致SSH公钥失效
+经验证测试，切换 IP 会导致 SSH 公钥失效
 
-隔天未切IP测试SSH是否失效
+隔天未切 IP 测试 SSH 是否失效
 
-2. revert是用一次新的提交回滚之前的提交，reset是直接删除之前的提交
+2. revert 是用一次新的提交回滚之前的提交，reset 是直接删除之前的提交
 
-3. git merge 和git rebase的关系
-git merge B 和git rebase B都是将B分支合并到当前分支
-不要在公共分支使用rebase，rebase会改变提交的基点，会给团队成员带来混乱
-将公共分支合并到个人分支可以多用git rebase， 个人分支git pull --rebase公共分支，解决完冲突后，再merge 到主分支
+3. git merge 和 git rebase 的关系
+   git merge B 和 git rebase B 都是将 B 分支合并到当前分支
+   不要在公共分支使用 rebase，rebase 会改变提交的基点，会给团队成员带来混乱
+   将公共分支合并到个人分支可以多用 git rebase， 个人分支 git pull --rebase 公共分支，解决完冲突后，再 merge 到主分支
 
+4. git 使用练习的站点：https://learngitbranching.js.org/?locale=zh_CN
 
-4. git使用练习的站点：https://learngitbranching.js.org/?locale=zh_CN
+5. git commit -a 针对修改和删除文件，可以省略 git add，但新文件还是需要 git add, 不然就是 untracked 状态
 
-5. git commit -a 针对修改和删除文件，可以省略git add，但新文件还是需要git add, 不然就是untracked状态
+6. 我刚才提交了什么，git show/git log -n1 -p, -p 显示更新之间的差异，-n 显示最近第几条提交, git show 默认显示 Head 的提交信息，加上 hash 具体显示某条提交的提交信息
 
-6. 我刚才提交了什么，git show/git log -n1 -p, -p显示更新之间的差异，-n显示最近第几条提交, git show默认显示Head的提交信息，加上hash具体显示某条提交的提交信息
+7. git commit -a -m 这个-a 就是 git add 的作用
 
-7. git commit -a -m 这个-a就是git add 的作用
-
-8. 提交信息写错了，没push前，git commit --amend会打开vim编辑提交信息，或者git commit --amend -m; push之后的话，需要force push，但不推荐这样做
+8. 提交信息写错了，没 push 前，git commit --amend 会打开 vim 编辑提交信息，或者 git commit --amend -m; push 之后的话，需要 force push，但不推荐这样做
 
 9. 从提交里移出一个文件：git checkout HEAD^ myfile, git add -A, git commit --amend
 
 10. 删除最后一次提交：
-需要删除已push的提交（适用于个人开发分支，不适合公共开发分支）：git reset HEAD^ --hard, git push -f [remote][branch]; 对于公共分支，为了避免影响他人，使用git revert ID
-未push: git reset --soft HEAD@{1}
-########## 合并分支 ########
-1. git rebase
-feature1: git rebase master 拉最新的main分支代码和并到开发分支feature1，之后feature1测试完毕后，更新到main，也需要在main分支执行：git rebase feature1
+    需要删除已 push 的提交（适用于个人开发分支，不适合公共开发分支）：git reset HEAD^ --hard, git push -f [remote][branch]; 对于公共分支，为了避免影响他人，使用 git revert ID
+    未 push: git reset --soft HEAD@{1}
+    ########## 合并分支 ########
+11. git rebase
+    feature1: git rebase master 拉最新的 main 分支代码和并到开发分支 feature1，之后 feature1 测试完毕后，更新到 main，也需要在 main 分支执行：git rebase feature1
 
-git rebase --abort把最近的一次rebase撤销
+git rebase --abort 把最近的一次 rebase 撤销
 
-## git分支命名规范
+## git 分支命名规范
+
 分支命名规则一般为：f0122-xxxxx
-f：代表feature
+f：代表 feature
 0122：预计完成时间
-xxxxx：简单feature描述；
-主分支		master		主分支，所有提供给用户使用的正式版本，都在这个主分支上发布
-开发分支		dev 		开发分支，永远是功能最新最全的分支
-功能分支		feature-*	新功能分支，某个功能点正在开发阶段
-发布版本		release-*	发布定期要上线的功能
-修复分支		bug-*		修复线上代码的 bug
-## git撤销某个文件的修改，分为两种情况：
-1.在工作区修改，但并未提交到暂存区（即并没有add）。
+xxxxx：简单 feature 描述；
+主分支 master 主分支，所有提供给用户使用的正式版本，都在这个主分支上发布
+开发分支 dev 开发分支，永远是功能最新最全的分支
+功能分支 feature-_ 新功能分支，某个功能点正在开发阶段
+发布版本 release-_ 发布定期要上线的功能
+修复分支 bug-\* 修复线上代码的 bug
+
+## git 撤销某个文件的修改，分为两种情况：
+
+1.在工作区修改，但并未提交到暂存区（即并没有 add）。
 对于单个文件的撤销修改而言，使用下面方法。
 $ git checkout -- 文件名
 若想撤销工作区中所有文件的修改，则
 $ git checkout .
-注意：git chekcout 是让文件回到最近一次该文件git commit或git add时的状态。
-2.工作区修改了之后，提交到了暂存区（即add），如何撤销修改？这里分为两种情况来说吧。
-（1）对于该文件来说，在当前分支上，你还没有commit过一次。这时候，git status后git给出提示：
-是的，使用git rm --cached 文件名命令来放弃该文件的暂存，这时，你用git status命令：
-表明：test1文件不被git追踪，并且它是修改的状态，没有提交到暂存区。此时，你用git checkout -- file是没有用的。因为，前面提到过，git checkout -- file是回到最近的一次commit或者add。但是，当前你还没有一次commit过，并且，add也已经撤销了，所以Git找不到该文件在以往记录中的存在。自然没法用git checkout -- file。
-git提示你：该文件在Git目前所知的文件中找不到。
+注意：git chekcout 是让文件回到最近一次该文件 git commit 或 git add 时的状态。 2.工作区修改了之后，提交到了暂存区（即 add），如何撤销修改？这里分为两种情况来说吧。
+（1）对于该文件来说，在当前分支上，你还没有 commit 过一次。这时候，git status 后 git 给出提示：
+是的，使用 git rm --cached 文件名命令来放弃该文件的暂存，这时，你用 git status 命令：
+表明：test1 文件不被 git 追踪，并且它是修改的状态，没有提交到暂存区。此时，你用 git checkout -- file 是没有用的。因为，前面提到过，git checkout -- file 是回到最近的一次 commit 或者 add。但是，当前你还没有一次 commit 过，并且，add 也已经撤销了，所以 Git 找不到该文件在以往记录中的存在。自然没法用 git checkout -- file。
+git 提示你：该文件在 Git 目前所知的文件中找不到。
 此时，你可以任意的对此文件进行修改了，想好了之后，再提交到暂存区。
-（2）如果你已经有了commit的记录，撤销文件。
-则先：git reset HEAD file让该文件回到工作区的状态。
-然后：git chekcout -- file即可
-## GIT缓存本地不想提交的代码
-开发的过程中，有时之前开发的功能出现了BUG，但是本地又在相同的文件中开发了新的需求时，需要将代码还原再修复BUG。可是代码还原的话大大提高了二次开发的成本。 通过git stash这个命令可以轻松实现。
-git stash用法
-git stash是将本地当前未提交的内容暂存起来并且将修改的文件还原到修改之前的状态，用于后续恢复当前的工作，不会被git push到远程分支。
+（2）如果你已经有了 commit 的记录，撤销文件。
+则先：git reset HEAD file 让该文件回到工作区的状态。
+然后：git chekcout -- file 即可
+
+## GIT 缓存本地不想提交的代码
+
+开发的过程中，有时之前开发的功能出现了 BUG，但是本地又在相同的文件中开发了新的需求时，需要将代码还原再修复 BUG。可是代码还原的话大大提高了二次开发的成本。 通过 git stash 这个命令可以轻松实现。
+git stash 用法
+git stash 是将本地当前未提交的内容暂存起来并且将修改的文件还原到修改之前的状态，用于后续恢复当前的工作，不会被 git push 到远程分支。
 $ git status
 On branch branch
 Your branch is up to date with 'origin/branch'.
 Changes not staged for commit:
-  (use "git add ..." to update what will be committed)
-  (use "git checkout -- ..." to discard changes in working directory)
-        modified:   path/filename
+(use "git add ..." to update what will be committed)
+(use "git checkout -- ..." to discard changes in working directory)
+modified: path/filename
 $ git stash
 Saved working directory and index state WIP on branch: commitId commitMessage
 $ git status
 On branch branch
 Your branch is up to date with 'origin/branch'.
 nothing to commit, working tree clean
-这样我们就可以在不还原新的开发的情况下去处理已知的BUG了。
-git stash pop删除暂存并恢复暂存的内容
-使用git stash pop来恢复之前暂存的内容。
-## 本地项目上传到GitHub
-https://blog.csdn.net/tyh_keephunger/article/details/115697379
-github上建项目->git remote add origin git@github.com:yuzihan30/vue3-init.git->git push origin master/main
+这样我们就可以在不还原新的开发的情况下去处理已知的 BUG 了。
+git stash pop 删除暂存并恢复暂存的内容
+使用 git stash pop 来恢复之前暂存的内容。
 
+## 本地项目上传到 GitHub
+
+https://blog.csdn.net/tyh_keephunger/article/details/115697379
+github 上建项目->git remote add origin git@github.com:yuzihan30/vue3-init.git->git push origin master/main
+
+“在 git 中,可以利用 branch 命令查询远程分支,该命令用于列出分支,当参数设置为“-r”时,就会列出所有的远程分支,语法为“git branch -r”
 
 ########## Monorepos ########
-Monorepo是指将所有代码放到一个代码仓库中的项目管理策略
+Monorepo 是指将所有代码放到一个代码仓库中的项目管理策略
 Monorepos 的优点
 依赖管理：共享依赖，所有的代码都在一个仓库。版本管理非常方便。
 代码复用：所有的代码都在一个仓库，很容易抽离出各个项目共用的业务组件或工具，并通过 TypeScript 在代码内引用。
