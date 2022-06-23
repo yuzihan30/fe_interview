@@ -371,6 +371,8 @@ onRenderTriggered
 
 ## 手写组合 API
 
+主要是实现里面的劫持操作，没有实现页面更新操作
+
 1. shallowReactive 与 reactive
 2. shallowRef 与 ref
 3. shallowReadonly 与 readonly
