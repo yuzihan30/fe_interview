@@ -170,8 +170,9 @@ function init(obj: Ifunc) {
 
 接口约束类，要这样实现和这样调用
 
-7. TS 类组件
-   最多的就是接口类型的应用，限制组件状态属性符合接口
+### TS 类组件
+
+最多的就是接口类型的应用，限制组件状态属性符合接口
 
 ```
 state = { name: 'xx' }
@@ -193,3 +194,55 @@ export default class App extends Component<约定属性，约定状态>
 ```
 
 p112-5:56
+
+### TS 的函数式组件
+
+1. state
+
+```typescript
+const [name, setName] = useState("aaa");
+name.substring(0, 1).toUpperCase() + name.substring(1);
+setName("bbb");
+```
+
+2. todo
+   const myText = useRef<HTMLInputElement>(null)
+   console.log((myText.current as HTMLInputElement).value)
+   const [list, setList] = useState<string>([])
+   setList([...list, (myText.current as HTMLInputElement).value])
+3. props
+
+```typescript
+<Child name="aaa" />;
+interface IProps {
+  name: string;
+}
+function Child(props: IProps) {
+  return <div>child</div>;
+}
+// 或者
+const Child: React.FC<IProps> = (props) => {};
+```
+
+4. 抽屉
+
+```typescript
+//
+const [isShow, setIsShow] = useState(true)
+<Navbar cb={()=>{
+    console.log("111")
+    setIsShow(!isShow)
+}}/>
+{isShow && <Sidebar />}
+interface IProps {
+    title?: string,
+    cb: ()=>void
+}
+function Navbar(props: IProps) {
+    props.cb()
+}
+function Sidebar(props: IProps) {
+
+}
+
+```

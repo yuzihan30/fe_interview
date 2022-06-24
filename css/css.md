@@ -111,3 +111,12 @@ position: absolute, margin-left: -20px
 
 1. background 颜色只会覆盖到 contentpadding 不会覆盖到 border 上面
 2. height: 100%不行的时候试试 height: 100vh
+
+## flex
+
+在说 flex:1 和 flex:auto 区别之前先回顾 flex:0 1 atuo;
+从默认值上可以看出它有三个属性，分别是 flex-grow、flex-shrink、flex-basis
+
+flex-grow:项目的放大比例，默认为 0，如果存在剩余空间，不放大
+flex-shrink:项目的缩小比例，默认为 1，如果空间不足，会适当缩小
+flex-basis:在分配空间之前，项目的主轴空间，相当于我们设置的 width，
