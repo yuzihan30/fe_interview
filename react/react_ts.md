@@ -174,12 +174,14 @@ function init(obj: Ifunc) {
 
 最多的就是接口类型的应用，限制组件状态属性符合接口
 
-```
+1. state.tsx
+
+```typescript
 state = { name: 'xx' }
 setState({
     name: 100 // 这个值如果是后台返回的，你不知道类型，运行时才能看到报错；或者调用别人的函数的返回结果
 })
-换种写法再试试
+// 换种写法再试试
 interface IState {
     name: string
 }
@@ -189,11 +191,139 @@ state: IState = { name: 'xx' }
 setState({ // 此时这样改并不会提示，因为不是直接改, this.state.name = 100这样才有提示
     name: 100
 }
-react有专门的写法
+// react有专门的写法
 export default class App extends Component<约定属性，约定状态>
+export default class App extends Component<any，IState> { // 属性不约束，状态约束
+    state = {
+        name: 'xxx' // 这时就会提示类型校验
+    }
+    render() {
+        return (
+            // ...
+            setState({name: "yyy"})
+            // ...
+        )
+    }
+}
 ```
 
-p112-5:56
+2. todo.tsx
+
+```typescript
+interface IState {
+  text: string,
+  list: string[]
+}
+export default class App extends Component<any, IState> {
+    state = {
+        text: "",
+        list: []
+    }
+    myRef = React.createRef<HTMLInputElement>() // 需要指定ref的类型
+    render() {
+        return (
+            <div>
+                // <input type="text" value={this.state.text}onChange={
+                //     (evt) => {
+                //         setState({
+                //             text: evt.target.value
+                //         })
+                //     }
+                // }>
+                // 或者试试ref
+                <input ref={this.myRef}>
+                <button onClick={
+                    // console.log(state.name)
+                    // console.log(this.myRef.current.value)
+                    console.log((this.myRef.current as HTMLInputElement).value) // 需要加类型断言
+                    this.setSate({
+                        list: [...this.sate.list, (this.myRef.current as HTMLInputElement).value]
+                    })
+                }></button>
+                {
+                    this.state.list.map(item=>
+                        <li key={item}>{item}</li>
+                    )
+                }
+            </div>
+        )
+    }
+}
+```
+
+3. props.tsx
+
+```typescript
+export default class App extends Component {
+    render() {
+        return (
+            <div>
+                <Child name="aaa">
+            </div>
+        )
+    }
+}
+interface IProps {
+    name: string
+}
+class Child extends Component<IProps, any> {
+    render() {
+        return <div>
+            {this.props.name}
+        </div>
+    }
+}
+
+```
+
+4.  drawer.tsx
+
+```typescript
+export default class App extends Component {
+  state = {
+    isShow: true,
+  };
+  render() {
+    return (
+      <div>
+        app
+        <Navbar
+          title="first page"
+          cb={() => {
+            this.setState({
+              isShow: !this.state.isShow,
+            });
+          }}
+        />
+        {this.state.isShow && <Sidebar></Sidebar>}
+      </div>
+    );
+  }
+}
+interface IProps {
+  title: string;
+  cb: () => void;
+}
+class Navbar extends Component<IProps, any> {
+  render() {
+    return (
+      <div>
+        Navbar-{this.props.title}
+        <button
+          onClick={() => {
+            this.props.cb();
+          }}
+        ></button>
+      </div>
+    );
+  }
+}
+class Sidebar extends Component {
+  render() {
+    return <div>Sidebar</div>;
+  }
+}
+```
 
 ### TS 的函数式组件
 
@@ -202,7 +332,9 @@ p112-5:56
 ```typescript
 const [name, setName] = useState("aaa");
 name.substring(0, 1).toUpperCase() + name.substring(1);
-setName("bbb");
+setName("bbb"); // 这里利用了隐式类型推断
+// 要么就显示泛型指定
+const [name, setName] = useState<string>("aaa");
 ```
 
 2. todo
@@ -224,7 +356,7 @@ function Child(props: IProps) {
 const Child: React.FC<IProps> = (props) => {};
 ```
 
-4. 抽屉
+4. drawer
 
 ```typescript
 //
