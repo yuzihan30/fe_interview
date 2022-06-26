@@ -1,15 +1,10 @@
-<!--
- * @Author: yuzihan yuzihanyuzihan@163.com
- * @Date: 2022-05-14 13:43:17
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-14 14:28:47
- * @FilePath: /fe_interview/js/autojs.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 参考资源
 https://hyb1996.github.io/AutoJs-Docs/#/
-https://article.itxueyuan.com/AWnl88 
+https://article.itxueyuan.com/AWnl88
+
 1. 短视频
+
+```javascript
 console.log(device.width, device.height)
 swipe(x1, y1, x2, y2, swipe_time)
 swipe(540, 400, 540, 2000, 450)
@@ -36,6 +31,6 @@ swipe_time = 450 + random(0, 30)
 sleep_time = 2000 + random(1000, 5000)
 for (let i = 0; i <= 10; i++ ) {
     swipe(x1, y1, x2, y2, swipe_time)
-    sleep(sleep_time) 
+    sleep(sleep_time)
 }
-
+```
