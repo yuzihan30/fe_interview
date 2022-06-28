@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="js/a.js"></script>
+    <script src="js/b.js"></script>
+    <script src="js/c.js"></script>
+    <!-- 会覆盖，三个方法名一样， 由于开发者的失误，也有可能用了别人代码的原因 -->
+  </head>
+  <body>
+    <script>
+      test(); // 同一个html命名空间下就会相互影响，只输出了test-ccc
+    </script>
+  </body>
+</html>
