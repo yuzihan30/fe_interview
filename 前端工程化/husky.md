@@ -194,7 +194,7 @@ flaws 缺陷
 plier 钳子
 awesome 很棒的
 
-explicitly 显示的
+explicitly 显式的
 unplugged 被拔掉
 consequences 影响
 gist 要点
