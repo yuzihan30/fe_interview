@@ -1,0 +1,54 @@
+// body {
+//   font-size: 14px;
+//   color: red;
+//   line-height: 1.5;
+// }
+// ul {
+//   font-size: 15px;
+//   li {
+//     list-style: none;
+//   }
+// }
+// body {
+//   //   background-color: rgb(255, 255, 0);
+//   //   background-color: rgba(255, 255, 0, 0.8);
+//   //   background-color: hsl(60, 100%, 50%);
+//   background-color: hsla(60, 100%, 50%, 0.5);
+// }
+
+// $base-color: #ff0000;
+// $base-color-hsl: hsl(0, 100%, 50%);
+
+// body {
+//   // deg也可以不加
+//   //   background-color: adjust-hue($base-color-hsl, 137deg);
+//   background-color: adjust-hue($base-color, 137deg); // 结果一样
+// }
+// $base-color: hsl(222, 93%, 41%);
+// $light-color: lighten($base-color, 30%);
+// $dark-color: darken($base-color, 20%);
+
+// .alert {
+//   border: 1px solid $base-color;
+//   background-color: $light-color;
+//   color: $dark-color;
+// }
+// $base-color: hsl(221, 70%, 41%);
+// $saturate-color: saturate($base-color, 50%);
+// $desaturate-color: desaturate($base-color, 30%);
+
+// .alert {
+//   background-color: $saturate-color;
+// }
+
+// .alert-info {
+//   background-color: $desaturate-color;
+// }
+$base-color: hsla(222, 100%, 50%, 0.931);
+$fade-in-color: opacify($base-color, 0.3);
+$fade-out-color: transparentize($base-color, 0.2);
+
+.alert {
+  background-color: $fade-in-color;
+  border: 1px solid $fade-out-color;
+}

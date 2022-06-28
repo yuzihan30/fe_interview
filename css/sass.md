@@ -8,6 +8,16 @@
 -->
 
 > 参考资料： https://www.bilibili.com/video/BV17W411w7nL?p=15&vd_source=7ee5c96f1a1e60cce40c476ea01fa301
+> 安装，mac 下：brew install sass/sass/sass
+> sass --version 1.53.0
+> 编译 scss 可以通过一些工具，也可以通过命令行
+> mkdir ninghao-sass && cd $\_ 创建并进入这个目录
+> sass sass/style.scss:css/style.css
+> 自动编译 scss，文件或者目录发生变化后自动帮我们编译
+> sass --watch sass:css 可以修改输出的 css 格式
+> nested 嵌套，compact 紧凑，expanded 扩展，compressed 压缩；默认输出格式是嵌套，最新 1.53.0 版本默认应该是 expande 扩展格式，就是我们手工的格式
+> sass --watch sass:css --style compact 每一块的样式都会在单独的同一行里面
+> sass -i 进入 sass 的命令行交互模式
 
 1. scss 是 sass 的升级版, sass 3.0 时改叫 sassy(粗略，时髦自信的) css, 扩展名由.sass 改为.scss。语法也由缩进改为嵌套形式
 
@@ -108,6 +118,62 @@
 
 - 数字函数
   abs();round()四舍五入；进一位 ceil();退一位 floor();将一个数变成百分比 percentage(65px / 100px);最小数 min(1,2,3),最大数 max(1,2,3)
+
+11. 字符串 string
+    带引号和不带引号区别,带引号的里面可以包含空格，还有一些特殊的符号；常用在字符串的操作符就是加号”ning“ + hao 得到"ninghao",真实情况下的输出是带引号连接不带引号会输出带引号字符串，反过来则输出不带引号；”ninghao“ + 8080 输出”ninghao8080“, ning - hao 输出"ning-hao"; ning / hao 输出”ning/hao“;ning \* hao 会报错
+12. 字符串函数
+    $greeting: "Hello ninghao" 这个变量可以作为函数的参数
+    to-upper-case($greeting)可以把变量里的字符全变大写
+    to-lower-case($greeting)
+    str-length($greeting)
+    str-index($greeting, 'Hello') // 1, 索引值从1开始
+    str-insert($greeting, '.net', 14) // 最后是指定要插入的位置
+13. 颜色
+    Hex 16 进制数字 #ff0000
+    RGB(255, 0, 0), RGB 表示红绿蓝分别占了多少
+    String: red, green
+    浏览器中样式 computed 面板，点一下 color:red 会切换不同的方式表示颜色，16 进制简写、16 进制完整方式表示，再点会切换成 rgb 的方式，再点会变成 hsl（0， 100%， 50%）表示的，h 就是 hill 色相，s 表示 setuation 饱和度，l 表示 lightness 明度；scss 支持所有这种颜色的写法，还可以用操作符操作这些颜色的值，另外还提供了一些处理这些颜色的函数
+
+- rgb 和 rgba
+  rgb()红绿蓝的数量 255 内或者百分比表示; alpha 表示 0-1 之间的数字, 0 表示完全透明，1 表示完全不透明
+- hsl 和 hsla
+  HSL 色相 0-360 度， 饱和度 0-100%， 明度 0-100%; a 同 rgba
+- adjust-hue 可以调整颜色色相的值 hue,
+  第一个参数要调整的颜色，第二个参数是要调整的色相的度数
+  adjust-hue($base-color-hsl, 137deg)，deg 也可以不加，加更清楚一些，角度的意思
+- lighten 和 darken
+  该变颜色明度
+  $base-color: hsl(222, 100%, 50%);
+$light-color: lighten($base-color, 30%); // 第二个参数要给颜色增加的明度，将明度增加到 80%
+$dark-color: darken($base-color, 20%); // 第二个参数将明度降低 20%
+
+- saturate 和 desaturate
+  saturate 可以增加颜色的纯度，也就是饱和度
+  也可以 16 进制颜色交给这两个函数处理
+  $saturate-color: saturate($base-color, 50%);增加 50%就是 100%
+  background-color: $desaturate-color;
+- transparentize 和 opacify
+  transparentize 让颜色变得更透明, opacify 增加不透明度
+  修改颜色的 alpha 值
+  $fade-in-color: opacify($base-color, 0.3)// 第二个值是增加的不透明度的值
+  $fade-out-color: transparentize($base-color, 0.2); // 第二个是增加的透明度或者减小的不透明度
+
+14. list 列表
+    列表里的值可以使用空格分开或者逗号分开
+    border: 1px solid #000 // border 值就是一个列表
+    font-family: Courier, "Lucida Consol", monospace // font-family 值就是一个列表
+    padding: 5px 10px, 5px 0 // 列表的值是个列表
+    padding: (5px 10px) (5px 0) // 也可以，编译成 css 的时候，会去掉括号
+
+- 列表函数
+  列表像其他语言的数组，sass -i 交互可以测试 list 的函数
+  length(5px 10px)// 计算列表的长度， 列表里每个元素都对应一个序号或者索引号，从 1 开始
+  nth(5px 10px, 1) // 得到对应序号列表里的项，第一个参数是列表，第二个参数是列表项索引
+  index(1px solid red, solid) // 得到列表里项的序号
+  append(5px 10px, 5px) // 插入新的列表值
+  append(5px 10px, 5px, ) // 第三个参数指定返回列表的分割符，space\common\auto
+  join(5px 10px, 5px 0) // 将两个列表组合成一个列表
+  join(5px 10px, 5px 0, comma) // 也可以传第三个参数，传分割符，逗号
 
 ## 其他
 
