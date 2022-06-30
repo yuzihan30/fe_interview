@@ -175,6 +175,172 @@ $dark-color: darken($base-color, 20%); // 第二个参数将明度降低 20%
   join(5px 10px, 5px 0) // 将两个列表组合成一个列表
   join(5px 10px, 5px 0, comma) // 也可以传第三个参数，传分割符，逗号
 
+15. map 及相关函数
+    项目名值对的列表
+    $map: (key1: value1, key2: value2)
+$colors: (light: #ffffff, dark: #000000)
+    用到列表上的函数同样可以处理 map 上的数据， length($colors)结果为 2；另外还有专门处理 map 类型数据的函数,map-get 根据项目名字得到对应值, map-get($colors, dark), map-keys(colors)得到项目里所有的 keys 列表, map-value（$colors）找出项目中所有值,判断map数据里是否有指定的key项map-has-key($colors, light), map-has-key($colors, gray),map-merge($colors, (light-gray: #e5e5e5))将两个 map 合并到一块，map-remove($colors, gray,light)从 map 里移出一个或者多个项目
+16. Boolean 布尔值
+    5px > 3px true 还有 ==、<
+    另外支持 and、or、not
+    (5px > 3px) and (5px > 10px)
+    not(5px > 3px)
+17. Interpolation
+    可以让我们把一个值插入到另一个值里面，把变量后者表达式放到#{}里面
+    可以将一个值插入另一个值里，在样式选择器或者属性上使用变量或者表达式 #{}
+
+```sass
+$version: "0.0.1";
+// 注释里用到版本号
+/* 当前的版本：$version */
+$name: "info";
+$attr: "border";
+
+.alert-#{$name} {
+  #{$attr}-color: #ccc;
+}
+
+```
+
+18. 控制指令 Control Directives
+
+```
+// @if、@for
+$columns: 4;
+@for $i from 1 through $columns {
+  .col-#{$i} {
+    width: 100% / $columns * $i;
+  }
+}
+$icons: success error warning;
+
+// 根据列表每一项输出一些样式
+@each $icon in $icons {
+  .icon-#{$icon} {
+    background-image: url(../images/icons/#{$icon}.png);
+  }
+}
+
+$i: 6;
+
+@while $i > 0 {
+  .item-#{$i} {
+    width: 5px * $i;
+  }
+  $i: $i - 2;
+}
+
+```
+
+@if
+
+```
+$use-prefixes: true;
+$theme: "dark";
+body {
+  @if $theme == dark {
+    background-color: black;
+  } @else if $theme == light {
+    background-color: white;
+  } @else {
+    background-color: gray;
+  }
+}
+.rounded {
+  @if $use-prefixes {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+  }
+  border-radius: 50%;
+}
+```
+
+@for 重复一定次数输出一些样式
+@for $var from <开始值> through/to <结束值> {}
+through/to 停止循环的位置不同， to 不包含结束值的循环
+
+```
+// 根据使用网格的数量设置不同网格的宽度
+$columns: 4;
+@for $i from 1 through $columns {
+  .col-#{$i} {
+    width: 100% / $columns * $i;
+  }
+}
+```
+
+@each, 根据列表中每一项生成特定的样式
+@each $var in $list {
+
+}
+
+```
+$icons: success error warning;
+
+// 根据列表每一项输出一些样式
+@each $icon in $icons {
+  .icon-#{$icon} {
+    background-image: url(../images/icons/#{$icon}.png);
+  }
+}
+```
+
+@while 条件 {
+...
+}
+// 比 for 更灵活的处理循环
+
+```
+$i: 6;
+
+@while $i > 0 {
+  .item-#{$i} {
+    width: 5px * $i;
+  }
+  $i: $i - 2;
+}
+```
+
+19. 函数
+    @funtion 名称（参数 1，参数 2） {
+
+}
+$color: (
+light: #ffffff,
+dark: #000000,
+);
+
+@function color($key) {
+  @return map-get($color, $key);
+}
+body {
+background-color: color(light);
+}
+
+20. 错误与警告信息
+    @warn、@error
+
+```
+$color: (
+  light: #ffffff,
+  dark: #000000,
+);
+
+@function color($key) {
+  @if not map-has-key($color, $key) {
+    // @warn "在 $color 里没有#{$key}这个key";
+    @error "在 $color 里没有#{$key}这个key";
+  }
+  @return map-get($color, $key);
+}
+body {
+  // background-color: color(light);
+  background-color: color(gray);
+}
+```
+
 ## 其他
 
 @content 这个是不是个类似占位用的，代表里面是自定义的的

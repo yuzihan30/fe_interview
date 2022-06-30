@@ -44,11 +44,107 @@
 // .alert-info {
 //   background-color: $desaturate-color;
 // }
-$base-color: hsla(222, 100%, 50%, 0.931);
-$fade-in-color: opacify($base-color, 0.3);
-$fade-out-color: transparentize($base-color, 0.2);
+// $base-color: hsla(222, 100%, 50%, 0.931);
+// $fade-in-color: opacify($base-color, 0.3);
+// $fade-out-color: transparentize($base-color, 0.2);
 
-.alert {
-  background-color: $fade-in-color;
-  border: 1px solid $fade-out-color;
+// .alert {
+//   background-color: $fade-in-color;
+//   border: 1px solid $fade-out-color;
+// }
+
+$version: "0.0.1";
+// 注释里用到版本号
+/* 当前的版本：$version */
+$name: "info";
+$attr: "border";
+
+.alert-#{$name} {
+  #{$attr}-color: #ccc;
+}
+// @if、@for
+$columns: 4;
+@for $i from 1 through $columns {
+  .col-#{$i} {
+    width: 100% / $columns * $i;
+  }
+}
+
+$icons: success error warning;
+
+// 根据列表每一项输出一些样式
+@each $icon in $icons {
+  .icon-#{$icon} {
+    background-image: url(../images/icons/#{$icon}.png);
+  }
+}
+$i: 6;
+
+@while $i > 0 {
+  .item-#{$i} {
+    width: 5px * $i;
+  }
+  $i: $i - 2;
+}
+$use-prefixes: true;
+$theme: "dark";
+body {
+  @if $theme == dark {
+    background-color: black;
+  } @else if $theme == light {
+    background-color: white;
+  } @else {
+    background-color: gray;
+  }
+}
+.rounded {
+  @if $use-prefixes {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+  }
+  border-radius: 50%;
+}
+// 根据使用网格的数量设置不同网格的宽度
+$columns: 4;
+@for $i from 1 through $columns {
+  .col-#{$i} {
+    width: 100% / $columns * $i;
+  }
+}
+
+$icons: success error warning;
+
+// 根据列表每一项输出一些样式
+@each $icon in $icons {
+  .icon-#{$icon} {
+    background-image: url(../images/icons/#{$icon}.png);
+  }
+}
+
+$i: 6;
+
+@while $i > 0 {
+  .item-#{$i} {
+    width: 5px * $i;
+  }
+  $i: $i - 2;
+}
+
+$color: (
+  light: #ffffff,
+  dark: #000000,
+);
+
+@function color($key) {
+  @if not map-has-key($color, $key) {
+    // @warn "在 $color 里没有#{$key}这个key";
+    @error "在 $color 里没有#{$key}这个key";
+  }
+  @return map-get($color, $key);
+}
+body {
+  // background-color: color(light);
+  background-color: color(gray);
 }

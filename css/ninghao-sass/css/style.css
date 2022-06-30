@@ -1,6 +1,17 @@
-.alert {
-  background-color: rgba(0, 77, 255, 0.8);
-  border: 1px solid rgba(0, 77, 255, 0.3);
-}
+/* Error: "在 $color 里没有gray这个key"
+ *     ,
+ * 149 |   background-color: color(gray);
+ *     |                     ^^^^^^^^^^^
+ *     '
+ *   sass/style.scss 149:21  root stylesheet */
 
-/*# sourceMappingURL=style.css.map */
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: 'Error: "\5728  $color \91cc \6ca1 \6709 gray\8fd9 \4e2a key"\a     \2577 \a 149 \2502    background-color: color(gray);\a     \2502                      ^^^^^^^^^^^\a     \2575 \a   sass/style.scss 149:21  root stylesheet';
+}
