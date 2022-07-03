@@ -377,3 +377,37 @@ onRenderTriggered
 2. shallowRef 与 ref
 3. shallowReadonly 与 readonly
 4. isRef, isReactive 与 isReadonly
+
+## 其他新组件和 API
+
+1. 新组件
+
+1) Fragment(片断)
+   在 Vue2 中: 组件必须有一个根标签
+   在 Vue3 中: 组件可以没有根标签, 内部会将多个标签包含在一个 Fragment 虚拟元素中
+   好处: 减少标签层级, 减小内存占用
+2) Teleport(瞬移)
+   把一些东西瞬间移动到指定的位置
+   Teleport 提供了一种干净的方法, 让组件的 html 在父组件界面外的特定标签(很可能是 body)下插入显示
+3) Suspense(不确定的)
+   它们允许我们的应用程序在等待异步组件时渲染一些后备内容，可以让我们创建一个平滑的用户体验
+
+2. 其他新的 API #全新的全局 API
+   createApp()
+   defineProperty()
+   defineAsyncComponent()
+   nextTick()
+   将原来的全局 API 转移到应用对象
+   app.component()
+   app.config()
+   app.directive()
+   app.mount()
+   app.unmount()
+   app.use()
+   模板语法变化
+   v-model 的本质变化
+   prop：value -> modelValue；
+   event：input -> update:modelValue；
+   .sync 修改符已移除, 由 v-model 代替
+   <ChildComponent v-model:title="pageTitle" v-model:content="pageContent" />
+   v-if 优先 v-for 解析
