@@ -114,6 +114,7 @@ position: absolute, margin-left: -20px
 
 ## flex
 
+https://www.jianshu.com/p/4df56ee561ba
 在说 flex:1 和 flex:auto 区别之前先回顾 flex:0 1 atuo;
 从默认值上可以看出它有三个属性，分别是 flex-grow、flex-shrink、flex-basis
 
