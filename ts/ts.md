@@ -463,7 +463,8 @@ return x + y
   }
   console.log(getLength<string>('what r u do'))
   console.log(getLength<number>(100) // 会报错，number 没有实现 length
-
+- 泛型嵌套
+  Component<RouteComponentProps<IParam>>
 - Promise 的泛型 T 代表 promise 变成成功态之后 resolve 的值，resolve(value)
 
 7. 其他

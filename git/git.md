@@ -48,6 +48,10 @@ test git without vpn
 
 git rebase --abort 把最近的一次 rebase 撤销
 
+## 修改 commit 信息
+
+未 push, git commit --amend
+
 ## git 分支命名规范
 
 分支命名规则一般为：f0122-xxxxx
