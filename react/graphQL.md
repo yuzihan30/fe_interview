@@ -501,3 +501,312 @@ mutation {
     deleteFilm(id: "9ab34")
 }
 ```
+
+## graphql 客户端访问
+
+客户端发出 graphql 的请求
+server 项目目录下创建 public 文件夹->建静态资源页面 html,
+express 可以指定某个文件夹为静态资源文件夹
+
+```javascript
+const express = require("express");
+var graphqlHTTP = require("express-graphql");
+var { buildSchema } = require("graphql");
+// 第一步：创建启动数据库服务，根目录创建db文件夹，windows终端执行./mongod.exe --dbpath=db目录绝对路径，27017
+// 第二步：连接数据库服务
+var mongoose = require("mongoose")
+mongoose.connect("mongodb://localhost: 27017/moon", {
+    useNewUrlParser: true, useUnifiedTopology: true // 防止报警
+}) // 取个数据库名字moon
+// 限制 数据库这个films(集合表)只能存三个字段
+var FilmModel = mongoose.model("film", new mongoose.Schema({
+    name: String,
+    poster: String,
+    // price: Int // 这里js就要换成Number
+    price: Int
+})) // film对应后面表名就叫films
+// FilmModel.create
+// FilmModel.find
+// FilmModel.update
+// FilmModel.delete
+// 第三步：crud
+// 第四步：可视化工具查有没有成功，Robomongo
+var schema = buildSchema(`{
+    type Film {
+        // id: Int, // 这个注意，结合数据库后这个id就变成字符串了，一个长串
+        id: String,
+        name: String,
+        poster: String,
+        price: Int
+    }
+    input FilmInput { // 注意是input
+        name: String,
+        poster: String,
+        price: Int
+    }
+    type Query {
+        getNowplayingList: [Film],
+    }
+    type Mutation{
+        createFilm(input: FilmInput): Film,
+        // updateFilm(id: Int!, input: FilmInput): Film,
+        updateFilm(id: String!, input: FilmInput): Film, // 通常情况下只关心真假，返回个Int类型就行
+        // deleteFilm(id: Int!): Int
+        deleteFilm(id: String!): Int
+    }
+}`);
+var faskeDb = [
+  {
+    id: 1,
+    name: "111",
+    poster: "http://111",
+    price: 100,
+  },
+  {
+    id: 2,
+    name: "222",
+    poster: "http://222",
+    price: 200,
+  },
+  {
+    id: 3,
+    name: "333",
+    poster: "http://333",
+    price: 100,
+  },
+];
+// 上面是定义(相当于轮廓)，这里是实现
+var root = {
+  getNowplayingList() {
+    // return faskeDb;
+    return FilmModel.find();
+  },
+  createFilm({ input }) {
+    // mongo的使用，先创建模型，后操作数据库；
+    // 创建模型的好处，其他增删改查都可以复用这个模型；
+    // 它是把操作数据库，按照有对象模型进行操作的；这个模型是
+    // 给数据库用的，而不是给graph用的
+    // FilmModel.create({
+    //     ...input
+    // }).then(res => {
+    //     console.log(res)
+    // })
+    // graphql支持返回promise对象
+    return FilmModel.create({
+        ...input
+    })
+    return obj;
+  },
+  updateFilm({id, input}) {
+    // 查出多个更新用updateMany
+    // 查出一个更新用updateOne
+    // id唯一主键查就查出一个
+    // 这就是mongo的代码跟graphql没关系
+    return FilmModel.updateOne({
+        _id: id
+    }, {// 第二个参数是要更新的数据
+        ...input
+    }).then(res => FilmModel.find({_id: id})).then(res=>res[0])
+    // 一般update返回成功信息而不是详情，
+    // then(res => FilmModel.find({_id: id}))是为了测试更新后的详情
+    // find返回数组，我们只要第0个元素
+  },
+  deleteFilm({id}) {
+    // deleteOne删除一个，deleteMany删除多个
+    return FilmModel.deleteOne({_id: id}).then(res=>1)
+  }
+};
+var app = express();
+
+app.use("/home", function (req, res) {
+  res.send("home data");
+});
+app.use("/list", function (req, res) {
+  res.send("list data");
+});
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true, // 调试器，后端写好可以先调试
+  })
+);
+// 配置静态资源目录
+app.use(express.static("public"))
+app.listen(3000);
+
+// 调试工具一次只能调一个查或者改
+mutation {
+    createFilm({
+        name: "平凡的世界",
+        poster: "http://333",
+        price: 100,
+    }) {
+        id,
+        name,
+        price,
+        poster,
+
+    }
+}
+mutation {
+    updateFilm(id: "6898eb1b2", input: {
+        name: "111-修改",
+        poster: "111-poster-修改"
+    }){
+        id, // id会自动补全
+        name
+    }
+}
+mutation {
+    // deleteFilm(id: 1) // 返回值是基本类型，不用指定要哪个字段这些
+    deleteFilm(id: "9ab34")
+}
+```
+
+都在同一个 server 项目目录下，没有跨域的问题
+
+```html
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>home</h1>
+    <button onclick="getData()">查询数据</button>
+    <button onclick="createData()">创建数据</button>
+    <button onclick="updateData()">更新数据</button>
+    <button onclick="deleteData()">删除数据</button>
+    <!-- 测试发现不支持这种格式，需要进一步验证 -->
+    <!-- <inputtype="text" readonly value="aaa"/> -->
+    <script>
+      function getData() {
+        const myquery = `
+        query {
+            getNowplayingList {
+                id,
+                name,
+                price
+            }
+        }
+        `;
+        fetch("/graphql", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            query: myquery,
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+          }); // fetch两次链式调用，最后一个才拿到真正的数据
+      }
+      function createData() {
+        const myquery = `
+        // FilmInput 对应后端的FilmInput
+        mutation ($input: FilmInput){
+            createFilm(input: $input) {
+                id,
+                name
+            }
+        }
+        `;
+        fetch("/graphql", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            query: myquery,
+            variables: {
+              input: {
+                // 前端往后传的时候这段会替换掉myquery中的$input
+                name: "666",
+                price: 60,
+                poster: "http://6666",
+              },
+            },
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+          }); // fetch两次链式调用，最后一个才拿到真正的数据
+      }
+      function updateData() {
+        const myquery = `
+            // $id: String!, input: FilmInput 需要跟后端的查询规则一模一样，包括！号
+            mutation ($id: String!, input: FilmInput ){
+                updateFilm(id: $id, input:$input // id不能写死， input也不能写死
+                ){
+                    id, // id会自动补全
+                    name
+                }
+            }
+        `;
+        fetch("/graphql", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            query: myquery,
+            variables: {
+              id: "87eab3c",
+              input: {
+                // 前端往后传的时候这段会替换掉myquery中的$input
+                name: "666-修改",
+                price: 60,
+                poster: "http://6666-修改",
+              },
+            },
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+          }); // fetch两次链式调用，最后一个才拿到真正的数据
+      }
+
+      function deleteData() {
+        const myquery = `
+            mutation ($id: String!) {
+                // deleteFilm(id: 1) // 返回值是基本类型，不用指定要哪个字段这些
+                deleteFilm(id: $id)
+            }
+        `;
+        fetch("/graphql", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            // 如果是axios，则第二个参数传它就行了
+            query: myquery,
+            variables: {
+              id: "87eab3c",
+            },
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+          }); // fetch两次链式调用，最后一个才拿到真正的数据
+      }
+    </script>
+  </body>
+</html>
+```
