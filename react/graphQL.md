@@ -906,7 +906,6 @@ class MoonQuery extends Component {
         id: "98ea125"
     }
     render(){
-        // 无参数版本
         return <div>
             <input type="text" onChange={(evt) => {
                 this.setState({
@@ -931,6 +930,211 @@ class MoonQuery extends Component {
                     }
                 }
             </Query>
+        </div>
+    }
+}
+```
+
+## react mutation
+
+```typescript
+// db.js
+import { ApolloProvider, Mutation } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
+import gql from 'graphql-tag'
+const client = new ApolloClient({
+    // uri: "http://localhost: 3000/graphql"
+    uri: "/graphql"
+})
+render() {
+    return (
+        <ApolloProvider client={client}>
+            <div>
+                <MoonCreate></MoonCreate> // 新建的查询组件
+            </div>
+        </ApolloProvider>
+    )
+}
+
+
+type Query {
+    getNowplayingList(id: String!):[Film]
+}
+// 对应处理器的情况, _id对应mongodb的情况
+const root = {
+    getNowplayingList({id}) {
+        return FilmModel.find({_id:id})
+    }
+}
+
+// MoonCreate
+class MoonCreate extends Component {
+    createFilm = gql`
+        mutation createFilm($input: FilmInput){
+            createFilm(input: $input){
+                id,
+                name,
+                price
+            }
+        }
+    `
+    render(){
+        return <div>
+            <Mutation mutation={this.createFilm}>
+            {
+                (createFilm, {data})=>{
+                    console.log(data)
+                    return <div>
+                        <button onClick={()=>{
+                            createFilm({
+                                variables: {
+                                    input: {
+                                        name: "777",
+                                        poster: "http://777",
+                                        price: 70
+                                    }
+                                }
+                            })
+                        }}>add</button>
+                    </div>
+                }
+            }
+            </Mutation>
+        </div>
+    }
+}
+```
+
+// MoonUpdate
+
+```typescript
+// 带参数版本
+// db.js
+import { ApolloProvider, Mutation } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
+import gql from 'graphql-tag'
+const client = new ApolloClient({
+    // uri: "http://localhost: 3000/graphql"
+    uri: "/graphql"
+})
+render() {
+    return (
+        <ApolloProvider client={client}>
+            <div>
+                <MoonUpdate></MoonUpdate> // 新建的查询组件
+            </div>
+        </ApolloProvider>
+    )
+}
+
+
+type Query {
+    getNowplayingList(id: String!):[Film]
+}
+// 对应处理器的情况, _id对应mongodb的情况
+const root = {
+    getNowplayingList({id}) {
+        return FilmModel.find({_id:id})
+    }
+}
+
+// MoonUpdate
+class MoonUpdate extends Component {
+    createFilm = gql`
+        mutation updateFilm($id:String!, $input: FilmInput){
+            updateFilm(id: $id, input: $input){
+                id,
+                name,
+                price
+            }
+        }
+    `
+    render(){
+        return <div>
+            <Mutation mutation={this.createFilm}>
+            {
+                (updateFilm, {data})=>{
+                    console.log(data)
+                    return <div>
+                        <button onClick={()=>{
+                            createFilm({
+                                variables: {
+                                    id: "7658eda34",
+                                    input: {
+                                        name: "777-修改",
+                                        poster: "http://777-修改",
+                                        price: 70
+                                    }
+                                }
+                            })
+                        }}>delete</button>
+                    </div>
+                }
+            }
+            </Mutation>
+        </div>
+    }
+}
+```
+
+// MoonUpdate
+
+```typescript
+// 带参数版本
+// db.js
+import { ApolloProvider, Mutation } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
+import gql from 'graphql-tag'
+const client = new ApolloClient({
+    // uri: "http://localhost: 3000/graphql"
+    uri: "/graphql"
+})
+render() {
+    return (
+        <ApolloProvider client={client}>
+            <div>
+                <MoonUpdate></MoonUpdate> // 新建的查询组件
+            </div>
+        </ApolloProvider>
+    )
+}
+
+
+type Query {
+    getNowplayingList(id: String!):[Film]
+}
+// 对应处理器的情况, _id对应mongodb的情况
+const root = {
+    getNowplayingList({id}) {
+        return FilmModel.find({_id:id})
+    }
+}
+
+// MoonDelete
+class MoonDelete extends Component {
+    createFilm = gql`
+        mutation deleteFilm($id:String!){
+            deleteFilm(id: $id)
+        }
+    `
+    render(){
+        return <div>
+            <Mutation mutation={this.createFilm}>
+            {
+                (deleteFilm, {data})=>{
+                    console.log(data)
+                    return <div>
+                        <button onClick={()=>{
+                            deleteFilm({
+                                variables: {
+                                    id: "7658eda34",
+                                }
+                            })
+                        }}>update</button>
+                    </div>
+                }
+            }
+            </Mutation>
         </div>
     }
 }
