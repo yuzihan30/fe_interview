@@ -810,3 +810,128 @@ mutation {
   </body>
 </html>
 ```
+
+## react 结合 graphql
+
+react 中万物皆组件，查询可以单独做个组件
+阿波罗模块是对 graphql 的封装，可以像组件那样使用 graphql,写成跨域组件、写成 mutation 组件其实就是在实现一些增删改等功能
+`npm i react-apollo apollo-boost graphql graphql-tag`
+
+```typescript
+import { ApolloProvider, Query } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
+import gql from 'graphql-tag'
+const client = new ApolloClient({
+    // uri: "http://localhost: 3000/graphql"
+    uri: "/graphql"
+})
+render() {
+    return (
+        <ApolloProvider client={client}>
+            <div>
+                <MoonQuery></MoonQuery> // 新建的查询组件
+            </div>
+        </ApolloProvider>
+    )
+}
+// MoonQuery
+class MoonQuery extends Component {
+    query = gql`
+        query {
+            getNowplayingList {
+                id,
+                name,
+                price
+            }
+        }
+    `
+    render(){
+        // 无参数版本
+        return <Query query={this.query}>
+            {
+                ({loading, data})=>{
+                    console.log(loading)
+                    return loading? <div>loading...</div>:
+                    <div>
+                    // query
+                        {
+                            data.getNowplayingList.map(item=>{
+                                <div></div>
+                            })
+                        }
+                    </div>
+                    // console.log(data)
+                    // return <div>query</div>
+                }
+            }
+        </Query>
+    }
+}
+
+// 跨域处理，还是要反向代理,参考之前的setupProxy.js文件
+app.use(
+    '/graphql', // /api/list /api/detail 只过滤api开头的
+    createProxyMiddleware({
+        target: "http://localhost:3000", //代理就朝这个地址发请求，"https://i.maoyan.com" + "/ajax/..."
+        changeOrigin: true // 改变域名这个是固定的
+    })
+) // 可以配置多个
+```
+
+```typescript
+// 带参数版本
+// db.js
+type Query {
+    getNowplayingList(id: String!):[Film]
+}
+// 对应处理器的情况, _id对应mongodb的情况
+const root = {
+    getNowplayingList({id}) {
+        return FilmModel.find({_id:id})
+    }
+}
+
+// MoonQuery
+class MoonQuery extends Component {
+    query = gql`
+        query getNowplayingList($id: String){
+            getNowplayingList(id: $id) {
+                id,
+                name,
+                price
+            }
+        }
+    `
+    state={
+        id: "98ea125"
+    }
+    render(){
+        // 无参数版本
+        return <div>
+            <input type="text" onChange={(evt) => {
+                this.setState({
+                    id: evt.target.value
+                })
+            }}>
+            <Query query={this.query} variables={{id: this.state.id}}>
+                {
+                    ({loading, data})=>{
+                        console.log(loading)
+                        return loading? <div>loading...</div>:
+                        <div>
+                        // query
+                            {
+                                data.getNowplayingList.map(item=>{
+                                    <div></div>
+                                })
+                            }
+                        </div>
+                        // console.log(data)
+                        // return <div>query</div>
+                    }
+                }
+            </Query>
+        </div>
+    }
+}
+```
