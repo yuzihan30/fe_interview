@@ -7,4 +7,6 @@ hobby projects, commercials, and feature films
 业余项目、广告和故事片 paradigm 范例 perpetual 永久的永动的
 reliably 可靠 incubator 孵化器 Recipient 接受者 endorsed 背书
 estate 财产 adoption 采用 dust 灰层 engage 从事
-proposition 主张 exhilarating 令人振奋的
+proposition 主张 exhilarating 令人振奋的 boasts 拥有
+daunting 令人忘而生畏 grasp 掌握 masterpieces 杰作 brushes 画笔
+anatomy 解剖 composition 构图 jargon 术语 underlying 底层的
