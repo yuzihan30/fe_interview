@@ -6,3 +6,14 @@
 https://blog.csdn.net/zxl1990_ok/article/details/125187314
 https://www.jianshu.com/p/37dfe01779df
 https://www.jianshu.com/p/57df3cb66d3d
+
+## js 重构为 TS
+
+> https://blog.csdn.net/HaoDaWang/article/details/81119840
+
+`@ts-check`是一种平滑方案
+如果我们现在已经有了一个项目，项目已经很大了， 意识到 js 的动态类型带来许多类型上的错误，实在使得开发过程，debug 过程都很不愉快，于是想着用 ts 来重构，这将是一件极为痛苦的事情，要把那么多的代码按照 ts 的标准重构，不仅花费大量的时间，甚至还需要大量的精力。
+
+有没有一种不改变现有的代码结构的方法，来使得我们避开动态类型的坑呢？答案是能行的，不妨试试@ts-check，在文档的开头打上单行注释//@ts-check，是不是很简单。再搭配上 vscode，在违反一些类型上的错误的时候，vscode 会帮助你勘测到错误在哪儿，虽然运行还是能运行，但是实际上开发的逻辑层面已经被类型给规范了
+
+通过@extends 可以说明子类继承的父类，比如还可以通过@param 说明参数的类型，@return 说明返回值，@abstract 说明抽象的方法或者类…你可能发现了，这不就是 JSDOC 吗？？是的，语法就是 JSDOC，因此，我们还能通过 JSDOC 来生成一些文档，来说明自己的代码，尤其是你开发了一堆的 API 来供别人使用的时候，那将是一份很好的说明文档
