@@ -178,5 +178,6 @@ module.exports = {
     'prettier/prettier': 'error'
   }
 }
+“prettier/prettier”: “error”，表示被prettier标记的地方抛出错误信息。
 因此，使用Linters+Prettier进行代码格式化的最佳实践套路即是：-plugin-prettier + -config-prettier，不同语言之间大同小异。
 
