@@ -278,3 +278,6 @@ Sec-WebSocket-Accept: <connection-key>
 ## 交互流程
 
 1、我打开浏览器，访问了这个网站，并录入用户名密码，点击登录。2、登录事件执行 js 脚本建立了一个 websocket 连接。3、连接建立成功后触发了后台的@onOpen 方法和前台的 ws.onopen 方法。4、前台的 onopen 方法里向服务器发送了如下消息体：{'userID':'dayuan','password':'ps123','msg_type':'01'}5、后台的@OnMessage 方法接收到了前台的消息，并由 msg_type 判断出这个消息是登录动作，于是走到了 doLogon 方法中。6、doLogon 方法经过身份验证后，将此连接实例存入了 Hashtable 类型的容器 wsTable 中，登录完成。7、我在浏览器里找到好友 A，打开对话框输入“你好”，并点击发送。8、发送事件执行 js：ws.send("{'toID':'A','text':'你好','msg_type':'02'}");9、后台的@OnMessage 方法接收到了前台的消息，并由 msg_type 判断出这个消息是聊天，于是走到了 doChat 方法。10、doChat 方法根据 toID 从 wsTable 中拿到了 A 的连接实例，并调用 A 的 sendMessage 方法将消息发送到了 A 的浏览器。(wsTable 中 A 的连接实例是在 A 登录时放进去的)11、A 的浏览器里收到服务器的消息后，触发了 ws.onmessage 方法，并展示到了 A 的页面中。
+
+## 应用场景
+websocket实现一个后台数据更新， 自动刷新页面的功能，在本地测试过都没有问题，部署以后在火狐上可以，所有谷歌内核的浏览器都会自动断开，没有任何报错，有个提示不知道是不是有关系，有大佬知道怎么解决吗

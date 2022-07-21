@@ -1,12 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-04-25 13:56:36
- * @LastEditTime: 2022-06-04 21:48:05
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/后端/python.md
--->
-
 1. 字符串转数字， int('x', n), n 为 2-32， n 不写时就是转为 10 进制
 2. reversed(seq) seq 是要转换的序列，可以是 tuple, string, list 或 range， 返回一个反转的迭代器
 3. python 删除列表中值，pop()删除末尾值，del(arr[i])删除对应索引元素值，remove(11)删除列表中具体值，都会改变原列表
@@ -26,6 +17,11 @@
    dict.keys()、dict.values() 和 dict.items() 返回的都是视图对象（ view objects），提供了字典实体的动态视图，这就意味着字典改变，视图也会跟着变化。
    视图对象不是列表，不支持索引，可以使用 list() 来转换为列表。
    我们不能对视图对象进行任何的修改，因为字典的视图对象都是只读的。
+
+## 类型声明
+Typing.Optional类
+可选类型，作用几乎和带默认值的参数等价，不同的是使用Optional会告诉你的IDE或者框架：这个参数除了给定的默认值外还可以是None，而且使用有些静态检查工具如mypy时，对 a: int =None这样类似的声明可能会提示报错，但使用a :Optional[int] = None不会。
+Optional[X]等价于Union[X, None]
 
 ############## 字典 #################
 
@@ -309,3 +305,5 @@
    a = a ^ b
    b = a ^ b
    a = a ^ b
+2. divmod
+python divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。

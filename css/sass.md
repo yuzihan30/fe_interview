@@ -1,12 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-04-21 20:14:09
- * @LastEditTime: 2022-05-08 17:35:04
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/css/sass.md
--->
-
 > 参考资料： https://www.bilibili.com/video/BV17W411w7nL?p=15&vd_source=7ee5c96f1a1e60cce40c476ea01fa301
 > 安装，mac 下：brew install sass/sass/sass
 > sass --version 1.53.0
@@ -29,7 +20,7 @@
 
 3. 变量，定义完后，使用时可以使用变量作为属性的值
    声明定义一个变量，$符号，$primary-color: #666666
-   变量里可以有多个值，而且里面可以引用其它变量，\$primary-border: #666666
+   变量里可以有多个值，而且里面可以引用其它变量，$primary-border: #666666
    定义和使用时中划线和下划线可以交替使用
 
 4. 嵌套选择器，可以写选择器时重复的部分，编译后父类和子类选择器中间加空格

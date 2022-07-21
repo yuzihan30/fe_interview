@@ -90,7 +90,17 @@ position: absolute, margin-left: -20px
    img 标签作为 html 标签，使用 src 引入图片，别的资源会被中断加载；而 CSS 引用使用 href 引入，可以与别的资源并行加载。所以 img 标签会比 background-image 优先加载
    4）是否可操作
    使用 img 引用的图片是可以进行另存为，移动和改变 src 实现图片替换等操作。使用背景属性引用的图片不能进行这些操作。
-
+3. 背景图片
+ background-size:100%;在任何时候都会优先适应宽度；
+ background-size:cover;是跨度和高度谁牛逼就适应谁；
+ background-size 属性（设置背景图片大小）
+值	描述
+length	设置背景图片高度和宽度。第一个值设置宽度，第二个值设置的高度。如果只给出一个值，第二个是设置为auto(自动)
+percentage	将计算相对于背景定位区域的百分比。第一个值设置宽度，第二个值设置的高度。如果只给出一个值，第二个是设置为"auto(自动)"
+cover	此时会保持图像的纵横比并将图像缩放成将完全覆盖背景定位区域的最小大小。
+contain	此时会保持图像的纵横比并将图像缩放成将适合背景定位区域的最大大小。
+4. background用法
+“可以设置的属性分别是:background-color、background-position、background-size、background-repeat、background-origin、background-clip、background-attachment 和 background-image。各值之间用空格分隔,不分先后顺序。
 ## 选择器
 
 .example.noSpace 则是在一个元素上，这个元素包括这两个类才会有效果
