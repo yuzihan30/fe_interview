@@ -1,12 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-02-28 20:16:36
- * @LastEditTime: 2022-05-15 09:44:21
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/css/css3.md
--->
-
 1. nth-child 和 nth-of-type
    ele:nth-child(n)是指父元素下的第 n 个元素且是 ele 的元素
    ele:nth-of-type(n)是指父元素下第 n 个 ele 类元素
@@ -76,3 +67,17 @@
    linear-gradient(calc(var(--t) _ 20), rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%)
    linear-gradient(calc(var(--t) \* 30), rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%)
    }
+
+## zoom: 1
+zoom:1确实帮我们解决了不少ie下的bug，但是它的来龙去脉，又有多少人知道呢？
+所以我老生常谈，说一下它的来龙去脉。
+Zoom属性是IE浏览器的专有属性， 它可以设置或检索对象的缩放比例。
+在平常的css编写过程中，zoom:1能够比较神奇地解决ie下比较奇葩的bug。
+譬如外边距（margin）的重叠，譬如浮动的清除，譬如触发ie的 haslayout属性等等。
+度娘告诉我们：zoom是 设置或检索对象的缩放比例。设置或更改一个已被呈递的对象的此属性值将导致环绕对象的内容重新流动。（没看懂）
+虽然此属性不可继承，但是它会影响对象的所有子对象( children )。这种影响很像 background 和 filter 属性导致的变化。
+此属性对于 currentStyle 对象而言是只读的，对于其他对象而言是可读写的。（没看懂）
+（重点）当设置了zoom的值之后，所设置的元素就会就会扩大或者缩小，高度宽度就会重新计算了，这里一旦改变zoom值时其实也会发生重新渲染，运用这个原理，也就解决了ie下子元素浮动时候父元素不随着自动扩大的问题。
+Zoom属是IE浏览器的专有属性，火狐和老版本的webkit核心的浏览器都不支持这个属性。然而，zoom现在已经被逐步标准化，出现在 CSS 3.0 规范草案中，也就是CSS3中的transform: scale这个属性来实现
+用法：ie下子元素浮动时候父元素不随着自动扩大的问题，使用下面的CSS写法
+.父元素 {   overflow: auto; zoom: 1   },

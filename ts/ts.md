@@ -505,7 +505,32 @@ console.log(x!.toFixed());
 }
 Try
 Just like other type assertions, this doesn’t change the runtime behavior of your code, so it’s important to only use ! when you know that the value can’t be null or undefined.
+参考TS中奇怪的符号：https://www.jianshu.com/p/f522f0969956
+```
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
+@Component
+export default class YourComponent extends Vue {
+  @Prop(Number) propA!: number
+  @Prop({ default: 'default value' }) propB!: string
+  @Prop([String, Boolean]) propC: string | boolean
+}
+查了一下ts的文档说明，原来感叹号是非null和非undefined的类型断言，所以上面的写法就是对propA这个属性进行非空断言。文档的相关说明在这里。
+官方文档上的一个例子很好的说明了这个问题
+interface Entity {
+  name: string
+}
+// Compiled with --strictNullChecks
+function validateEntity(e?: Entity) {
+  // Throw exception if e is null or invalid entity
+}
+
+function processEntity(e?: Entity) {
+  validateEntity(e);
+  let s = e!.name;  // Assert that e is non-null and access name
+}
+如果直接使用let s = e.name;，编译器会抛出e可能不存在的错误，但是使用非空断言，则表示e肯定是存在的，从而不会产生编译问题。
+```
 ########## 类、对象 ########
 
 1. 子类和父类的方法相同是重写

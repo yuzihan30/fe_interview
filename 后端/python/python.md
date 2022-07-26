@@ -160,7 +160,10 @@ Optional[X]等价于Union[X, None]
    b、sort()方法会修改原来的列表的元素的排序；sorted()函数不会修改原来的数据，会建立一个原列表的副本，只是返回一个排序后的列表。
    3）使用列表的 reverse()方法进行反向排序
    会改变原列表，相当于列表反转
-
+## 字符串
+1. python中判断字符串是否为数字
+print(x.isdigit())#用isdigit函数判断是否数字
+2. 根据索引取字符，和数组相似
 ## 类型联合运算符
 
 1. 以前需要用 Union 关键字，取并集的意思，Union[str, int], python3.10 可以直接 str | int 代替；和 union()功能类似，括号里可以是 list，tuple，其他，甚至是 dict
