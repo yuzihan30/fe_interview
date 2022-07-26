@@ -146,5 +146,16 @@ $color: (
 }
 body {
   // background-color: color(light);
-  background-color: color(gray);
+  // background-color: color(gray);
+}
+ul,
+ol {
+  text-align: left;
+
+  & & {
+    padding: {
+      bottom: 0;
+      left: 0;
+    }
+  }
 }

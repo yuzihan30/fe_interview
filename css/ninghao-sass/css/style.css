@@ -1,17 +1,111 @@
-/* Error: "在 $color 里没有gray这个key"
- *     ,
- * 149 |   background-color: color(gray);
- *     |                     ^^^^^^^^^^^
- *     '
- *   sass/style.scss 149:21  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: 'Error: "\5728  $color \91cc \6ca1 \6709 gray\8fd9 \4e2a key"\a     \2577 \a 149 \2502    background-color: color(gray);\a     \2502                      ^^^^^^^^^^^\a     \2575 \a   sass/style.scss 149:21  root stylesheet';
+@charset "UTF-8";
+/* 当前的版本：$version */
+.alert-info {
+  border-color: #ccc;
 }
+
+.col-1 {
+  width: 25%;
+}
+
+.col-2 {
+  width: 50%;
+}
+
+.col-3 {
+  width: 75%;
+}
+
+.col-4 {
+  width: 100%;
+}
+
+.icon-success {
+  background-image: url(../images/icons/success.png);
+}
+
+.icon-error {
+  background-image: url(../images/icons/error.png);
+}
+
+.icon-warning {
+  background-image: url(../images/icons/warning.png);
+}
+
+.item-6 {
+  width: 30px;
+}
+
+.item-4 {
+  width: 20px;
+}
+
+.item-2 {
+  width: 10px;
+}
+
+body {
+  background-color: black;
+}
+
+.rounded {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.col-1 {
+  width: 25%;
+}
+
+.col-2 {
+  width: 50%;
+}
+
+.col-3 {
+  width: 75%;
+}
+
+.col-4 {
+  width: 100%;
+}
+
+.icon-success {
+  background-image: url(../images/icons/success.png);
+}
+
+.icon-error {
+  background-image: url(../images/icons/error.png);
+}
+
+.icon-warning {
+  background-image: url(../images/icons/warning.png);
+}
+
+.item-6 {
+  width: 30px;
+}
+
+.item-4 {
+  width: 20px;
+}
+
+.item-2 {
+  width: 10px;
+}
+
+ul,
+ol {
+  text-align: left;
+}
+ul ul,
+ul ol,
+ol ul,
+ol ol {
+  padding-bottom: 0;
+  padding-left: 0;
+}
+
+/*# sourceMappingURL=style.css.map */
