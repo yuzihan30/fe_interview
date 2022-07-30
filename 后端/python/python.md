@@ -160,6 +160,50 @@ Optional[X]等价于Union[X, None]
    b、sort()方法会修改原来的列表的元素的排序；sorted()函数不会修改原来的数据，会建立一个原列表的副本，只是返回一个排序后的列表。
    3）使用列表的 reverse()方法进行反向排序
    会改变原列表，相当于列表反转
+
+5. 列表遍历
+for i in range(m)需要索引时
+for item in list 不需要索引时
+
+## 列表方法
+l=['牛','鸡','鸭','虫']
+一.插入
+1.s.append(x):在列表s最后添加一个元素x
+l.append('鸟')
+l.append(['ss','sss']) #**注意插入一个元素是列表时，['牛', '鸡', '鸭', '虫', '鸟', ['ss', 'sss']]**
+2.s.insert(i,x):在列表s的指定位置i插人元素x
+l.insert(0,'牛魔王insert')
+3.s.extend(s1):在列表s的后面扩展列表s1，相当于 s+=s1
+#l.extend('hdhhdd') #['牛魔王insert', '牛', '鸡', '鸭', '虫', '鸟', ['ss', 'sss'], 'h', 'd', 'h', 'h', 'd', 'h', 'd', 'h', 'd']
+l+='hhh'
+print(l)
+二.删除
+4.s.clear() :清空列表s
+l.clear() #[]
+print(l) 
+5.s.pop(i) :删除列表s的指定索引i的的元素
+l=['牛','鸡','鸭','虫']
+l.pop(1) #['牛', '鸭', '虫']
+print(l) 
+6.s.remove(x):删除列表指定元素x
+l.remove('牛')
+print(l) #['鸭', '虫']
+三.其他
+7.s.reverse()：对列表s进行反转
+l.reverse() #['虫', '鸭']
+print(l)
+
+8.s.sort() 或者s.sort(reverse=True):对列表s进行升序排序，参数reverse=True时对列表进行降序排序。
+l=list('abddjddjjd')
+print(l) #['a', 'b', 'd', 'd', 'j', 'd', 'd', 'j', 'j', 'd']
+l.sort()
+print(l) #['a', 'b', 'd', 'd', 'd', 'd', 'd', 'j', 'j', 'j']
+l.sort(reverse=True)
+print(l) #['j', 'j', 'j', 'd', 'd', 'd', 'd', 'd', 'b', 'a']
+l=[1,3,46,56,2,45,89,-3]
+l.sort() #[-3, 1, 2, 3, 45, 46, 56, 89]
+print(l)
+
 ## 字符串
 1. python中判断字符串是否为数字
 print(x.isdigit())#用isdigit函数判断是否数字

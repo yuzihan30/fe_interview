@@ -216,3 +216,12 @@ transform:translate3d(0, 0, 0);
 具体的原理是这样的：
 webkit CSS3 中，如果一个元素添加了硬件加速，并且 z-index 层级比较低，那么在这个元素的后面其它元素（层级比这个元素高的，或者相同的，并且 releative 或 absolute 属性相同的），会默认变为复合层渲染，如果处理不当会极大的影响性能。
 简单点理解，其实可以认为是一个隐式合成的概念：如果 a 是一个复合图层，而且 b 在 a 上面，那么 b 也会被隐式转为一个复合图层，这点需要特别注意。
+
+## 异常
+try 可以有 return，catch/finally 也可以有 return，如果这个抛异常那个 return 会怎么样呢
+
+catch 中的异常会覆盖 try 中的异常和 return
+catch 中的 return 会覆盖 try 中的异常和 return
+finally 中的异常会覆盖 try/catch 中的异常和 return
+finally 中的 return 会覆盖 try/catch 中的异常和 return
+try/catch/finally 块中异常或 return 之后的代码不会被执行

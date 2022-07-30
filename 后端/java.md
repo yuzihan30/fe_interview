@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-04-16 21:39:28
- * @LastEditTime: 2022-05-18 11:30:32
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/后端/java.md
--->
 1. 多态是继承概念的基础上，不同子类对父类同一方法的重写
 2. 'x' - '0' 可以将字符串转为数字
 
@@ -35,5 +27,7 @@ java -version
 【5】被重写的方法不能为private，子类再写一个同名的方法并不是对父类方法进行重写(Override)，而是重新生成一个新的方法；
 【6】静态方法不能被重写。
 
+## 异常
+程序执行到 try 里面的内容一定会执行 finally 里面的内容。如果在 try 或者 catch 里面遇到return，那么函数在执行完 return 后面的表达式之后，会先去执行 finally 里面的语句块，然后再结束方法体。但有一种特殊情况，如果在try里面有System.exit(0)这样的语句，System.exit(0)是终止Java虚拟机JVM的，连JVM都停止了，所有都结束了，当然 finally 语句也不会被执行到。
 
 
