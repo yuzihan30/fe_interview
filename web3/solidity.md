@@ -112,3 +112,105 @@ contract MathTest {
     }
 }
 ```
+## 底层位运算
+位运算在solidity中比其他语言更重要，是操作内存的最小单位，叫做位
+`&、|、~、^、<<、>>`
+```
+pragma solidity ^0.4.0;
+
+contract MathTest {
+    // 1. 定义整型两种方式：int、uint
+    int num1 = 100; // int可正可负，实际上是int256
+    uint num2 = 200; // uint非负整型, 实际上是uint256
+    uint8 num3 = 2; // uint8最大存储8位二进制, 最大值是255
+    // 2. 加、减、乘、除、取余、幂运算
+    function add(uint x, uint y) pure public returns(uint) {
+        return x + y;
+    }
+    function sub(uint x, uint y) pure public returns(uint) {
+        return x - y;
+    }
+    function multiply(uint x, uint y) pure public returns(uint) {
+        return x * y;
+    }
+    function divide(uint x, uint y) pure public returns(uint) {
+        return x / y;
+    }
+    function mod(uint x, uint y) pure public returns(uint) {
+        return x % y;
+    }
+    // 幂运算
+    function power(uint x, uint y) pure public returns(uint) {
+        return x ** y;
+    }
+
+    uint8 a = 4;
+    uint8 b = 3;
+    // 按位与 &
+    function bitAnd() view public returns(uint) {
+        return a & b;
+    }
+    // 按位或 |
+    function bitOr() view public returns(uint) {
+        return a | b;
+    }
+    // 按位取反
+    function bitNot() view public returns(uint) {
+        return ~a;
+    }
+    // 异或
+    function bitXor() view public returns(uint) {
+        return a ^ b;
+    }
+    // 左移
+    function leftMove() view public returns(uint) {
+        return a << 1;
+    }
+    // 右移
+    function rightMove() view public returns(uint) {
+        return a >> 1;
+    }
+}
+```
+## 危险的整数溢出及常数处理
+合适的时候使用合适类型，向上溢出向下溢出都会发生比较严重问题
+```
+// 向上溢出
+function flow() view public returns(uint) {
+    uint8 mm = 255;
+    mm++;
+    return mm;
+}
+// 向下溢出
+function flow2() view public returns(uint) {
+    uint8 mm = 0;
+    mm--;
+    return mm;
+}
+function errorTest() returns(int) {
+    int a = 2;
+    int b = 0;
+    return a / b;
+}
+function errorTest2() {
+    int a = 2;
+    int b = -1;
+    a << b;
+}
+function integerTest() returns(uint) {
+    // solidity会先计算出右值再赋值
+    uint num = (2**800+1) - 2**800;
+    return num;
+}
+function integerTest2() returns(uint) {
+    // solidity会先计算出右值再赋值
+    uint num = 2/4*1000;
+    return num;
+}
+function integerTest3() returns(uint) {
+    // solidity会先计算出右值再赋值
+    uint num = 11111111111111111111111111112 - 11111111111111111111111111111;
+    return num;
+}
+```
+红色按钮说明会耗费一些资源
