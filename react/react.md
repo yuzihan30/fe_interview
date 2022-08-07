@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-03-20 10:17:10
- * @LastEditTime: 2022-06-01 15:11:55
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/react/react.md
--->
 ### JSX语法及组件：class组件、函数式组件、嵌套组件、组件样式、事件处理、ref应用 ####
 1. 组件书写注意事项：
 import导入首字母必须大写
@@ -63,6 +55,7 @@ refs这种方式现在被遗弃，因为可能多个人命名一样，ReactDOM.r
 ### 组件的数据挂载方式：状态、循环渲染、条件渲染 ####
 1. React没有Object.defineProperty这种数据拦截机制，所以状态数据不能直接赋值修改，需要使用this.setState()
 2. 状态的两种写法：state = {name: "React"}, constructor() { super(); this.state = {} }, 可以一次更新多个状态
+也叫类组件中状态初始化的两种方式
 3. react哲学，如无必要，勿增实体
 {
     // this.state.list.map(item => `<li>${item}</li>`)

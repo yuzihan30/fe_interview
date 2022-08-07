@@ -214,3 +214,28 @@ function integerTest3() returns(uint) {
 }
 ```
 红色按钮说明会耗费一些资源
+retrieve	英[rɪˈtriːv]
+美[rɪˈtriːv]
+vt.	检索; 取回; 找回; 挽回; 索回; 检索数据; 扭转颓势;
+n.	恢复;
+
+ballot	英[ˈbælət]
+美[ˈbælət]
+n.	投票; 选票; (无记名)投票选举; (选举中的)投票总数;
+v.	要求某人(对某事)无记名投票; 进行无记名投票;
+
+delegation
+英[ˌdelɪˈɡeɪʃn]
+美[ˌdelɪˈɡeɪʃn]
+n.	代表团; 委托; 委派;
+
+denoted	英[dɪˈnəʊtɪd]
+美[dɪˈnoʊtɪd]
+v.	标志; 预示; 象征; 表示; 意指;
+[词典]	denote的过去分词和过去式;
+
+artifacts
+英[ˈɑːtɪˌfækts]
+美[ˈɑrtəˌfækts]
+n.	史前古器物;
+

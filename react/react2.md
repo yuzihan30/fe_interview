@@ -1,13 +1,5 @@
-<!--
- * @Author: yuzihan yuzihanyuzihan@163.com
- * @Date: 2022-05-11 08:18:45
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-20 18:31:44
- * @FilePath: /fe_interview/react/react2.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
-
-########## 组件通信 ######### 9. context 状态树 react 官方提供的跨级通信方案，使用了生产者消费者这种模式
+########## 组件通信 ######### 
+9. context 状态树 react 官方提供的跨级通信方案，使用了生产者消费者这种模式
 provider 服务提供商，比如有两个消费者，一个去改服务，另一个去访问这个服务，第三个在 provider 范围内，但没成为消费者，第四个在 provider 范围之外
 改造之前的案例，需要把父组件做成供应商组件
 const GlobalContext = React.createContext() // 创建 context 对象，所有的供应商和消费者都是由这个 context 对象创建出来的
@@ -59,7 +51,8 @@ return (
     )
 
 }
-redux 也是状态管理的一种方案，也能解决父子之间数据的共享，后续更新 10. 插槽，vue 中叫 slot 插槽，上面 context 中的内容就是这种形式，react 中子组件通过 this.props.children 可以拿到插槽的信息，区别于标签上能定义的属性，插槽会把插槽内容固定挂载 children 属性上
+redux 也是状态管理的一种方案，也能解决父子之间数据的共享，后续更新 
+10. 插槽，vue 中叫 slot 插槽，上面 context 中的内容就是这种形式，react 中子组件通过 this.props.children 可以拿到插槽的信息，区别于标签上能定义的属性，插槽会把插槽内容固定挂载 children 属性上
 对应 vue 中具名插槽，react 中 this.props.children[i]依次拿到对应位置的插槽信息
 作用：为了复用；一定程度减少父子通信
 
@@ -87,7 +80,7 @@ redux 也是状态管理的一种方案，也能解决父子之间数据的共�
    componentDidMount: 成功 render 并渲染完成真实的 DOM 后触发，可以修改 DOM
    运行中的阶段：
    componentWillReceiveProps: 父组件修改属性触发
-   shouldComponentUpdate: 返回 false 回组织 render 调用
+   shouldComponentUpdate: 返回 false 会阻止 render 调用
    componentWillUpdate: 不能修改属性和状态
    render: 只能访问 props 和 state, 不允许修改状态和 DOM 输出
    componentDidUpdate: 可以修改 DOM
@@ -203,6 +196,7 @@ axios({url: "", headers:{}}).then()
    { this.state.isCreated ? <Child> : '' } isCreated 修改为 false 时，Child 就不在 render 中渲染了，不是就移出了嘛
    还可以用&&的方式，这也是一种让一个节点快速创建和删除的方案
    { this.state.isCreated && <Child> : '' }
+   还可以空标签的形式 this.state.show?<Btn></Btn>:<></>
    componentDidMount() {
    // 组件销毁后绑定 window 窗口的事件还会被触发，而内部的其他事件则被销毁
    window.onresize = () => {
