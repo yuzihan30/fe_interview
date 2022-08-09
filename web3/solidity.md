@@ -1,11 +1,3 @@
-<!--
- * @Author: yuzihan yuzihanyuzihan@163.com
- * @Date: 2022-05-20 22:18:35
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-06-04 13:06:03
- * @FilePath: /fe_interview/web3/solidity.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 # solidity教程
 ## 实现第一个智能合约
 在线remix编辑器： https://remix.ethereum.org
@@ -237,5 +229,5 @@ v.	标志; 预示; 象征; 表示; 意指;
 artifacts
 英[ˈɑːtɪˌfækts]
 美[ˈɑrtəˌfækts]
-n.	史前古器物;
+n.	史前古器物;工件、工具
 

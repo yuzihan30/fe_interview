@@ -22,6 +22,13 @@ let newList = [...list]
 newList.splice(index, 1)
 setList(newList)
 { !list.length && <div>暂无待办事项</div> }
+### 副作用
+给纯函数传入相同的参数，永远会返回相同的值。如果返回值依赖外部变量，则不是纯函数。
+纯函数很严格，你几乎除了计算数据什么都不能干，计算的时候还不能依赖自身参数以外的数据。
+一个函数在执行过程中产生了外部可观察的变化，则这个函数是有副作用(Side Effect)的。通俗点就是函数内部做了和运算返回值无关的事，比如修改外部作用域/全局变量、修改传入的参数、发送请求、console.log、手动修改 DOM 都属于副作用。
+
+这个概念拿到 React 中，就是一个 Pure component("纯"组件) 得到相同的 props，永远会渲染出相同的视图，并且没有其他副作用。纯组件的好处是，容易监测数据变化、容易测试、提高渲染性能等。
+这里的“纯组件”指的并不是继承自React.PureComponent的class组件——React.PureComponent 和 React.Component的区别是它通过对象浅层对比自动实现shouldComponentUpdate()，即赋予它相同的state和props不会重复渲染，可以提高性能。但只有在state和props中的数据均结构简单(非引用数据类型)时才适用。
 
 ### useEffect
 
@@ -286,5 +293,5 @@ getCinemaList
 }
 export default Cinema() {
 const { cinemaList } = useCinemaList()
-cosnt { getCinemaList } = useFilter(cinemaList, mytext)
+const { getCinemaList } = useFilter(cinemaList, mytext)
 }

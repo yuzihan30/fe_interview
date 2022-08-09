@@ -1,18 +1,9 @@
-<!--
- * @Author: your name
- * @Date: 2022-04-01 21:45:58
- * @LastEditTime: 2022-06-17 09:29:52
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/vue/vue3.md
--->
-
 ############## 模板语法 #################
 
 1. 布尔型 Attribute, isButtonDisabled 为真值或者空字符串时，元素会包含 disabled 属性，空字符串这个找机会验证下
 2. 不带参数的 v-bind，可以将包含多个属性的对象绑定到单个元素上
 
-   <div v-bind="objectOfAttrs"></div> 
+   <div v-bind="objectOfAttrs"></div>
    objectOfAttrs: {
        id: 'container',
        class: 'wrapper'
@@ -163,7 +154,20 @@ npm run dev
   proxyUser.gf.name = "zz";
   console.log(user);
   ```
+proxy可以直接监听数组的变化，proxy可以直接监听对象而非属性。
+vue2.0中，比如vm.arr.length–或者vm.arr[0]=100均不能触发视图更新；
+如果想更新索引可以使用
+vm.$set(vm.arr,0,100)
+或者
+vm.$delete(vm.arr,0);
+proxy返回的是一个新对象，我们可以只操作新对象达到目的，不需要深度遍历监听，性能高于Object.defineProperty；而Object.defineProperty只能遍历对象属性直接修改。
 
+proxy有多达13种拦截方法，不限于apply、ownKeys、deleteProperty、has等是object.defineProperty不具备的。
+看到这可能有同窗要问了，既然Proxy能解决以上两个问题，并且Proxy做为es6的新属性在vue2.x以前就有了，为何vue2.x不使用Proxy呢？一个很重要的缘由就是：vue
+
+Proxy是es6提供的新特性，兼容性很差，最主要的是这个属性没法用polyfill来兼容
+
+Object.defineProperty只能劫持对象的属性,所以咱们须要对每一个对象的每一个属性进行遍历。Vue 2.x里，是经过 递归 + 遍历 data 对象来实现对数据的监控的，若是属性值也是对象那么须要深度遍历,显然若是能劫持一个完整的对象是才是更好的选择。
 5. setup 的细节
 
 - setup 的执行时机
@@ -216,10 +220,10 @@ npm run dev
   - 重名时 setup 优先
   - 注意事项：
   - 在 Vue3 中尽量不要混合的使用 data 和 setup 及 methods 和 setup；setup 访问不到 methods 里的方法和 data 里的属性，因为 this 是 undefined, setup 执行是在 beforeCreate 之前，此时组件还没被创建出来
-  - setup 不能是一个 async 函数，因为返回值不再试 return 的对象，而是 promise，模板看不到
+  - setup 不能是一个 async 函数，因为返回值不再是 return 的对象，而是 promise，模板看不到
 - setup 参数
   - setup(props, context)/setup(props, {attrs,slots,emit})
-  - props: 包含 props 配置生命且传入了的所有属性的对象
+  - props: 包含 props 配置声明且传入了的所有属性的对象
   - attrs: 包含没有在 props 配置中声明的属性的对象，相当于 `this.$attrs`
   - slots: 包含所有传入的插槽内容的对象，相当于 `this.$slots`
   - emit: 用来分发自定义事件的函数，相当于 `this.$emit`

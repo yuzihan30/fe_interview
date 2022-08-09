@@ -38,7 +38,7 @@ return (
 
                 return <div onClick={() => {
                     // 这里改info, 比如value.info = "222"， 另一个消费者就能拿到改变的info， 直接改不好用， 必须跟状态挂钩
-                    // 像让另一个消费者触发render执行，要么props,要么state方式
+                    // 想让另一个消费者触发render执行，要么props,要么state方式
                     // 那我们就把info做成根组件的状态, synposis概要摘要
                     value.changeInfo(synposis)
                 }}>
