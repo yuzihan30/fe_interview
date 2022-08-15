@@ -283,6 +283,13 @@ componentDidUpdate(prevProps, prevState, value) {
     this.myref.current.scrollTop += this.myref.current.scrollHeight - value // 万一之前要有值呢，所以要用+=
 }
 
+父子组件生命周期函数执行顺序：
+
+进入页面：parent-constructor -> parent-getDerivedStateFromProps -> parent-render -> child-constructor -> child-getDerivedStateFromProps -> child-render -> child-componentDidMount -> parent-componentDidMount
+
+更新页面：parent-getDerivedStateFromProps -> parent-shouldComponentUpdate -> parent-render -> child-getDerivedStateFromProps -> child-shouldComponentUpdate -> child-render -> child-componentDidUpdate -> parent-componentDidUpdate
+
+销毁页面：parent-componentWillUnmount -> child-componentWillUnmount
 ## React 中的性能优化
 
 ### 1.SCU

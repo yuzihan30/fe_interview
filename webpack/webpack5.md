@@ -1,15 +1,10 @@
-<!--
- * @Author: yuzihan yuzihanyuzihan@163.com
- * @Date: 2022-05-19 12:00:45
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-19 13:11:21
- * @FilePath: /fe_interview/webpack/webpack5.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 # webpack基础
 **是什么、有什么用、如何使用**
 Node 16+ , fs、os、path等模块
-
+开发模式下，webpack能打包编译es6模块语法，但箭头函数等语法还不能编译；生产模式下还会做压缩
+loader: 这里只能配置一个loader，而use:可以配置多个loader
+sass\scss同时检测，test: /\.s[ac]ss$/
+css-loader将css文件编译成commonjs模块到js文件中
 # 高级
 **高级优化配置， 提升项目打包和运行时性能**
 

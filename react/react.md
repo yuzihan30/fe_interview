@@ -159,7 +159,7 @@ handleAdd1 = () => {
     this.setState({
         count: this.state.count + 1
     })
-    console.log(this.state.count) // 1, 1说明setState异步更新状态， 异步更新真是DOM
+    console.log(this.state.count) // 1, 1说明setState异步更新状态， 异步更新实际DOM
     // 处在同步逻辑中（合并逻辑的标志位会置为true），会异步更新状态，且异步更新真实DOM
     this.setState({
         count: this.state.count + 1
