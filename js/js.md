@@ -67,10 +67,16 @@ class Class1 {
 
 ## js 数组
 
-find()方法用于查找数组中符合条件的第一个元素，如果没有符合条件的元素，则返回 undefined
+1. find()方法用于查找数组中符合条件的第一个元素，如果没有符合条件的元素，则返回 undefined
 注意：
 find() 对于空数组，函数是不会执行的。
 find() 并没有改变数组的原始值。
+
+2. 求数组中最小数的值
+Math.min.apply(null, arr)
+Math.min(...arr)
+求最小项对应的索引
+arr.indexOf(Math.min(...arr))
 
 ########## Object 方法 #########
 
@@ -79,7 +85,6 @@ find() 并没有改变数组的原始值。
    Object.assign 方法实行的是浅拷贝，而不是深拷贝。目标对象拷贝得到的是这个对象的引用
    语法：Object.assign(target, …sources)
    Object.assign（）合并对象时，若存在键名相同，值不同，则以合并后的值（ccc）该键的值为源对象（bbb）的值，且目标对象（aaa）的值也改变了
-   Object.assign（）合并对象时，若存在键名相同，值不同，则以合并后的值（ccc）该键的值为源对象（aaa）的值，且目标对象（bbb）的值也改变了
 
 ########## 字符串 #########
 
