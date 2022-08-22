@@ -23,7 +23,7 @@
 3. 内部属性[[Class]]
    3.1 所有 typeof 返回值为”object“的对象都有[[Class]]的内部属性，可以看做一种对象的分类方式，区别于面向对象的类
    3.2 访问方式，无法直接访问，一般通过 Object.prototype.toString(..)来访问，例如 Object.prototype.toString.call(/../i)返回"[object RegRex]"
-   3.3 自定义的类访问返回默认的 Object 标签，例如 Object.prototype.toString(new Class1())返回”[object, Object]“;若需要访问自定类的定制内部属性[[Cladd]], 需要在类内增加方法
+   3.3 自定义的类访问返回默认的 Object 标签，例如 Object.prototype.toString(new Class1())返回”[object, Object]“;若需要访问自定类的定制内部属性[[Class]], 需要在类内增加方法
 
 ```
 class Class1 {

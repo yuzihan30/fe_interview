@@ -331,6 +331,14 @@ weakmapObj .size() // 0
 Vue 中的 nextTick 就是下轮宏任务开启之后要执行的操作，created 中如果有 dom 操作需要放到 nextTick 执行；数据变化会推到本轮微任务队列里（比如 Promise.then），nextTick 才能获取本轮微任务导致的 dom 变化
 执行一个宏任务->执行当前宏任务下的所有微任务->DOM 渲染->下一轮循环
 
+JS执行顺序为同步代码 微任务 DOM渲染 宏任务
+alert(``) // 会阻塞后续代码的执行，只有点完确定之后才会执行后面的代码
+document.documentElement.style.backgroundColor="green"
+click是异步回调，点击之后事件循环进入执行栈，此时执行click里的同步代码，
+DOM渲染虽然是同步代码，但执行后不会马上渲染到页面，
+然后执行到Promise，把then后的代码添加到微任务队列，
+此时微任务队列的优先级高于DOM渲染，所以先执行微任务，
+同步代码里的背景颜色还没渲染，就被then里面的代码覆盖了
 2. 为什么区别宏任务和微任务
    给一些任务插队执行的机会
 
@@ -693,7 +701,7 @@ const myJsonp = (url = '', params = {}, callback = () => {}) => {
     }
     // 设置回调函数名
     let cbName = cb + Math.random().toString().replace('.', '')
-    paraArr.push(`callback=$cbName`)
+    paraArr.push(`callback=${cbName}`)
     let src = url + paraArr.join('&')
 
     // 2. 创建scripNode
@@ -848,7 +856,7 @@ DNS 解析中端口需要 DNS 解析吗？
 document.documentElement.clientHeight//获取屏幕可视区域的高度
 document.documentElement.scrollTop//获取浏览器窗口顶部与文档顶部之间的距离，也就是滚动条滚动的距离
 element.offsetTop//获取元素相对于文档顶部的高度
-如果：clientHeight+scroolTop>offsetTop，则图片进入了可视区内，则被请求。
+如果：clientHeight+scrollTop>offsetTop，则图片进入了可视区内，则被请求。
 代码实现：
 
 <script>
@@ -926,6 +934,58 @@ http2 一个站点只有一个连接。每个请求为一个流，每个请求�
    另外有些 cdn 也可以通过 query 参数获得模糊的图片，这样我们就可以实现模糊到清晰的渐进加载
    转 base64，适用于小图片
 
+## js中错误类型
+js中的控制台的报错信息主要分为两大类，第一类是语法错误，这一类错误在预解析的过程中如果遇到，就会导致整个js文件都无法执行。另一类错误统称为异常，这一类的错误会导致在错误出现的那一行之后的代码无法执行，但在那一行之前的代码不会受到影响。
+
+工具/原料
+JavaScript
+方法/步骤
+1
+SyntaxError：语法错误
+
+JavaScript中的六种错误类型
+2
+Uncaught ReferenceError：引用错误
+
+引用一个不存在的变量时发生的错误。将一个值分配给无法分配的对象，比如对函数的运行结果或者函数赋值。
+
+JavaScript中的六种错误类型
+3
+RangeError：范围错误
+
+RangeError是当一个只超出有效范围时发生的错误。主要的有几种情况，第一是数组长度为负数，第二是Number对象的方法参数超出范围，以及函数堆栈超过最大值。
+
+JavaScript中的六种错误类型
+4
+TypeError类型错误
+
+变量或参数不是预期类型时发生的错误。比如使用new字符串、布尔值等原始类型和调用对象不存在的方法就会抛出这种错误，因为new命令的参数应该是一个构造函数。
+
+JavaScript中的六种错误类型
+5
+URIError，URL错误
+
+主要是相关函数的参数不正确。
+
+JavaScript中的六种错误类型
+6
+URI相关参数不正确时抛出的错误，主要涉及encodeURI、decodeURI()、encodeURIComponent()、decodeURIComponent()、escape()和unescape(）六个函数。
+
+ EvalError eval()函数执行错误
+
+在ES5以下的JavaScript中，当eval()函数没有被正确执行时，会抛出evalError错误。
+
+例如下面的情况：
+
+JavaScript中的六种错误类型
+7
+需要注意的是：ES5以上的JavaScript中已经不再抛出该错误，但依然可以通过new关键字来自定义该类型的错误提示。
+
+以上的6种派生错误，连同原始的Error对象，都是构造函数。开发者可以使用它们，认为生成错误对象的实例。
+
+JavaScript中的六种错误类型
+8
+第一个参数表示错误提示信息，第二个是文件名，第三个是行号。
 ########## 异常 #########
 
 1. try catch 缺点：只能捕获同步运行时的错误，不能捕获语法级别的错误和异步错误
@@ -936,7 +996,7 @@ http2 一个站点只有一个连接。每个请求为一个流，每个请求�
    console.log('捕获到异常', e) // 捕获到异常, ReferenceError
    }
    try {
-   let name = "aaa // 不能捕获语法级别的错误, js 解析器不会执行下面代码块的，catch 不到，window.onerror 也捕获不到；开发阶段编辑器一般会帮我们解决语法错误
+   let name = "aaa // 注意写字符串的时候写成了单引号，不能捕获语法级别的错误, js 解析器不会执行下面代码块的，catch 不到，window.onerror 也捕获不到；开发阶段编辑器一般会帮我们解决语法错误
    console.log(nam)
    } catch(e) {
    console.log('捕获到异常', e)

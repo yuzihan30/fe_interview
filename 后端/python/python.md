@@ -173,6 +173,7 @@ l.append('鸟')
 l.append(['ss','sss']) #**注意插入一个元素是列表时，['牛', '鸡', '鸭', '虫', '鸟', ['ss', 'sss']]**
 2.s.insert(i,x):在列表s的指定位置i插人元素x
 l.insert(0,'牛魔王insert')
+i可以为整数可以为负数，为负数时反向插入；索引时0就是在头部插入值
 3.s.extend(s1):在列表s的后面扩展列表s1，相当于 s+=s1
 #l.extend('hdhhdd') #['牛魔王insert', '牛', '鸡', '鸭', '虫', '鸟', ['ss', 'sss'], 'h', 'd', 'h', 'h', 'd', 'h', 'd', 'h', 'd']
 l+='hhh'
@@ -208,6 +209,11 @@ print(l)
 1. python中判断字符串是否为数字
 print(x.isdigit())#用isdigit函数判断是否数字
 2. 根据索引取字符，和数组相似
+3. 字符串转数字
+int('1')
+4. 数字转字符串
+str(1)
+5. 字符串拼接必须两边都是字符串
 ## 类型联合运算符
 
 1. 以前需要用 Union 关键字，取并集的意思，Union[str, int], python3.10 可以直接 str | int 代替；和 union()功能类似，括号里可以是 list，tuple，其他，甚至是 dict

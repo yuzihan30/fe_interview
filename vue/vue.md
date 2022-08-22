@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-03-20 09:11:19
- * @LastEditTime: 2022-05-30 15:15:29
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/vue/vue.md
--->
 1. vue常用指令：
 内容类：v-html(可以将标签一起渲染)、v-text(等价于{{}})、v-show、v-if、v-else、v-for、v-model、v-once(例：<p v-once>{{ content }}</p>，只渲染一次，后面改变不会再渲染)
 属性类：v-bind(:XXX)、v-on(:click,等价于@)
@@ -38,3 +30,15 @@ Vue Template Explorer
 vue-template-explorer
 Vue 2.6 把模板编译成 render 函数的工具 vue-next-template-explorer Vue 3.0 beta
 把模板编译成 render 函数的工具
+
+
+## 样式
+### 私有样式scoped
+参考文章
+https://blog.csdn.net/weixin_43343423/article/details/103614846
+Vue中scoped属性的渲染规则：
+给DOM节点添加一个不重复的data属性（比如data-v-7ba5bd90）来表示他的唯一性
+在每个CSS选择器末尾（编译后生成的CSS）加一个当前组件的data属性选择器（如[data-v-7ba5bd90]）来私有化样式。选择器末尾的data属性和其对应的DOM中的data属性相匹配
+子组件最外层标签上有一个类已经在这个父组件中定义过了，那么这个父组件的样式就也会应用到子组件上。只不过其权重没有子组件同类名的重。
+如果组件内部包含有其他组件，只会给其他组件的最外层标签加上当前组件的data属性
+如果父组件想要改变子组件中某个标签样式可以使用>>>连接符或者/deep/来解决
