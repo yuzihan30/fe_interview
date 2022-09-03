@@ -255,6 +255,14 @@ Object.defineProperty只能劫持对象的属性,所以咱们须要对每一个�
 - 默认初始时就会执行第一次, 从而可以收集需要监视的数据
 - 监视数据发生变化时回调
 
+
+hydrate 激活
+英[haɪˈdreɪt , ˈhaɪdreɪt]
+美[ˈhaɪdreɪt]
+n.	水合物;
+vt.	使吸入水分; 使水合; 使成水合物;
+
+
 8. vue3 生命周期
 
 卸载前、卸载后换成了 beforeUnmount、unmounted; vue2 中的都能在 vue3 中使用，但 vue2 中是 options 选项， vue3 都是组合式的 api；新增两个钩子函数主要用来做调试的

@@ -20,6 +20,7 @@
    name: 'jame',
    age: 18
    }
+   intersection type, 基本上，它将多个类型合并为一个
 7. 类型别名(简化类型使用): type myType = 1 | 2 | 3
 8. 编译选项，tsc xx.ts -w 监控文件的变化，如果变化自动执行编译
    tsconfig.json 配置文件可以配置监控所有文件，即使里面没有内容比如{}，执行 tsc -w 也能监控所有 ts 文件。通常的 json 文件是不能写注释的，但 tsconfig.json 可以写注释
@@ -180,25 +181,26 @@ s is string 不仅返回 boolean 类型判断参数 s 是不是 string 类型, �
   interface User extends Name {
   age: number;
   }
-  复制代码 type extends type
+  type extends type
   type Name = {
   name: string;
   }
   type User = Name & { age: number };
-  复制代码 interface extends type
+  interface extends type
   type Name = {
   name: string;
   }
   interface User extends Name {
   age: number;
   }
-  复制代码 type extends interface
+  type extends interface
   interface Name {
   name: string;
   }
   type User = Name & {
   age: number;
-  } \* 区别 - type 可以而 interface 不行
+  } 
+  区别 - type 可以而 interface 不行
   type 可以声明基本类型别名，联合类型，元组等类型
   // 基本类型别名
   type Name = string
@@ -465,7 +467,7 @@ return x + y
   console.log(getLength<number>(100) // 会报错，number 没有实现 length
 - 泛型嵌套
   Component<RouteComponentProps<IParam>>
-- Promise 的泛型 T 代表 promise 变成成功态之后 resolve 的值，resolve(value)
+- Promise 的泛型 T 代表 promise 变成成功态之后 resolve 的值(值的类型？)，resolve(value)
 
 7. 其他
 

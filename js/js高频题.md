@@ -134,6 +134,32 @@ while (root.next) {
    new Object instanceof Object // true 4.**proto** 方式【不推荐】
    **proto**属性，用来读取或设置当前对象的 prototype 对象，此属性未纳入标准，不建议使用。
    val.**proto** === Object.prototype // true 代表为对象
+
+   typeof new Date() === 'object';
+typeof /regex/ === 'object';
+
+
+// 函数
+typeof function() {} === 'function';
+typeof class C {} === 'function'
+typeof Math.sin === 'function';
+TypeScript中的typeof主要用途是在类型上下文中获取变量或者属性的类型。
+```typescript
+interface IPerson {
+  name: string;
+  age: number;  
+}
+let person: IPerson = {
+  name: 'xman',
+  age: 18  
+};
+type Person = typeof person;
+
+let p: Person = {
+  name: 'zxx',
+  age: 20  
+}
+```
    5.Object.getPrototypeOf 方式
    Object.getPrototypeOf()，用来读取对象的 prototype 对象。
    Object.getPrototypeOf(val) === Object.prototype // true 代表为对象

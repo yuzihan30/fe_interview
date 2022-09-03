@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-03-20 11:55:43
- * @LastEditTime: 2022-05-19 09:30:54
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/git/git.md
--->
 
 1. push 报错 fetal: Could not read from remote repository
    原因：远程仓库没有本地仓库的公钥无法认证
@@ -44,7 +36,7 @@ test git without vpn
     未 push: git reset --soft HEAD@{1}
     ########## 合并分支 ########
 11. git rebase
-    feature1: git rebase master 拉最新的 main 分支代码和并到开发分支 feature1，之后 feature1 测试完毕后，更新到 main，也需要在 main 分支执行：git rebase feature1
+    feature1: git rebase master 拉最新的 main 分支代码合并到开发分支 feature1，之后 feature1 测试完毕后，更新到 main，也需要在 main 分支执行：git rebase feature1
 
 git rebase --abort 把最近的一次 rebase 撤销
 
@@ -216,3 +208,11 @@ Monorepos 的缺点
 Monorepo 绝对不是银弹，Monorepo 策略也不完美，但某些方面来说确实解决了一些项目的维护和开发体验。
 
 ##
+
+revision	英[rɪˈvɪʒn]
+美[rɪˈvɪʒn]
+n.	修订; 复习; (一项、一轮等)修改; 温习;
+[例句]The catalogue is under revision.
+目录册正在修订之中。
+[其他]	复数：revisions
+

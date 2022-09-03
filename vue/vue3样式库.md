@@ -1,11 +1,3 @@
-<!--
- * @Author: yuzihan yuzihanyuzihan@163.com
- * @Date: 2022-05-08 19:09:35
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-08 19:10:54
- * @FilePath: /fe_interview/vue/vue3样式库.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 1. 
 element-plus - 经典中的经典，全面支持 Vue 3
 tdesign-vue-next - 鹅厂优质 UI 组件，配套工具完满，设计工整，文档清晰
