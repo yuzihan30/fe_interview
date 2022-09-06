@@ -104,6 +104,26 @@ contain	此时会保持图像的纵横比并将图像缩放成将适合背景定
 ## 选择器
 
 .example.noSpace 则是在一个元素上，这个元素包括这两个类才会有效果
+自定义属性选择器
+<style>
+.example[data-v-f3f3eg9] {
+  color: red;
+}
+</style>
+
+<template>
+  <div class="example" data-v-f3f3eg9>hi</div>
+</template>
+
+- css属性选择器
+选择器	例子	例子描述
+[attribute]	[target]	选择带有 target 属性的所有元素。
+[attribute=value]	[target=_blank]	选择带有 target="_blank" 属性的所有元素。
+[attribute~=value]	[title~=flower]	选择带有包含 "flower" 一词的 title 属性的所有元素。
+[attribute|=value]	[lang|=en]	选择带有以 "en" 开头的 lang 属性的所有元素。
+[attribute^=value]	a[href^="https"]	选择其 href 属性值以 "https" 开头的每个 <a> 元素。
+[attribute$=value]	a[href$=".pdf"]	选择其 href 属性值以 ".pdf" 结尾的每个 <a> 元素。
+[attribute*=value]	a[href*="w3school"]	选择其 href 属性值包含子串 "w3school" 的每个 <a> 元素。
 
 ## css 布局
 

@@ -42,6 +42,14 @@
     创建不同的实例需要 name:string; age:number, constructor(name:string, age:number) { this.name = name; this.age = age }
     需要重点记住一个区别，constructor 中 this 指向实例，而实例方法中的 this 指向方法的调用者（这个调用者可能是实例，也可能是绑定时间的按钮）constructor(name:string, age:number) { this.name = name; this.age = age; this.btn.onclick = this.sing }
 
+## TS中的特殊符号
+https://www.jianshu.com/p/f522f0969956
+
+## TS中类型声明
+declare可以向TypeScript域中引入一个变量，在编写代码的时候就能够实现智能提示的功能。通常代码不是直接写在当前ts文件，而是集中在.d.ts文件，然后引入。
+https://blog.csdn.net/weixin_50903927/article/details/123338651
+
+
 ########## TS 数据类型相关 ########
 
 1. 类型断言：as string, 当你比程序更确定类型的时候使用，比如某个函数的入参有类型限制，但此时传的参数程序无法判断出类型，就会提示有问题，而此时你能确定实参的类型就可以给实参加上类型断言

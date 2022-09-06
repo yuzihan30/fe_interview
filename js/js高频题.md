@@ -64,6 +64,7 @@ while (root.next) {
 ########## js 数据类型相关 ########
 
 1. js 数据类型的判断
+typeof() 和 typeof两种使用方式都支持
    原始类型：string, number, boolean, undefined, null, symbol, bigint
    vue 源码工具方法判断 isPrimitive 原始数据类型只包括 string, number, boolean,symbol
    引用类型：Object (Array, Function, RegExp, Date)
@@ -72,7 +73,10 @@ while (root.next) {
    undefined == null 返回 true, undefined === null 返回 false, 应用：if (a == null)能兼顾两种情况的判断
    undefined ==或者=== undefined 返回 true
    null ==或者=== null 都返回 true
-   NaN ==或者=== NaN 都返回 false NaN 是 js 中唯一自己和自己不相等的数据
+   NaN ==或者=== NaN 都返回 false NaN 是 js 中唯一自己
+   和自己不相等的数据
+   '' == false // true
+   '' === false // false
    注意区分对象相同和相等的概念
    js 中判断两个对象是否相等，属性名值相同认为对象是相等的，不能只用==、===, ==、===比较的是地址，需要用==、===(说明两个是相同对象),结合遍历 a 对象，是否 a 对象的每个属性都在 b 对象中且值相等，遍历 b 对象，是否 b 对象的每个属性都在 a 对象中且值相等, 如果属性时引用类型需要递归判断。建议参考 vue 源码，方法更简洁合理，但 vue 的源码是为了服务 vue 的，并未考虑正则表达式相等的情况
    a: typeof BigInt('111')、typeof 111n 都会返回 bigint

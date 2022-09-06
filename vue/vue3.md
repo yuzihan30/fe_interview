@@ -17,6 +17,151 @@
 
 6. vue3 允许 template 下有多个节点
 
+## prop
+default：为该 prop 指定一个当其没有被传入或值为 undefined 时的默认值。对象或数组的默认值必须从一个工厂函数返回。工厂函数也接收原始 prop 对象作为参数。
+## method
+interface ComponentOptions {
+  methods?: {
+    [key: string]: (this: ComponentPublicInstance, ...args: any[]) => any
+  }
+}
+...args: any[], any[]代表args的类型，args是数组
+在声明方法时避免使用箭头函数，因为它们不能通过 this 访问组件实例。
+## watch
+watch 选项期望接受一个对象，其中键是需要侦听的响应式组件实例属性 (例如，通过 data 或 computed 声明的属性)——值是相应的回调函数。该回调函数接受被侦听源的新值和旧值。
+除了一个根级属性，键名也可以是一个简单的由点分隔的路径，例如 a.b.c。注意，这种用法不支持复杂表达式——仅支持由点分隔的路径。如果你需要侦听复杂的数据源，可以使用命令式的 $watch() API。
+值也可以是一个方法名称的字符串 (通过 methods 声明)，或包含额外选项的对象。当使用对象语法时，回调函数应被声明在 handler 中
+声明侦听器回调时避免使用箭头函数，因为它们将无法通过 this 访问组件实例。
+
+## render
+预编译的模板，例如单文件组件中的模板，会在构建时被编译为 render 选项。如果一个组件中同时存在 render 和 template，则 render 将具有更高的优先级。
+## 生命周期
+updated
+这个钩子会在组件的任意 DOM 更新后被调用，这些更新可能是由不同的状态变更导致的。如果你需要在某个特定的状态更改后访问更新后的 DOM，请使用 nextTick() 作为替代。
+
+## inject
+该 inject 选项应该是以下两种之一：
+
+一个字符串数组
+一个对象，其 key 名就是在当前组件中的本地绑定名称，而它的值应该是以下两种之一：
+匹配可用注入的 key (string 或者 Symbol)
+一个对象
+它的 from 属性是一个 key (string 或者 Symbol)，用于匹配可用的注入
+它的 default 属性用作候补值。和 props 的默认值类似，如果它是一个对象，那么应该使用一个工厂函数来创建，以避免多个组件共享同一个对象。
+
+和 props 默认值类似，对于非原始数据类型的值，你需要使用工厂函数：
+
+js
+const Child = {
+  inject: {
+    foo: {
+      from: 'bar',
+      default: () => [1, 2, 3]
+    }
+  }
+}
+可以思考一下，为何执行函数时就可以返回一个新的引用值
+
+## mixins
+mixins 选项接受一个 mixin 对象数组。这些 mixin 对象可以像普通的实例对象一样包含实例选项，它们将使用一定的选项合并逻辑与最终的选项进行合并。举例来说，如果你的 mixin 包含了一个 created 钩子，而组件自身也有一个，那么这两个函数都会被调用。
+
+Mixin 钩子的调用顺序与提供它们的选项顺序相同，且会在组件自身的钩子前被调用。
+
+## extends
+使一个组件可以继承另一个组件的组件选项。
+
+从实现角度来看，extends 几乎和 mixins 相同。通过 extends 指定的组件将会当作第一个 mixin 来处理。
+
+然而，extends 和 mixins 表达的是不同的目标。mixins 选项基本用于组合功能，而 extends 则一般更关注继承关系。
+
+同 mixins 一样，所有选项都将使用相关的策略进行合并。
+
+## 指令
+- v-on
+当用于普通元素，只监听原生 DOM 事件。当用于自定义元素组件，则监听子组件触发的自定义事件。
+<!-- 动态事件 -->
+<button v-on:[event]="doThis"></button>
+<!-- 内联声明 -->
+<button v-on:click="doThat('hello', $event)"></button>
+<!-- 不带表达式地阻止默认事件 -->
+<form @submit.prevent></form>
+<!-- 对象语法 -->
+<button v-on="{ mousedown: doThis, mouseup: doThat }"></button>
+监听子组件的自定义事件 (当子组件的“my-event”事件被触发，处理函数将被调用)：
+template
+<MyComponent @my-event="handleThis" />
+<!-- 内联声明 -->
+<MyComponent @my-event="handleThis(123, $event)" />
+
+- v-bind
+动态的绑定一个或多个 attribute，也可以是组件的 prop。
+<!-- 动态 attribute 名 -->
+<button v-bind:[key]="value"></button>
+<!-- 缩写 -->
+<img :src="imageSrc" />
+<!-- 缩写形式的动态 attribute 名 -->
+<button :[key]="value"></button>
+<!-- class 绑定 -->
+<div :class="{ red: isRed }"></div>
+<div :class="[classA, classB]"></div>
+<div :class="[classA, { classB: isB, classC: isC }]"></div>
+
+<!-- style 绑定 -->
+<div :style="{ fontSize: size + 'px' }"></div>
+<div :style="[styleObjectA, styleObjectB]"></div>
+
+<!-- 绑定对象形式的 attribute -->
+<div v-bind="{ id: someProp, 'other-attr': otherProp }"></div>
+
+<!-- prop 绑定。“prop” 必须在子组件中已声明。 -->
+<MyComponent :prop="someThing" />
+
+<!-- 传递子父组件共有的 prop -->
+<MyComponent v-bind="$props" />
+
+<!-- XLink -->
+<svg><a :xlink:special="foo"></a></svg>
+- v-model
+在表单输入元素或组件上创建双向绑定。
+期望的绑定值类型：根据表单输入元素或组件输出的值而变化
+仅限：
+<input>
+<select>
+<textarea>
+components
+修饰符：
+.lazy ——监听 change 事件而不是 input
+.number ——将输入的合法符串转为数字
+
+- v-slot
+<!-- 接收 prop 的具名插槽 -->
+<InfiniteScroll>
+  <template v-slot:item="slotProps">
+    <div class="item">
+      {{ slotProps.item.text }}
+    </div>
+  </template>
+</InfiniteScroll>
+
+<!-- 接收 prop 的默认插槽，并解构 -->
+<Mouse v-slot="{ x, y }">
+  Mouse position: {{ x }}, {{ y }}
+</Mouse>
+
+cloak	英[kləʊk]
+美[kloʊk]
+n.	斗篷; (尤指旧时的)披风; 遮盖物;
+vt.	遮盖; 掩盖;
+
+chalk	英[tʃɔːk]
+美[tʃɑːk]
+n.	(白色或彩色的)粉笔; 白垩;
+vt.	用粉笔写(或画);
+
+## 样式
+子组件的根元素
+使用 scoped 后，父组件的样式将不会渗透到子组件中。不过，子组件的根节点会同时被父组件的作用域样式和子组件的作用域样式影响。这样设计是为了让父组件可以从布局的角度出发，调整其子组件根元素的样式。
+
 ############## 响应式基础 #################
 
 1. vue3 的 provide-inject 支持响应式；但 vue2 不支持
@@ -227,7 +372,11 @@ Object.defineProperty只能劫持对象的属性,所以咱们须要对每一个�
   - attrs: 包含没有在 props 配置中声明的属性的对象，相当于 `this.$attrs`
   - slots: 包含所有传入的插槽内容的对象，相当于 `this.$slots`
   - emit: 用来分发自定义事件的函数，相当于 `this.$emit`
-
+setup(props) {
+    console.log(props.title)
+  }
+}
+请注意如果你解构了 props 对象，解构出的变量将会丢失响应性。因此我们推荐通过 props.xxx 的形式来使用其中的 props。
 6. reactive 和 ref 细节
    ref 也可以对对象进行处理
 

@@ -368,7 +368,7 @@ class Field extends Component {
         value: '',
     }
     render() {
-        return <div style={{background: yellow}}>
+        return <div style={{background: 'yellow'}}>
             // 表达式需要用大括号括住
             <label>{this.props.label}</label>
             <input type={this.props.type} onChange={ (evt) => {

@@ -1,11 +1,3 @@
-<!--
- * @Author: yuzihan yuzihanyuzihan@163.com
- * @Date: 2022-05-27 21:20:53
- * @LastEditors: yuzihan yuzihanyuzihan@163.com
- * @LastEditTime: 2022-05-27 22:45:17
- * @FilePath: /fe_interview/react/react4.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 ## 反向代理
 jsonp、corse都需要后端配合，不需要配合的就反向代理这种方式
 1. Films
