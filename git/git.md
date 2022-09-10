@@ -165,6 +165,38 @@ git revert commit_id -m 2 // 第二个提交点
 
 git push
 
+## Git fetch和pull区别
+git fetch是将代码拉下来了，但并未合并，所以看不到最新的代码，也看不到最新的git log
+二、拉取不同
+
+1、Git fetch：Git fetch会将数据拉取到本地仓库 - 它并不会自动合并或修改当前的工作。
+
+2、git pull：git pull是从远程获取最新版本并merge到本地，会自动合并或修改当前的工作。
+
+三、commitID不同
+
+1、Git fetch：使用Git fetch更新代码，本地的库中master的commitID不变，还是等于1。
+
+2、git pull：使用git pull更新代码，本地的库中master的commitID发生改变，变成了2。
+
+## git删除远程分支
+git删除远程分支 git push origin --delete [branch_name]
+
+## git分支改名
+1、修改本地分支名称
+git branch -m oldBranchName newBranchName
+
+2、将本地分支的远程分支删除
+git push origin :oldBranchName
+
+3、将改名后的本地分支推送到远程，并将本地分支与之关联
+git push --set-upstream origin newBranchName
+
+## git merge --no-ff
+把dev分支使用普通默认merge的方式到master中后，提交历史信息合并到一起，导致回退时，可能回退到的不是自己想要的那个版本（回退到了分支中的某个版本）；
+加上--no-ff则不会，各个分支的提交历史信息不会合并到一起（会回退到master的上个版本）。
+https://blog.csdn.net/weixin_43239880/article/details/124591165
+https://blog.csdn.net/HD243608836/article/details/117567871?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-117567871-blog-124410028.pc_relevant_multi_platform_whitelistv5&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-117567871-blog-124410028.pc_relevant_multi_platform_whitelistv5&utm_relevant_index=2
 ## GIT 缓存本地不想提交的代码
 
 开发的过程中，有时之前开发的功能出现了 BUG，但是本地又在相同的文件中开发了新的需求时，需要将代码还原再修复 BUG。可是代码还原的话大大提高了二次开发的成本。 通过 git stash 这个命令可以轻松实现。
@@ -207,6 +239,8 @@ Monorepos 的缺点
 学习成本：对新人来说，项目变大了，学习成本自然会更高。
 Monorepo 绝对不是银弹，Monorepo 策略也不完美，但某些方面来说确实解决了一些项目的维护和开发体验。
 
+
+## 
 ##
 
 revision	英[rɪˈvɪʒn]
@@ -215,4 +249,12 @@ n.	修订; 复习; (一项、一轮等)修改; 温习;
 [例句]The catalogue is under revision.
 目录册正在修订之中。
 [其他]	复数：revisions
+
+chore	英[tʃɔː(r)]
+美[tʃɔːr]
+n.	家务活; 日常事务; 例行工作; 令人厌烦的任务; 乏味无聊的工作;
+[例句]Fortunately, the chore of leaf sweeping is well worth the effort.
+幸运的是，干清扫落叶这个活儿是值得的。
+Working In Progress，ERP中指在制品或流水线，又称车间生产管理。WIP（work in progress）
+
 

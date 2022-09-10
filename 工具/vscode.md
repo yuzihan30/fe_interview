@@ -1,12 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2022-05-03 08:50:29
- * @LastEditTime: 2022-05-03 08:55:21
- * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fe_interview/工具/vscode.md
--->
-
 1. 竖线设置：设置->首选项->搜索 ruler->在 setting.json 中编辑->设置"editor.rulers": [120]
 2. 列选择快捷键，alt+shift+鼠标左键拖动，shift+option+鼠标左键拖动(Mac)
 3. clear 控制台清屏
@@ -44,3 +35,8 @@ vscode+prettier 配置保存自动格式化
 sudo chown -R \$USER ~/Library/Caches/com.microsoft.VSCode.ShipIt
 xattr -dr com.apple.quarantine ~/Downloads/Visual\ Studio\ Code.app
 ~/Downloads/Visual/换成自己电脑的 vscode 安装的路径，其他地方不需要修改
+
+## 设置隐藏文件或者目录
+1.小齿轮 => 设置
+2.点击右上角小图标
+3.在打开的json文件中,查找或者新增“files.exclude”:{ },其中{ }中填写的是想要隐藏不显示的文件名称。

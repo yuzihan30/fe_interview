@@ -157,3 +157,20 @@ flex-basis:在分配空间之前，项目的主轴空间，相当于我们设置
 父元素设置了绝对定位之后，如果没有宽度，父元素宽度为0，如果有子元素，父元素宽度就会和子元素宽度一致，那么这个时候在父元素中想使用flex布局当然不生效呀，所以只需要给父元素再加一个宽度就可以了
 设置为relative也失效的问题
 那么我的问题和这个一样么？本来我以为是一样的，但是父元素设置relative后，不会改变父元素的宽度呀，并且自己在chrome下和更高版本的firefox下尝试了下都么有这个问题，那可能就是firefox56的问题了？
+## overflow
+.height {
+    height: 200px;
+}
+.large-height {
+   height: 300px;
+}
+// html
+<div class="height">
+  <div class="large-height">
+  </div>
+</div>
+CIRCUMSTANCE:
+div.height 并不会出现滚动条；
+当div.large-height内容超过浏览器一页高度时，浏览器会出现滚动条；
+CONCLUSION: 
+虽然设置了高度，但当无设置overflow时，overflow 默认值为visible，且父级元素无设置overflow限制显示，若超出浏览器一页高度，浏览器默认显示滚动条；

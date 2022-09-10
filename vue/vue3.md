@@ -162,6 +162,32 @@ vt.	用粉笔写(或画);
 子组件的根元素
 使用 scoped 后，父组件的样式将不会渗透到子组件中。不过，子组件的根节点会同时被父组件的作用域样式和子组件的作用域样式影响。这样设计是为了让父组件可以从布局的角度出发，调整其子组件根元素的样式。
 
+## 全局属性的使用
+// 之前(Vue 2.x)
+Vue.prototype.$http = () => {}
+ 
+// 之后(Vue 3.x)
+const app = Vue.createApp({})
+app.config.globalProperties.$http = () => {}
+1
+2
+3
+4
+5
+6
+当我们想在组件内调用http时需要使用getCurrentInstance()来获取。
+
+import { getCurrentInstance, onMounted } from "vue";
+export default {
+  setup( ) {
+    const { ctx } = getCurrentInstance(); //获取上下文实例，ctx=vue2的this
+    onMounted(() => {
+      console.log(ctx, "ctx");
+      ctx.http();
+    });
+  },
+};
+
 ############## 响应式基础 #################
 
 1. vue3 的 provide-inject 支持响应式；但 vue2 不支持
