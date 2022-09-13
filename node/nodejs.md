@@ -36,3 +36,20 @@
 https://www.jianshu.com/p/00ba8285fbf5
 切换node版本
 sudo n 14.4.0 即可切换node版本
+指定版本：比如1.2.2，遵循“大版本.次要版本.小版本”的格式规定，安装时只安装指定版本。
+波浪号（tilde）+指定版本：比如~1.2.2，表示安装1.2.x的最新版本（不低于1.2.2），但是不安装1.3.x，也就是说安装时不改变大版本号和次要版本号。
+插入号（caret）+指定版本：比如ˆ1.2.2，表示安装1.x.x的最新版本（不低于1.2.2），但是不安装2.x.x，也就是说安装时不改变大版本号。需要注意的是，如果大版本号为0，则插入号的行为与波浪号相同，这是因为此时处于开发阶段，即使是次要版本号变动，也可能带来程序的不兼容。
+latest：安装最新版本。
+package.json文件可以手工编写，也可以使用npm init命令自动生成。
+4."lint-staged":
+ "lint-staged": {
+     "*.{js,ts,vue}": "eslint --fix"
+  }
+git commit时触发pre-commit钩子，运行lint-staged命令，对*.js,ts,vue，.执行eslint命令。eslint要提前配置好
+5.private
+,如果你在你的package.json中设置了“private”：true，那么npm将拒绝发布它。 这是防止私人存储库意外发布的一种方法。
+6.repository
+包的仓库地址
+"repository": {
+    "url": "https://dev.ywsoftware.com:9443/ywsoftware/redcat-pro-snapshot/_git/redcat-pro-app"
+  }

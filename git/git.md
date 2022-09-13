@@ -257,4 +257,7 @@ n.	家务活; 日常事务; 例行工作; 令人厌烦的任务; 乏味无聊的
 幸运的是，干清扫落叶这个活儿是值得的。
 Working In Progress，ERP中指在制品或流水线，又称车间生产管理。WIP（work in progress）
 
+## git stash
+https://blog.csdn.net/stone_yw/article/details/80795669
+
 
