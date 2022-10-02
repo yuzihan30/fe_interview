@@ -82,6 +82,66 @@ Zoom属是IE浏览器的专有属性，火狐和老版本的webkit核心的浏�
 用法：ie下子元素浮动时候父元素不随着自动扩大的问题，使用下面的CSS写法
 .父元素 {   overflow: auto; zoom: 1   },
 
+### css属性unset
+CSS 关键字 initial、inherit 和 unset
+名如其意，unset 关键字我们可以简单理解为不设置。其实，它是关键字 initial 和 inherit 的组合。
+什么意思呢？也就是当我们给一个 CSS 属性设置了 unset 的话：
+如果该属性是默认继承属性，该值等同于 inherit
+如果该属性是非继承属性，该值等同于 initial
+举个例子，根据上面列举的 CSS 中默认继承父级样式的属性，选取一个，再选取一个不可继承样式：
+选取一个可继承样式: color
+选取一个不可继承样式: border
+https://blog.csdn.net/weixin_44578496/article/details/107775828
+
 ## 盒模型
 ### 圆角
 内部盒子会将外部盒子圆角撑开，所以内部div设置overflow:hidden
+
+### 右对齐
+要实现上述右对齐的方式有很多，比如：
+
+flex设置justify-content: flex-end
+absolute定位设置rigth: 0
+float: right
+当父节点和子节点宽度固定时，设置margin-left: auto
+margin: 0 auto;水平居中
+
+### 行框
+<label ></label> 
+单独对label设置一个100px的属性石不起作用的，和float:left或者display：inline-block配合的话 都可以设置上 
+在 CSS 中，任何元素都可以float浮动。浮动元素会生成一个块级框，而不论它本身是何种元素。如果浮动非替换元素，则要指定一个明确的宽度；否则，它们会尽可能地窄。
+
+元素是文档结构的基础，在css里面，每个元素生成了包含内容的框（box）,大家都叫“盒子”。但是不同的元素显示方式是不同的，有占据一整行的，有水平一个挨着一个的。 
+
+替换元素：替换元素是浏览器根据其标签的元素与属性来判断显示具体的内容。 
+比如：<input /> type="text" 的是，这是一个文本输入框，换一个其他的时候，浏览器显示就不一样。(X)HTML中的<img>、<input>、<textarea>、<select>、<object>都是替换元素，这些元素都没有实际的内容。 
+
+替换元素可增加行框高度，但不影响line-height,内容区高度值 = padding-top + padding-bottom + margin-top + margin-bottom + height。 
+要想替换元素居中，可以设置line-height = height， vertral-align = middle。 
+（vertical-align:middle,是将元素行内框的垂直中点与父元素基线上0.5ex处的一点对齐。） 
+
+非替换元素：(X)HTML 的大多数元素是不可替换元素，他们将内容直接告诉浏览器，将其显示出来。 
+比如<p>p的内容</p>、<label>label的内容</label>；浏览器将把这段内容直接显示出来。 
+
+非替换元素添加padding-top或padding-bottom，不影响行框高度，但内容区高度会变化，margin-top，margin-bottom对行框没有任何影响。添加左右边距会影响非替换元素水平位置。要使非替换元素在父元素框内居中，可以设定line-height = 父元素框的高度。 
+
+
+行内元素框模型： 
+下面概括了行内布局组成： 
+（注意：对于行内非替换元素中指代的height，是指字符本身的高度，由font-size决定） 
+1. 内容区： 
+对于非替换元素，内容区高度取决于font-size,若有内边距，则内容区高度 = padding-top + padding-bottom + height； 
+
+对于替换元素，内容区高度值 = padding-top + padding-bottom + margin-top + margin-bottom + height 
+2. 行间距： 
+只应用于非替换元素，其高度值=（|line-height - height|）/2 
+
+3. 行内框： 
+对于非替换元素，其高度值 = line-height 
+
+对于替换元素，其高度值 = 内容区高度值 = padding-top + padding-bottom + margin-top + margin-bottom + height 
+4. 行框： 
+取决于行内框。行框的上边界要位于最高行内框的上边界，而行框的底边要位于最低行内框的下边界。
+
+## 字体的两种使用方式
+https://blog.csdn.net/qq_45488467/article/details/109605231
