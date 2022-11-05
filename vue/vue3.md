@@ -169,12 +169,6 @@ Vue.prototype.$http = () => {}
 // 之后(Vue 3.x)
 const app = Vue.createApp({})
 app.config.globalProperties.$http = () => {}
-1
-2
-3
-4
-5
-6
 当我们想在组件内调用http时需要使用getCurrentInstance()来获取。
 
 import { getCurrentInstance, onMounted } from "vue";
@@ -334,7 +328,7 @@ vm.$delete(vm.arr,0);
 proxy返回的是一个新对象，我们可以只操作新对象达到目的，不需要深度遍历监听，性能高于Object.defineProperty；而Object.defineProperty只能遍历对象属性直接修改。
 
 proxy有多达13种拦截方法，不限于apply、ownKeys、deleteProperty、has等是object.defineProperty不具备的。
-看到这可能有同窗要问了，既然Proxy能解决以上两个问题，并且Proxy做为es6的新属性在vue2.x以前就有了，为何vue2.x不使用Proxy呢？一个很重要的缘由就是：vue
+看到这可能有人要问了，既然Proxy能解决以上两个问题，并且Proxy做为es6的新属性在vue2.x以前就有了，为何vue2.x不使用Proxy呢？一个很重要的缘由就是：vue
 
 Proxy是es6提供的新特性，兼容性很差，最主要的是这个属性没法用polyfill来兼容
 
@@ -479,6 +473,8 @@ onRenderTriggered
   2.x 中的 beforeUnmount
   3.0 中的 onUnmounted
   2.x 中的 unmounted
+
+  组件销毁前需要清空以下内容：事件(this.button.off && this.button.off())，定时器，动画，容器内容（this.container.empty()），数据(this._data = null)，
 
 9. 自定义 hook 函数
 

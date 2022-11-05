@@ -38,6 +38,8 @@
    padding: var(--main-padding);
    }
 
+:root是一个伪类，表示文档根元素，所有主流浏览器均支持 :root 选择器，除了 IE8 及更早的版本。在:root中声明相当于全局属性，只要当前页面引用了:root segment所在文件，都可以使用var()来引用。
+
 5. css 过渡和动画的区别
    css 过渡需要触发条件（常用鼠标移动到：hover），动画不需要触发条件
    transition 只有起始两个状态（一般用在比较简单的效果上，不过可以很好的和 js 结合，比如结合定时器实现循环效果；而 animation 可以通过设置 infinite 来实现遍历循环，不能很好与 js 结合），不能在 transition 上直接设置和修改属性，只能在选择器上设置 css 属性，然后在 transition 上设置要全部过渡还是具体属性过渡
@@ -145,3 +147,26 @@ margin: 0 auto;水平居中
 
 ## 字体的两种使用方式
 https://blog.csdn.net/qq_45488467/article/details/109605231
+
+## normalize.css
+* Preserves useful defaults, unlike many CSS resets.
+* Normalizes styles for a wide range of elements.
+* Corrects bugs and common browser inconsistencies.
+* Improves usability with subtle modifications.
+* Explains what code does using detailed comments.
+* 保留有用的默认值，与许多 CSS 重置不同。
+* 规范化各种元素的样式。
+* 更正错误和常见的浏览器不一致。
+* 通过细微的修改提高可用性。
+* 使用详细注释解释代码的作用。
+
+subtle	英[ˈsʌtl]
+美[ˈsʌtl]
+adj.	不易察觉的; 不明显的; 微妙的; 机智的; 机巧的; 狡猾的; 巧妙的; 敏锐的;
+excess
+英[ɪkˈses , ˈekses]
+美[ɪkˈses , ˈekses]
+n.	过量的; 过度; 超过; 过分; 过多的量; 超过的量; 免赔额; 自负额; 放肆行为;
+Text-level semantics 
+文本级语义
+

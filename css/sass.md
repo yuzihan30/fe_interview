@@ -310,6 +310,9 @@ body {
 background-color: color(light);
 }
 
+/*** scss ***/
+@mixin box-shadow($shadows...) {  //不定参数,用...
+
 20. 错误与警告信息
     @warn、@error
 
@@ -360,3 +363,26 @@ background-color: blue;
 color: white;
 border-color: blue;
 }
+
+## !default和!global
+!default被添加在变量值的后面，表示当前值为变量的默认值，和javascript中函数参数的默认值是一样的。
+
+如果一个变量被分配了默认值，那么你可以直接使用默认值，也可以重新为它赋值。
+
+为变量重新赋值后，上下文中的该变量将会被重写为新值。
+没有为变量重新赋值时，那么上下文中的该变量将会赋予默认值。
+!global通常被用在Mixin和function中，它能使定义在mixin或function中的变量变为全局变量。
+
+Inspect()断电函数
+其实Inspect()函数用的比较少，主要是用来做校验类型的。
+Inspect(...)表达式中的内容如果是正常会返回对应的内容，如果发生错误则会弹出一个错误提示。
+
+inspect($value)
+返回一个包含该值的字符串作为其Sass表示。
+
+参数：
+
+$ value（Base） - 要检查的值。 
+返回：
+
+（String） - 表示将在Sass中写入的值。 

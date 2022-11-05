@@ -152,6 +152,21 @@ Math.min(...arr)
 求最小项对应的索引
 arr.indexOf(Math.min(...arr))
 
+3. reduce
+reduce第二个参数为对象时，可以用于循环将key/value添加到对象中
+写逻辑时注意通用性，如果只是单个，单写就易读，但2个及以上的重复逻辑就可以抽离
+
+4. 数据遍历内部不要使用修改数组值的方法
+let arr = [1,2,3,4]
+undefined
+VM10:6792 crbug/1173575, non-JS module files deprecated.
+（匿名） @ VM10:6792
+arr.forEach((item, i) => { console.log(arr);console.log(item);arr.splice(i, 1) })
+VM810:1 (4) [1, 2, 3, 4]
+VM810:1 1
+VM810:1 (3) [2, 3, 4]
+VM810:1 3
+
 ########## Object 方法 #########
 
 1. Object.assign（）用法
@@ -159,6 +174,8 @@ arr.indexOf(Math.min(...arr))
    Object.assign 方法实行的是浅拷贝，而不是深拷贝。目标对象拷贝得到的是这个对象的引用
    语法：Object.assign(target, …sources)
    Object.assign（）合并对象时，若存在键名相同，值不同，则以合并后的值（ccc）该键的值为源对象（bbb）的值，且目标对象（aaa）的值也改变了
+
+   比如样式覆盖，object.assign(baseStyle, style), style会将baseStyle中相同键的样式覆盖
 
 ########## 字符串 #########
 

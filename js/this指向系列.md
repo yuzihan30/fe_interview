@@ -97,7 +97,7 @@ obj.f1.call(obj1)()  // 1
 new的特例，new Date 等价于new Date() 
 
 9. 特例：事件绑定中的this问题
-在element上内联方式绑定事件，this指向window
+在element上内联方式绑定事件，this指向window（如果在事件回调内绑定外层this，需要在外层_this = this）
 js绑定onclick事件，this指向该元素 document.getElementById('').onclick = function() {}
 addEventListener绑定事件，this指向该元素，IE中attachEvent(),this指向window
 jQuery中的bind, click, on事件绑定均指向该元素
