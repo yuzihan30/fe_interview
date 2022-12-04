@@ -167,6 +167,32 @@ VM810:1 1
 VM810:1 (3) [2, 3, 4]
 VM810:1 3
 
+
+5. filter(Boolean)
+ECMAScirpt5 中 Array 类中的 filter 方法使用目的是移除所有的 ”false“ 类型元素 (false, null, undefined, 0, NaN or an empty string)：
+
+var a=[1,2,"b",0,{},"",NaN,3,undefined,null,5];
+var b=a.filter(Boolean); // [1,2,"b",{},3,5]
+复制代码
+Boolean 是一个函数，它会对遍历数组中的元素，并根据元素的真假类型，对应返回 true 或 false.
+
+例如：
+
+Boolean(0); // false
+Boolean(true); // true
+Boolean(1); // true
+Boolean(""); // false
+Boolean("false"); // true. "false"是一个非空字符串
+复制代码
+实际上，下面这样的写法是一种简写模式
+
+b = a.filter(Boolean);
+复制代码
+它等价于
+
+b = a.filter(function (x) { return Boolean(x); });
+
+
 ########## Object 方法 #########
 
 1. Object.assign（）用法
@@ -321,3 +347,9 @@ catch 中的 return 会覆盖 try 中的异常和 return
 finally 中的异常会覆盖 try/catch 中的异常和 return
 finally 中的 return 会覆盖 try/catch 中的异常和 return
 try/catch/finally 块中异常或 return 之后的代码不会被执行
+
+
+## 运算符
+javascript中的!!是逻辑"非非"，即是在逻辑“非”的基础上再"非"一次。通过!或!!可以将很多类型转换成bool类型，再做其它判断。
+
+使用javascript时，有时会在变量前面加上两个感叹号，这样做表示什么含义呢？Javascript中，!表示运算符“非”，如果变量不是布尔类型，会将变量自动转化为布尔类型，再取非，那么用两个!!就可以将变量转化为对应布尔值。

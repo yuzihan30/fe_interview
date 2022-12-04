@@ -157,6 +157,8 @@ flex-basis:在分配空间之前，项目的主轴空间，相当于我们设置
 父元素设置了绝对定位之后，如果没有宽度，父元素宽度为0，如果有子元素，父元素宽度就会和子元素宽度一致，那么这个时候在父元素中想使用flex布局当然不生效呀，所以只需要给父元素再加一个宽度就可以了
 设置为relative也失效的问题
 那么我的问题和这个一样么？本来我以为是一样的，但是父元素设置relative后，不会改变父元素的宽度呀，并且自己在chrome下和更高版本的firefox下尝试了下都么有这个问题，那可能就是firefox56的问题了？
+
+如果想看到效果，将上面的display:flex,换成display:inline-flex,并且将width:200px删除。在没有测试之前，有的人可能会认为.main会占据整个一行，但是，测试结果是，它会根据子元素所有的div大小自适应宽度和高度
 ## overflow
 .height {
     height: 200px;
@@ -174,3 +176,37 @@ div.height 并不会出现滚动条；
 当div.large-height内容超过浏览器一页高度时，浏览器会出现滚动条；
 CONCLUSION: 
 虽然设置了高度，但当无设置overflow时，overflow 默认值为visible，且父级元素无设置overflow限制显示，若超出浏览器一页高度，浏览器默认显示滚动条；
+
+## 属性选择器
+标签名[属性] { 声明即样式 }
+input[type="text"] ---- 只有 type 属性的属性值为 text 的 input 标签样式才会生效
+
+标签名[属性^='限制条件']{声明}
+type^="p"  代表type属性以 p 开头，因此我们可以看到上图，只有 type="password" 的 input 标签样式发生了改变，^ 代表开始
+type$="t"  表示以 t 字符结尾的 type 属性，$ 在这里代表结束，所以可以看到 type 属性值为 text、submit 的样式发生变化
+
+arbitrary	英[ˈɑːbɪtrəri]
+美[ˈɑːrbɪtreri]
+adj.	任意的; 武断的; 随心所欲的; 专横的; 专制的;
+
+buggy	英[ˈbʌɡi]
+美[ˈbʌɡi]
+n.	(常指无顶无门的)专用小汽车; 婴儿车; 童车; (由一匹马拉的单座或双座)轻便马车;
+adj.	臭虫多的; 疯的的; <俚>神经有毛病的; 古怪的; 淘气的;
+Note this is relatively arbitrary so that this could be buggy.
+请注意，这是相对随意的，因此这可能是错误的。
+
+## overflow
+
+值	描述
+visible	默认值。内容不会被修剪，会呈现在元素框之外。
+hidden	内容会被修剪，并且其余内容是不可见的。
+scroll	内容会被修剪，但是浏览器会显示滚动条以便查看其余的内容。
+auto	如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。
+inherit	规定应该从父元素继承 overflow 属性的值。
+注意:overflow 属性只工作于指定高度的块元素上。
+
+注意: 在 OS X Lion ( Mac 系统) 系统上，滚动条默认是隐藏的，使用的时候才会显示 (设置 "overflow:scroll" 也是一样的)。
+
+
+

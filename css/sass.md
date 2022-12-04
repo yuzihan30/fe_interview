@@ -385,4 +385,47 @@ inspect($value)
 $ value（Base） - 要检查的值。 
 返回：
 
-（String） - 表示将在Sass中写入的值。 
+（String） - 表示将在Sass中写入的值。
+
+## @content
+@content这个是不是个类似占位用的，代表里面是自定义的的
+
+    @-webkit-keyframes #{$name} {
+        @content;
+    }
+`@content`用在`mixin`里面的，当定义一个`mixin`后，并且设置了`@content`；
+`@include`的时候可以传入相应的内容到`mixin`里面
+ 官网给的例子：
+
+$color: white;
+@mixin colors($color: blue) {
+  background-color: $color;
+  @content;
+  border-color: $color;
+}
+.colors {
+  @include colors { color: $color; }
+}
+编译后： 
+
+.colors {
+  background-color: blue;
+  color: white;
+  border-color: blue;
+
+
+## !optional
+optional翻译成汉语具有"可选的"的意思。顾名思义，!optional标记前面的扩展不必须生成一个新的选择器。看一段SCSS代码片段：
+p{
+   color:red;
+   @extend .notice 
+ }
+由于并不存在一个名为notice的样式类，所以上述代码会报错。代码修改如下：
+p{
+  color:red;
+  @extend .notice !optional
+}
+由于是可选的，即便notice样式类不存在也不会报错。
+
+adjacency	
+n.	接（邻）近；毗邻；相邻性；邻接（物）；邻近距离;
