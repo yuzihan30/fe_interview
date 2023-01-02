@@ -353,3 +353,26 @@ try/catch/finally 块中异常或 return 之后的代码不会被执行
 javascript中的!!是逻辑"非非"，即是在逻辑“非”的基础上再"非"一次。通过!或!!可以将很多类型转换成bool类型，再做其它判断。
 
 使用javascript时，有时会在变量前面加上两个感叹号，这样做表示什么含义呢？Javascript中，!表示运算符“非”，如果变量不是布尔类型，会将变量自动转化为布尔类型，再取非，那么用两个!!就可以将变量转化为对应布尔值。
+
+## 继承
+```javascript
+obj.__proto__ = {c:3}
+{c: 3}
+obj
+{a: 1, __state__: {…}}
+a
+: 
+1
+__state__
+: 
+{b: 2}
+[[Prototype]]
+: 
+Object
+c
+: 
+3
+[[Prototype]]
+: 
+Object
+```
