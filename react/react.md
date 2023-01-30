@@ -380,11 +380,11 @@ class Field extends Component {
     }
 }
 username = React.createRef()
-<Filed label="用户名" type="text" onChangeEvent={(value) => { 
+<Field label="用户名" type="text" onChangeEvent={(value) => { 
     this.setState({
         username: value
     })} value={this.state.username} ref={this.username} />  // ref="username", ref这种写法严格模式下会有问题所以会
-ref加到标签身上是原生dom节点，拿到组件生上就是组件对象，但都是.current才能拿到
+ref加到标签身上是原生dom节点，拿到组件身上就是组件对象，但都是.current才能拿到
 父组件就可以通过this.state.current.state拿到Field域的值
 那剩下的设置初始值和清空怎么做呢
 this.state.current.state.value = ""这种方法直接改孩子的状态是最忌讳的而且不好用

@@ -177,6 +177,9 @@ div.height 并不会出现滚动条；
 CONCLUSION: 
 虽然设置了高度，但当无设置overflow时，overflow 默认值为visible，且父级元素无设置overflow限制显示，若超出浏览器一页高度，浏览器默认显示滚动条；
 
+flex-direction的默认值
+在react中flex-direction 的默认值是Colum
+其他原生和Vue中flex-direction的默认值为row
 ## 属性选择器
 标签名[属性] { 声明即样式 }
 input[type="text"] ---- 只有 type 属性的属性值为 text 的 input 标签样式才会生效

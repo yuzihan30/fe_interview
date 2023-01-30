@@ -376,3 +376,7 @@ c
 : 
 Object
 ```
+## 流程语句
+switch中return
+break是直接退出switch语句
+return是退出该函数 也就是switch语句块后面的语句也不执行了
