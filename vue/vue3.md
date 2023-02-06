@@ -603,3 +603,9 @@ extraneous
 adj.	没有直接联系的; 无关的;
 [例句]We do not want any extraneous information on the page.
 我们不希望这一页上有任何无关的信息。
+contrary
+英[ˈkɒntrəri , kənˈtreəri]
+美[ˈkɑːntreri , kənˈtreri]
+adj.	相反的，相对立的; (在性质或方向上)截然不同的，完全相反的; 对方的; (风)逆向的; (天气)不合人意的，不作美的; 乖戾的，好与人作对的，逆反的，犟的;
+n.	相反的事实(或事情、情况); 反面，对立的一方，对立面;
+adv.	相反地; 对抗地;

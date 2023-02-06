@@ -297,3 +297,7 @@ window.onresize = function() {
 
 ## 导弹飞行3D效果和AI插件
 着色器用的是OpenGL语言，类似于C语言
+
+
+vertices	英[ˈvɜːtɪsiːz]
+n.	(三角形或锥形的)角顶; 顶点; 至高点;
