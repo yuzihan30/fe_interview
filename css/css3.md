@@ -170,3 +170,10 @@ n.	过量的; 过度; 超过; 过分; 过多的量; 超过的量; 免赔额; 自
 Text-level semantics 
 文本级语义
 
+## use-select属性
+CSS user-select 属性
+防止选取 <div> 元素的文本：
+auto	默认。如果浏览器允许，则可以选择文本。
+none	防止文本选取。
+text	文本可被用户选取。
+all	单击选取文本，而不是双击。

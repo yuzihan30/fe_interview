@@ -192,6 +192,65 @@ b = a.filter(Boolean);
 
 b = a.filter(function (x) { return Boolean(x); });
 
+6. Array.from()
+那么什么是类数组对象呢？所谓类数组对象，最基本的要求就是具有length属性的对象。
+
+1、将类数组对象转换为真正数组：
+
+	let arrayLike = {
+	    0: 'tom', 
+	    1: '65',
+	    2: '男',
+	    3: ['jane','john','Mary'],
+	    'length': 4
+	}
+	let arr = Array.from(arrayLike)
+	console.log(arr) // ['tom','65','男',['jane','john','Mary']]
+那么，如果将上面代码中length属性去掉呢？实践证明，答案会是一个长度为0的空数组。
+
+这里将代码再改一下，就是具有length属性，但是对象的属性名不再是数字类型的，而是其他字符串型的，代码如下：
+
+let arrayLike = {
+    'name': 'tom', 
+    'age': '65',
+    'sex': '男',
+    'friends': ['jane','john','Mary'],
+    length: 4
+}
+let arr = Array.from(arrayLike)
+console.log(arr)  // [ undefined, undefined, undefined, undefined ]
+会发现结果是长度为4，元素均为undefined的数组
+
+由此可见，要将一个类数组对象转换为一个真正的数组，必须具备以下条件：
+
+　　1、该类数组对象必须具有length属性，用于指定数组的长度。如果没有length属性，那么转换后的数组是一个空数组。
+
+　　2、该类数组对象的属性名必须为数值型或字符串型的数字
+
+　　ps: 该类数组对象的属性名可以加引号，也可以不加引号
+
+2、将Set结构的数据转换为真正的数组：
+
+let arr = [12,45,97,9797,564,134,45642]
+let set = new Set(arr)
+console.log(Array.from(set))  // [ 12, 45, 97, 9797, 564, 134, 45642 ]
+Array.from还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组。如下：
+
+let arr = [12,45,97,9797,564,134,45642]
+let set = new Set(arr)
+console.log(Array.from(set, item => item + 1)) // [ 13, 46, 98, 9798, 565, 135, 45643 ]
+3、将字符串转换为数组：
+
+let  str = 'hello world!';
+console.log(Array.from(str)) // ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!"]
+4、Array.from参数是一个真正的数组：
+
+console.log(Array.from([12,45,47,56,213,4654,154]))
+像这种情况，Array.from会返回一个一模一样的新数组。
+
+5、js的push
+push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。
+
 
 ########## Object 方法 #########
 
@@ -353,3 +412,7 @@ try/catch/finally 块中异常或 return 之后的代码不会被执行
 javascript中的!!是逻辑"非非"，即是在逻辑“非”的基础上再"非"一次。通过!或!!可以将很多类型转换成bool类型，再做其它判断。
 
 使用javascript时，有时会在变量前面加上两个感叹号，这样做表示什么含义呢？Javascript中，!表示运算符“非”，如果变量不是布尔类型，会将变量自动转化为布尔类型，再取非，那么用两个!!就可以将变量转化为对应布尔值。
+
+## 消息推送
+7种实现web实时消息推送的方案
+https://baijiahao.baidu.com/s?id=1738783837238491510&wfr=spider&for=pc
