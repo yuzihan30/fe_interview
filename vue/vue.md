@@ -112,3 +112,11 @@ createElement 函数讲解
 runtime-only 比 runtime-compiler 轻 6kb，代码量更少
 runtime-only 运行更快，性能更好
 runtime-only 其实只能识别render函数，不能识别template，.vue 文件中的template也是被 vue-template-compiler 翻译成了render函数，所以只能在.vue里写 template
+
+## keep-alive
+iframe中keep-alive机制失效原因
+
+　　iframe页里的内容并不属于节点的信息，所以使用keep-alive依然会重新渲染iframe内的内容。而且iframe每一次渲染就相当于打开一个新的网页窗口，即使把节点保存下来，在渲染时iframe页还是刷新的。
+
+缓存iframe实现方法
+　　不使用 keep-alive ，因为vnode原理不适用。直接把打开过得iframe中的dom保存下来。通过v-show显示隐藏

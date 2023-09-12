@@ -107,3 +107,15 @@ Mac OSMonterey
 ## 调整程序坞的位置
 
 右键程序坞呼出菜单
+
+## mac中shell怎么给linux服务器传文件
+使用scp命令
+
+（1）使用ssh命令登录Linux服务器。
+
+（2）
+
+上传mac本地文件至Linux服务器：scp localfiledirectory username@ip:remotefiledirectory
+
+下载Linux服务器文件至mac本地：scp username@ip:remotefiledirectory localfiledirectory
+

@@ -416,3 +416,33 @@ javascript中的!!是逻辑"非非"，即是在逻辑“非”的基础上再"�
 ## 消息推送
 7种实现web实时消息推送的方案
 https://baijiahao.baidu.com/s?id=1738783837238491510&wfr=spider&for=pc
+## 继承
+```javascript
+obj.__proto__ = {c:3}
+{c: 3}
+obj
+{a: 1, __state__: {…}}
+a
+: 
+1
+__state__
+: 
+{b: 2}
+[[Prototype]]
+: 
+Object
+c
+: 
+3
+[[Prototype]]
+: 
+Object
+```
+## 流程语句
+switch中return
+break是直接退出switch语句
+return是退出该函数 也就是switch语句块后面的语句也不执行了
+
+## sessionStorage
+在该标签或窗口打开一个新页面时会复制顶级浏览会话的上下文作为新会话的上下文
+window.open(同源页面)，a标签打开tab页面，初次都会复制共享，但下次的修改并不会共享

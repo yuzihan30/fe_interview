@@ -62,7 +62,7 @@ const reducer = (prevState={ show: true }, action={}) { // 接收老的状态和
     let newState = {...prevState}
     switch(action.type) {
         case 'hide-tabbar':
-            / 不能直接修改状态，也是先深复制一份
+            // 不能直接修改状态，也是先深复制一份
             newState.show = false
             return newState
         case 'show-tabbar':
@@ -396,7 +396,7 @@ export default connect(mapStateToProps)(App)
 
 Detail.js // 不需要自己去dispatch了
 // connect(将来给孩子传的属性，将来给孩子传的回调函数->对象里函数的形式)，帮子组件dispatch
-// 依赖的一部分可以结构出来
+// 依赖的一部分可以解构出来
 let {match, show, hide} = props
 useEffect(() => {
     console.log(match.params.myid)
@@ -408,7 +408,7 @@ useEffect(() => {
     }
 }, [hide, show, match.params.myid])
 export default connect(null, {
-    // a() {}, // 回调函数式什么，子组件就帮忙dispatch什么，this.props.a()就帮你dispatch a的返回值
+    // a() {}, // 回调函数是什么，子组件就帮忙dispatch什么，this.props.a()就帮你dispatch a的返回值
     // b() {}
     show,
     hide
