@@ -120,3 +120,19 @@ iframe中keep-alive机制失效原因
 
 缓存iframe实现方法
 　　不使用 keep-alive ，因为vnode原理不适用。直接把打开过得iframe中的dom保存下来。通过v-show显示隐藏
+
+## vue2响应式原理存在的问题
+
+对于对象会遍历它所有的属性，然后使用Object.defineProperty重写get、set方法，对对象的每个属性进行劫持。如果属性值还是对象，则会进行递归。
+
+对于数组，也会遍历它所有的元素，然后使用Object.defineProperty方法对每个元素进行劫持。然后还会重写数组原型上push、pop、shift、unshift、sort、reverse、splice七个方法。
+
+对于数组本身，并没有像对象一样，使用Object.defineProperty对自身和下标重写get、set方法。这也就导致了我们直接通过下标赋新值或直接删除值是不能响应式。(为了性能考虑 Vue2 直接弃用了使用 Object.defineProperty 对数组进行监听的方案)
+
+注意：
+对于数组我们不要以为通过下标修改数据就一定不能响应式，如果数组元素是引用数据类型，恰巧只需要修改该引用数据类型某属性，是可以直接通过下标更改的。
+因为前面说了，虽然数组并没有像对象一样，使用Object.defineProperty对自身和下标重写get、set方法，但是它会遍历它所有的元素，然后使用Object.defineProperty方法对每个元素进行劫持。所以我们更改某引用数据类型的某属性是可以响应式的！！！
+
+由于vue2使用Object.defineProperty方法，会重写get、set方法，提前将数据进行劫持。这也就导致了在后面给对象添加新属性和直接删除属性是(删除不会触发set方法)不能响应式。（即它只对初始对象的属性有监听作用）
+vue作者也知道有这个缺陷，提供了$set/$delete来帮助我们达到响应式。
+

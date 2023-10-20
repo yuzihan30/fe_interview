@@ -47,11 +47,11 @@ return (
             // 或者 (value) => <div>
             //</div>
         }
-        <GlobalContext.Consumer>
+        </GlobalContext.Consumer>
     )
 
 }
-redux 也是状态管理的一种方案，也能解决父子之间数据的共享，后续更新 
+redux 也是状态管理的一种方案，也能解决父子之间数据的共享，后续更新
 10. 插槽，vue 中叫 slot 插槽，上面 context 中的内容就是这种形式，react 中子组件通过 this.props.children 可以拿到插槽的信息，区别于标签上能定义的属性，插槽会把插槽内容固定挂载 children 属性上
 对应 vue 中具名插槽，react 中 this.props.children[i]依次拿到对应位置的插槽信息
 作用：为了复用；一定程度减少父子通信
@@ -99,7 +99,7 @@ redux 也是状态管理的一种方案，也能解决父子之间数据的共�
    // 适用场景：state 数据初始化时有复杂的计算逻辑，直接写到前面会比较丑
    }
    componentDidMount() { // 已经挂载到 DOM 节点中， 已经渲染完了，可以拿到真实的 DOM 节点
-   // 有的文档会把构造器当做声明周期函数，其实只是类必走的一个函数而已
+   // 有的文档会把构造器当做生命周期函数，其实只是类必走的一个函数而已
    // 数据请求一般会放在这里，放在 constructor、willMount 里其实也没问题，其实不要以为放在 didMount 里会有延迟，willMount 到 didMount 的延迟可以忽略不计
    // 还有订阅一般放这里，其实订阅放 constructor 里也没问题
    // 还有定时器
@@ -114,7 +114,7 @@ redux 也是状态管理的一种方案，也能解决父子之间数据的共�
    componentWillMount 已经该名并且不推荐使用了，因为可能会有副作用函数，副作用函数可以移到 componentDidMount 来做，初始化状态移动到 constructor 来做
    react 版本的几个节点
    16.2（之前都是老的生命周期，这个版本之后 diff 算法做了一些更改，提出了 fiber 技术，willMount 如果再用的话会报黄色警告，若不让报警告，要么不用，要么改为加个前缀 UNSAFE\_）， 16.8（），17
-   Fiber 纤维就是比线程还要小的，16.2 之前创建状态之后会创建新的虚拟 DOM 树，会对比老的虚拟 DOM 树，这个对比过程是同步的，数据量如果比较小的话还好，如果比较多比如 100 多个组件，会出现浏览器假死，在忙着对比两个虚拟 DOM,这两个对象超级超级大；Fiber 把创建 DOM 和组件渲染拆分成无数个小的分片任务来进行，先执行优先级；低优先级任务就是 willMount 中找哪些节点要挂到页面中，高优先级就是 render 渲染啊，didMount 挂载完了，就是找出哪些需要更新到 DOM 的过程这个是可以被打断的，而更新 DOM 的过程是不能被打断的，打断的任务只能下次重新再来一遍，那 willMount 里面的东西就存在可能触发多次的问题
+   Fiber 纤维就是比线程还要小的，16.2 之前创建状态之后会创建新的虚拟 DOM 树，会对比老的虚拟 DOM 树，这个对比过程是同步的，数据量如果比较小的话还好，如果比较多比如 100 多个组件，会出现浏览器假死，在忙着对比两个虚拟 DOM,这两个对象超级超级大；Fiber 把创建 DOM 和组件渲染拆分成无数个小的分片任务来进行，先执行高优先级；低优先级任务就是 willMount 中找哪些节点要挂到页面中，高优先级就是 render 渲染啊，didMount 挂载完了，就是找出哪些需要更新到 DOM 的过程这个是可以被打断的，而更新 DOM 的过程是不能被打断的，打断的任务只能下次重新再来一遍，那 willMount 里面的东西就存在可能触发多次的问题
    16.8 引入 hooks 之后函数式组件开始有生命周期
 
 4. 初始化案例
@@ -144,7 +144,7 @@ new BetterScroll("#wrapper")
    }
 
 6. 运行阶段 2 shouldComponentUpdate
-<div> onClick={ () => {
+<div onClick={ () => {
     // this.state.name = "aaa" // 如果直接改，相当于上来就把老状态改成最新的值了，SCU里判断的时候都相等了，就直接return false,直接就不更新了
     this.setState({
         name: 'aaa'
@@ -161,7 +161,7 @@ shouldComponentUpdate(nextProps, nextState) { // 能真正做到手动控制reac
 }
 // 更重要的应用场景是在子组件中-案例2
 shouldComponentUpdate(nextProps, nextState) {
-    // 只需要更新上一次相同和这一个不同的两个盒子，也就是只更新上次选中和这次选中的，其他成百上千的盒子不用关心，这样每次父state更新，子Box只需要两个更新
+    // 只需要更新上一次相同和这一次不同的两个盒子，也就是只更新上次选中和这次选中的，其他成百上千的盒子不用关心，这样每次父state更新，子Box只需要两个更新
     if (this.props.current === this.props.index || nextProps.current === nextProps.index) { // 老的current等于老的index
         return true
     }
@@ -195,8 +195,8 @@ axios({url: "", headers:{}}).then()
    销毁组件的方式，之前用过三目运算符
    { this.state.isCreated ? <Child> : '' } isCreated 修改为 false 时，Child 就不在 render 中渲染了，不是就移出了嘛
    还可以用&&的方式，这也是一种让一个节点快速创建和删除的方案
-   { this.state.isCreated && <Child> : '' }
-   还可以空标签的形式 this.state.show?<Btn></Btn>:<></>
+   { this.state.isCreated && <Child> }
+   还可以空标签的形式 this.state.show ? <Btn></Btn> : <></>
    componentDidMount() {
    // 组件销毁后绑定 window 窗口的事件还会被触发，而内部的其他事件则被销毁
    window.onresize = () => {
@@ -242,7 +242,7 @@ axios({url: "", headers:{}}).then()
 
     }
     componentDidUpdate(prevProps, prevState) {
-    // 初次 axios 扔需要在 didMount 里写上
+    // 初次 axios 仍需要在 didMount 里写上
     if (this.state.type === 老的 update 一样) { return }
     // 如果在这 axios 并 setState 又会引发 update 死循环，所以在上面要加个判断
     // 即使 axios 请求结果出来再更新就会先走上面的判断
@@ -349,7 +349,7 @@ import Swiper from 'swiper/bundle' // 这样就会自动引入圆点导航
 // <div className="swiper-slide">111</div> // 这样不好，外面传入的东西越少越好
 <KSwiperItem></KSwiperItem>
 <KSwiperItem></KSwiperItem>
-<KSwiperItem></KSwiperItem>>
+<KSwiperItem></KSwiperItem>
 <KSwiper/>
 KSwiper:
 <div className="swiper-wrapper">

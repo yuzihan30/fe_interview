@@ -59,6 +59,7 @@ parseInt("1px")
    js 原型：构造函数有个属性叫 prototype, 该属性是个对象，包含构造函数创建的实例所共享的属性和方法；实例有个**proto**属性指向原型，浏览器都实现了这个属性，但不属于规范中规定的属性，不建议使用；ES5 中 Object.getPrototypeOf(..)可以获得实例的原型
    原型链：访问对象的属性时，若对象内部不存在这个属性，则在原型里找，原型里找不到的，继续在原型的原型里找，一直找到原型链的尽头 Object.prototype 为止
    特点：构造函数创建对象时，不会创建原型的副本，所以我们修改原型时，相关对象或者实例也会集成这些修改。
+   https://juejin.cn/post/6844903749345886216?searchId=202310152057056B3D0C5D0E94C0A99C8E
 
 9. toFixed 从小数点开始四舍五入取整，toPrecision 从第一个不为零的数开始四舍五入，Math.round 四舍五入到整数
    1.278.toFixed(2)
@@ -155,6 +156,15 @@ arr.indexOf(Math.min(...arr))
 3. reduce
 reduce第二个参数为对象时，可以用于循环将key/value添加到对象中
 写逻辑时注意通用性，如果只是单个，单写就易读，但2个及以上的重复逻辑就可以抽离
+
+reduce去重
+const uniqueArray = array.reduce((acc, cur) => {
+  const has = acc.find((item) => item.property === cur.property);
+  if (!has) {
+    acc.push(cur);
+  }
+  return acc;
+}, []);
 
 4. 数据遍历内部不要使用修改数组值的方法
 let arr = [1,2,3,4]

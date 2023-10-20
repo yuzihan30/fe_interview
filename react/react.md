@@ -130,7 +130,7 @@ constructor() {
         }
 
     }).then(res => {console.log(res.data // 原始后台数据放在res.data里面的)
-        this.setState({  // 对引用数据类型的值赋值是深拷贝还是钱拷贝，暂时可以按深拷贝理解
+        this.setState({  // 对引用数据类型的值赋值是深拷贝还是浅拷贝，暂时可以按深拷贝理解
             cinemaList: res.data.data.cinemas // 第一个data是axios的要求，第二个data是真正的后端数据
             backCinemaList: res.data.data.cinemas
         })
