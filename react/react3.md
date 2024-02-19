@@ -184,7 +184,7 @@ const value = useContext(GlobalContext)
     return newState
     default: // 没有匹配到，返回老状态就行
     return prevState // 返回复制完的也可以
-    } // 这样就可以非常清洗的管理好外部状态
+    } // 这样就可以非常清析的管理好外部状态
     }
     // 外部状态
     const initialState = {

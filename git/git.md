@@ -182,6 +182,8 @@ git fetch是将代码拉下来了，但并未合并，所以看不到最新的�
 ## git删除远程分支
 git删除远程分支 git push origin --delete [branch_name]
 
+使用 `git branch -d <branch_name>` 命令来删除指定的本地分支。
+
 ## git分支改名
 1、修改本地分支名称
 git branch -m oldBranchName newBranchName
@@ -259,5 +261,4 @@ Working In Progress，ERP中指在制品或流水线，又称车间生产管理�
 
 ## git stash
 https://blog.csdn.net/stone_yw/article/details/80795669
-
 
